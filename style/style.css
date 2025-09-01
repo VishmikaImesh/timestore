@@ -1,0 +1,100 @@
+.bg{
+    background-image: url("../img/bg.png");
+    background-size: cover;
+    background-repeat: none;
+}
+
+.custom-card{
+    background:rgb(rgb(0, 0, 0));
+    background: transparent;
+    backdrop-filter: blur(35px);
+    border-radius: 10px;
+    border-color: rgb(197, 197, 197);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background-image: url("../img/bg.jpeg"); 
+}
+
+.cc{
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0px;
+    color: aliceblue;
+    padding: 3px;
+    padding-left: 6px;
+    outline: none;
+} 
+
+label{
+    color:white;    
+}
+
+.fs-7 {
+    font-size: 10px;
+}
+
+.Bg {
+    backdrop-filter: blur(20px);
+}
+
+.icon {
+    width: 3vh;
+    height: 3vh;
+}
+
+.profile {
+    background: transparent;
+    border: none;
+}
+
+nav ul {
+    list-style: none;
+}
+
+.sidenav {
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    backdrop-filter: blur(100px);
+    z-index: 999;
+    top: 0;
+    right: 0;
+}
+
+
+
+
+@media (min-width:800px) {
+    .sidenav {
+        display: none;
+    }
+
+    .showSideNav {
+        display: none;
+    }
+}
+
+
+@media (max-width:800px) {
+    .mnav {
+        display: none;
+    }
+}
+
+.checked {
+    color: red;
+}
+
+.qtyInput{
+    width:30px;
+    height: 30px;
+    border: none;
+}
+
+.mt-6{
+    padding-top: 18vh;
+}
+.mt-7{
+    padding-top: 6vh;
+}
