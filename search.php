@@ -188,7 +188,7 @@
     }
     ?>
 
-    <div class="fixed-bottom">
+    <div class="">
         <?php include "footer.php"; ?>
     </div>
 
