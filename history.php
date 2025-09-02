@@ -10,226 +10,76 @@
 </head>
 
 <body>
-    <?php include "header.php" ?>
+    <?php
+    include "connection.php";
+    ?>
+    <div class="fixed-top">
+        <?php include "header.php"; ?>
+    </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="row row-cols-1 row-cols-md-3 g-4 d-flex justify-content-center">
+    <div class="container mt-5">
+        <div class="row  justify-content-center">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <?php
+                $history_rs = Database::search("SELECT *,product.id as pid,user_history.id as hid FROM `user_history` JOIN `product` ON `user_history`.`product_id`=`product`.`id` WHERE `user_id`='" . $_SESSION["u"]["email"] . "' ");
+                $history_num = $history_rs->num_rows;
 
-                <div class="card mb-3 mx-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 py-5">
-                            <img src="product/iphone-card-40-iphone14-202209.jpg" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">Iphone 14</h5>
+                for ($i = 0; $i < $history_num; $i++) {
+                    $history_data=$history_rs->fetch_assoc();
+                    $prodcut_id=$history_data["product_id"];
+                    $img_rs=Database::search("SELECT `img_path` FROM `product_img` WHERE `product_id`='".$prodcut_id."' ");
+                    $img_data=$img_rs->fetch_assoc();
+                ?>
+                    <div class="col">
+                        <div class="card mb-3 px-2">
+                            <div class="row g-0">
+                                <div class="col-4 py-5 ">
+                                    <img src=<?php echo $img_data["img_path"]  ?> class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="card-title"><?php echo($history_data["title"]); ?></h5>
 
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title fw-bold">LKR:330,000</h4>
-                                    <h2 class="fs-5 ">*2</h2>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Total:660,000</span>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Order Date:2024/04/13</span>
-                                </div>
-                                <div class="fs-7 my-1">
-                                    <li class="fa fa-star checked" id="s1"></li>
-                                    <li class="fa fa-star checked" id="s2"></li>
-                                    <li class="fa fa-star " id="s3"></li>
-                                    <li class="fa fa-star" id="s4"></li>
-                                    <li class="fa fa-star" id="s5"></li>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
-                                </div>
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn btn-secondary fw-bold rounded-4">Remove</button>
-                                </div>
-                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <h4 class="card-title fw-bold">Rs.<?php echo $history_data["price"] ?></h4>
+                                            <h2 class="fs-5 "><?php echo($history_data["amount"]) ?>*</h2>
+                                        </div>
+                                        <div class="">
+                                            <span class="card-title  fw-bold">Total:660,000</span>
+                                        </div>
+                                        <div class="">
+                                            <span class="card-title  fw-bold">Order Date:<?php echo $history_data["buy_datetime"] ?></span>
+                                        </div>
+                                        <div class="fs-7 my-1">
+                                            <li class="fa fa-star checked" id="s1"></li>
+                                            <li class="fa fa-star checked" id="s2"></li>
+                                            <li class="fa fa-star " id="s3"></li>
+                                            <li class="fa fa-star" id="s4"></li>
+                                            <li class="fa fa-star" id="s5"></li>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-12 col-md-6 d-grid mb-1">
+                                            <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
+                                        </div>
+                                        <div class="col-12 col-md-6 d-grid mb-1">
+                                            <button class="btn btn-secondary fw-bold rounded-4" onclick="removeFromHistory(<?php echo $history_data['hid'] ?>)">Remove</button>
+                                        </div>
+                                    </div>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3 mx-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 py-5">
-                            <img src="product/iphone-card-40-iphone15prohero-202309.jpg" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">Iphone 15</h5>
-
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title fw-bold">LKR:430,000</h4>
-                                    <h2 class="fs-5 ">*1</h2>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Total:430,000</span>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Order Date:2024/01/09</span>
-                                </div>
-                                <div class="fs-7 my-1">
-                                    <li class="fa fa-star checked" id="s1"></li>
-                                    <li class="fa fa-star checked" id="s2"></li>
-                                    <li class="fa fa-star  checked" id="s3"></li>
-                                    <li class="fa fa-star" id="s4"></li>
-                                    <li class="fa fa-star" id="s5"></li>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
-                                </div>
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn btn-secondary fw-bold rounded-4">Remove</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-                <div class="card mb-3 mx-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 py-5">
-                            <img src="product/airpod.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">Airpod</h5>
+                <?php
+                }
 
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title fw-bold">LKR:25,000</h4>
-                                    <h2 class="fs-5 ">*1</h2>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Total:25,000</span>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Order Date:2023/11/19</span>
-                                </div>
-                                <div class="fs-7 my-1">
-                                    <li class="fa fa-star  checked" id="s1"></li>
-                                    <li class="fa fa-star " id="s2"></li>
-                                    <li class="fa fa-star  " id="s3"></li>
-                                    <li class="fa fa-star" id="s4"></li>
-                                    <li class="fa fa-star" id="s5"></li>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
-                                </div>
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn btn-secondary fw-bold rounded-4">Remove</button>
-                                </div>
-                            </div>
+                ?>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3 mx-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 py-3 py-5">
-                            <img src="product/iphonexr.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">Iphone XR</h5>
-
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title fw-bold">LKR:360,000</h4>
-                                    <h2 class="fs-5 ">*1</h2>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Total:360,000</span>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Order Date:2022/08/10</span>
-                                </div>
-                                <div class="fs-7 my-1">
-                                    <li class="fa fa-star checked" id="s1"></li>
-                                    <li class="fa fa-star checked" id="s2"></li>
-                                    <li class="fa fa-star  checked" id="s3"></li>
-                                    <li class="fa fa-star  checked" id="s4"></li>
-                                    <li class="fa fa-star" id="s5"></li>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
-                                </div>
-                                <div class="col-12 col-md-6 d-grid">
-                                    <button class="btn btn-secondary fw-bold rounded-4">Remove</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3 mx-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 py-3">
-                            <img src="product/iphone_15.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title">Iphone 15</h5>
-
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title fw-bold">LKR:530,000</h4>
-                                    <h2 class="fs-5 ">*2</h2>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Total:530,000</span>
-                                </div>
-                                <div class="">
-                                    <span class="card-title  fw-bold">Order Date:2024/06/13</span>
-                                </div>
-                                <div class="fs-7 my-1">
-                                    <li class="fa fa-star checked" id="s1"></li>
-                                    <li class="fa fa-star " id="s2"></li>
-                                    <li class="fa fa-star " id="s3"></li>
-                                    <li class="fa fa-star" id="s4"></li>
-                                    <li class="fa fa-star" id="s5"></li>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-5 d-grid">
-                                    <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
-                                </div>
-                                <div class="col-12 col-md-5 d-grid">
-                                    <button class="btn btn-secondary fw-bold rounded-4">Remove</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

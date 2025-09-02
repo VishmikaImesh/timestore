@@ -163,6 +163,7 @@ function addToCart(id) {
     request.send();
 }
 
+
 function addToWishlist(id) {
 
 
@@ -226,7 +227,7 @@ function getQty(){
     var getQty=document.getElementById("getQty");
     var pqty=document.getElementById("pqty").value;
     getQty.value=pqty;
-}
+}remove
 
 function removeFromCart(cid, pid) {
 
@@ -372,6 +373,22 @@ function search() {
 
     }
     request.open("POST", "searchprocess.php", true);
+    request.send(form);
+}
+
+function removeFromHistory(id){
+
+    var form=new FormData();
+    form.append("id",id);
+
+    var request=new XMLHttpRequest();
+    request.onreadystatechange=function(){
+        if(request.readyState==4 && request.status==200){
+            window.location.reload();
+        }
+    }
+
+    request.open("POST","removeFromHistory.php",true);
     request.send(form);
 }
 
