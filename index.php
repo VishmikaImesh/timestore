@@ -434,7 +434,7 @@
         </div>
 
         <div class="d-flex justify-content-center  m-3 pb-5">
-            <a  href="search.php?search=" class="text-light bg-dark p-2 rounded-2 btn fw-bold mb-4">View All Product</a>
+            <a  href="search.php?search=" class="text-light bg-dark p-2 rounded-2 btn fw-bold mb-4">Shop with us</a>
         </div>
 
     </div>
