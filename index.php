@@ -54,100 +54,63 @@
 
             <div class="carousel-inner">
 
+                <?php
 
-                <div class="carousel-item active  ">
+                for ($i = 0; $i < 2; $i++) {
+                    $offset = $i * 4;
+                ?>
+                    <div class="carousel-item <?php if ($i == 0) { ?> active <?php } ?>">
 
-                    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-                        <?php
+                        <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+                            <?php
 
-                        $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 OFFSET 0  ");
-                        $product_num = $product_rs->num_rows;
+                            $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 OFFSET $offset  ");
+                            $product_num = $product_rs->num_rows;
 
-                        for ($x = 0; $x < $product_num; $x++) {
-                            $product_data = $product_rs->fetch_assoc();
-                            $id = $product_data["id"];
+                            for ($x = 0; $x < $product_num; $x++) {
+                                $product_data = $product_rs->fetch_assoc();
+                                $id = $product_data["id"];
 
-                            $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-                            $img_data = $img_rs->fetch_assoc();
-                        ?>
-                            <div class="col">
-                                <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card text-decoration-none h-100">
-                                    <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
-                                    <div class="card-body">
-                                        <div class="justify-content-center d-flex">
-                                            <ul class="list-group list-group-flush d-block">
-                                                <li class="list-group-item">
-                                                    <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
-                                                </li>
-                                                <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
-                                            </ul>
+                                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
+                                $img_data = $img_rs->fetch_assoc();
+                            ?>
+                                <div class="col">
+                                    <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card text-decoration-none h-100">
+                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
+                                        <div class="card-body">
+                                            <div class="justify-content-center d-flex">
+                                                <ul class="list-group list-group-flush d-block">
+                                                    <li class="list-group-item">
+                                                        <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
+                                                    </li>
+                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
+                                                </ul>
+
+                                            </div>
+                                            <div class="justify-content-center d-flex m-2">
+                                            </div>
 
                                         </div>
-                                        <div class="justify-content-center d-flex m-2">
-                                        </div>
 
-                                    </div>
-
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
 
 
 
-                        <?php
-                        }
+                            <?php
+                            }
 
 
-                        ?>
+                            ?>
+                        </div>
+
                     </div>
 
-                </div>
+                <?php
 
-                <div class="carousel-item">
+                }
 
-                    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-                        <?php
-
-                        $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 OFFSET 4 ");
-                        $product_num = $product_rs->num_rows;
-
-                        for ($x = 0; $x < $product_num; $x++) {
-                            $product_data = $product_rs->fetch_assoc();
-                            $id = $product_data["id"];
-
-                            $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-                            $img_data = $img_rs->fetch_assoc();
-                        ?>
-                            <div class="col">
-                                <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card text-decoration-none h-100">
-                                    <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
-                                    <div class="card-body">
-                                        <div class="justify-content-center d-flex">
-                                            <ul class="list-group list-group-flush d-block">
-                                                <li class="list-group-item">
-                                                    <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
-                                                </li>
-                                                <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
-                                            </ul>
-
-                                        </div>
-
-                                        <div class="justify-content-center d-flex m-2">
-                                        </div>
-
-                                    </div>
-
-                                </a>
-                            </div>
-
-
-                        <?php
-                        }
-
-
-                        ?>
-                    </div>
-
-                </div>
+                ?>
 
             </div>
 
@@ -169,101 +132,67 @@
 
             <div class="carousel-inner">
 
-                <div class="carousel-item active">
+                <?php
+                for ($i = 0; $i < 2; $i++) {
+                    $offset = $i * 4;
+                ?>
+                    <div class="carousel-item <?php if ($i == 0) { ?> active <?php } ?>">
 
-                    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-                        <?php
+                        <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+                            <?php
 
+                            $product_rs = Database::search("SELECT * FROM `product` ORDER BY `sold_count` DESC LIMIT 4 OFFSET $offset ");
+                            $product_num = $product_rs->num_rows;
 
+                            for ($x = 0; $x < $product_num; $x++) {
+                                $product_data = $product_rs->fetch_assoc();
+                                $id = $product_data["id"];
 
-                        $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 ");
-                        $product_num = $product_rs->num_rows;
+                                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
+                                $img_data = $img_rs->fetch_assoc();
+                            ?>
+                                <div class="col">
+                                    <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card h-100 text-decoration-none">
+                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
+                                        <div class="card-body">
+                                            <div class="justify-content-center d-flex">
+                                                <ul class="list-group list-group-flush d-block">
+                                                    <li class="list-group-item">
+                                                        <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
+                                                    </li>
+                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
+                                                </ul>
 
-                        for ($x = 0; $x < $product_num; $x++) {
-                            $product_data = $product_rs->fetch_assoc();
-                            $id = $product_data["id"];
+                                            </div>
 
-                            $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-                            $img_data = $img_rs->fetch_assoc();
-                        ?>
-                            <div class="col">
-                                <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card h-100 text-decoration-none">
-                                    <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
-                                    <div class="card-body">
-                                        <div class="justify-content-center d-flex">
-                                            <ul class="list-group list-group-flush d-block">
-                                                <li class="list-group-item">
-                                                    <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
-                                                </li>
-                                                <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
-                                            </ul>
+                                            <div class="justify-content-center d-flex m-2">
+                                            </div>
 
                                         </div>
 
-                                        <div class="justify-content-center d-flex m-2">
-                                        </div>
-
-                                    </div>
-
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
 
 
-                        <?php
-                        }
+                            <?php
+                            }
 
 
-                        ?>
+                            ?>
+                        </div>
+
                     </div>
 
-                </div>
+                <?php
 
-                <div class="carousel-item">
-
-                    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-                        <?php
-
-                        $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 OFFSET 4 ");
-                        $product_num = $product_rs->num_rows;
-
-                        for ($x = 0; $x < $product_num; $x++) {
-                            $product_data = $product_rs->fetch_assoc();
-                            $id = $product_data["id"];
-
-                            $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-                            $img_data = $img_rs->fetch_assoc();
-                        ?>
-                            <div class="col">
-                                <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card h-100 text-decoration-none">
-                                    <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
-                                    <div class="card-body">
-                                        <div class="justify-content-center d-flex">
-                                            <ul class="list-group list-group-flush d-block">
-                                                <li class="list-group-item">
-                                                    <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
-                                                </li>
-                                                <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
-                                            </ul>
-
-                                        </div>
-
-                                        <div class="justify-content-center d-flex m-2">
-                                        </div>
-
-                                    </div>
-
-                                </a>
-                            </div>
+                }
 
 
-                        <?php
-                        }
+                ?>
 
 
-                        ?>
-                    </div>
 
-                </div>
+
             </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade1" data-bs-slide="prev">
@@ -277,7 +206,7 @@
         </div>
 
         <div class="d-flex justify-content-center mb-5  m-3 pb-5">
-            <a  href="search.php?search=" class="text-light bg-dark p-2 rounded-2 btn fw-bold mb-4">Shop with us</a>
+            <a href="search.php?search=" class="text-light bg-dark p-2 rounded-2 btn fw-bold mb-4">Shop with us</a>
         </div>
 
     </div>
