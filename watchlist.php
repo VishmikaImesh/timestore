@@ -22,7 +22,7 @@
 
     $email = $_SESSION["u"]["email"];
 
-    $watchlist_rs = Database::search("SELECT * FROM `watchlist` WHERE `users_email`='" . $email . "' ");
+    $watchlist_rs = Database::search("SELECT * FROM `watchlist` JOIN `product` ON `watchlist`.`product_id`=`product`.`id` WHERE `users_email`='" . $email . "' ");
     $watchlist_num = $watchlist_rs->num_rows;
 
     if ($watchlist_num > 0) {
@@ -44,15 +44,15 @@
                         <div class="col">
                             <div class=" card mb-3 mx-3" style="max-width: 540px;">
                                 <div class="row g-0">
-                                    <div class="col-md-4 py-3">
+                                    <div class="col-4 py-3">
                                         <img src="<?php echo ($img_data["img_path"]) ?>" class="img-fluid rounded-start" alt="...">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-8">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="card-title">Airpod</h5>
-                                                <div class="col-12 col-md-2 d-grid">
-                                                    <button class="btn btn-light fw-bold rounded-4" onclick="removeFromWatchlist(<?php echo ($watchlist_data['watchlist_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
+                                                <h5 class="card-title product-title px-2"><?php echo$watchlist_data["title"] ?></h5>
+                                                <div class="col-2 d-grid closebtn">
+                                                    <button class="btn btn-light fw-bold rounded-5 " onclick="removeFromWatchlist(<?php echo ($watchlist_data['watchlist_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
                                             </div>
                                             <h2 class="card-title fw-bold">LKR:25,000</h2>

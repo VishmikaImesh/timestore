@@ -98,3 +98,9 @@ nav ul {
 .mt-7{
     padding-top: 6vh;
 }
+.product-title{
+    min-height: 10vh;
+}
+.closebtn{
+    max-height: 2vh;;
+}
