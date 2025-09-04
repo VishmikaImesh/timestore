@@ -69,25 +69,6 @@
                             </div>
                             <div class="justify-content-end d-flex">
                                 <button class="btn btn-light rounded-5"><i><img src="icons/favourites.png" width="20" onclick="addToWishlist(<?php echo ($id); ?>);"></i></button>
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ...
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -150,7 +131,7 @@
                                                         <div class="">
                                                             <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                                                         </div>
-                                                        <input type="text" id="getQty">
+                                                        
                                                     </div>
 
                                                 </div>

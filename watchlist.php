@@ -27,9 +27,9 @@
 
     if ($watchlist_num > 0) {
     ?>
-        <div class="container vh-100 mt-6">
+        <div class="container mt-6 mb-3 ">
             <div class="row d-flex justify-content-center">
-                <div class="row row-cols-1 row-cols-md-2 g-4 flex-row  ">
+                <div class="row row-cols-1 row-cols-lg-2 g-4 flex-row  ">
 
                     <?php
 
@@ -94,14 +94,16 @@
 
 
             </div>
-            <div class=" mt-6"></div>
+            
         </div>
 
       
 
-        <div class="fixed-bottom">
+        <div class="fixed-bootom">
             <?php include "footer.php"; ?>
         </div>
+             
+           
 
 
     <?php

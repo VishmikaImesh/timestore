@@ -25,13 +25,9 @@
     if ($cart_num > 0) {
     ?>
 
-        <div class="vh-100">
-
-            <div class="h-25"></div>
-
-            <div class="container ">
-
-                <div class="row row-cols-1 row-cols-md-2 g-4 d-flex pb-5 pt-4 pb-4 ">
+        <div class="container mt-6 mb-3">
+            <div class="row d-flex justify-content-center">
+                <div class="row row-cols-1 row-cols-lg-2 g-4 d-flex   ">
 
                     <?php
 
@@ -42,23 +38,26 @@
 
                         $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                         $img_data = $img_rs->fetch_assoc();
-                        
+
                     ?>
                         <div class="col">
                             <div class="card mb-3 mx-3" style="max-width: 540px;">
                                 <div class="row g-0">
-                                    <div class="col-md-4 py-3">
-                                        <img src="<?php echo ($img_data["img_path"]); ?>" class="img-fluid rounded-start" alt="...">
+                                    <div class="col-4 py-3">
+                                        <img src="<?php echo ($img_data["img_path"]); ?>" class="img-fluid rounded-start mx-2" alt="...">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-8">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="card-title"><?php echo ($cart_data["title"]); ?></h5>
-                                                <div class="col-1 col-md-2 d-grid">
+                                                <h5 class="card-title product-title "><?php echo ($cart_data["title"]); ?></h5>
+                                                <div class="col-1 col-md-2 d-grid closebtn mx-3">
                                                     <button class="btn btn-light rounded-4" onclick="removeFromCart(<?php echo ($cart_data['cart_id']); ?>,<?php echo ($cart_data['id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
                                             </div>
-                                            <h2 class="card-title fw-bold"><?php echo ($cart_data["price"]); ?></h2>
+                                            <h2 class="card-title fw-bold">Rs.<?php echo ($cart_data["price"]); ?></h2>
+                                            <h6 class="card-title text-secondary fw-bold"><?php echo ($cart_data["cart_qty"]);
+                                                                                            if ($cart_data["cart_qty"] > 1) { ?> Items <?php } else { ?> Item <?php } ?> </h6>
+
                                             <div class=" fs-5">
                                                 <li class="fa fa-star checked " id="s1"></li>
                                                 <li class="fa fa-star checked " id="s2"></li>
@@ -86,10 +85,12 @@
                 </div>
 
             </div>
-            <div class="h-25"></div>
+
+
         </div>
 
-        <div class="fixed-bottom">
+
+        <div class="">
             <?php include "footer.php"; ?>
         </div>
 
