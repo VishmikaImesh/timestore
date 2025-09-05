@@ -81,7 +81,7 @@
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">
                                                     <li class="list-group-item">
-                                                        <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
+                                                        <h5 class="card-title product-title"><?php echo ($product_data["title"]); ?></h5>
                                                     </li>
                                                     <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
                                                 </ul>

@@ -89,12 +89,6 @@
 
         </div>
 
-
-        <div class="">
-            <?php include "footer.php"; ?>
-        </div>
-
-
     <?php
     } else {
     ?>
@@ -102,18 +96,15 @@
             <div class=" container d-flex flex-column justify-content-center h-75">
                 <h1>Your cart is empty</h1>
                 <a href="index.php" class="btn btn-dark col-2 fw-bold">Start Shopping</a>
-
             </div>
-            <div class="h-25 bg-dark ">
-                <?php include "footer.php"; ?>
-            </div>
-
         </div>
 
     <?php
     }
 
     ?>
+
+     <?php include "footer.php"; ?>
 
 
     <script src="script.js"></script>

@@ -39,8 +39,8 @@
 
                         $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                         $img_data = $img_rs->fetch_assoc();
-                    ?>
 
+                    ?>
                         <div class="col">
                             <div class=" card mb-3 mx-3" style="max-width: 540px;">
                                 <div class="row g-0">
@@ -50,7 +50,7 @@
                                     <div class="col-8">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="card-title product-title px-2"><?php echo$watchlist_data["title"] ?></h5>
+                                                <h5 class="card-title product-title px-2"><?php echo $watchlist_data["title"] ?></h5>
                                                 <div class="col-2 d-grid closebtn">
                                                     <button class="btn btn-light fw-bold rounded-5 " onclick="removeFromWatchlist(<?php echo ($watchlist_data['watchlist_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
@@ -65,7 +65,6 @@
                                             </div>
                                             <hr>
                                         </div>
-
                                         <?php
                                         if (isset($_SESSION["u"])) {
                                         ?>
@@ -74,61 +73,41 @@
                                                     <a href="viewProduct.php?id=<?php echo ($watchlist_data["product_id"]); ?>" class="btn btn-dark fw-bold rounded-4">View Product</a>
                                                 </div>
                                             </div>
-
                                         <?php
                                         }
                                         ?>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     <?php
                     }
-
                     ?>
-
                 </div>
-
-
-
             </div>
-            
         </div>
-
-      
 
         <div class="fixed-bootom">
             <?php include "footer.php"; ?>
         </div>
-             
-           
-
-
     <?php
 
     } else {
     ?>
-        <div class="vh-100">
-            <div class=" container d-flex flex-column justify-content-center h-75">
+        
+        <div class="container">
+            <div class=" row d-flex flex-column justify-content-center vh-100">
                 <h1>Your watchlist is empty</h1>
-                <a href="index.php" class="btn btn-dark col-2 fw-bold">return to home</a>
-
+                <a href="index.php" class="btn btn-dark col-2 fw-bold col-4 col-md-2">return to home</a>
             </div>
-            <div class="h-25 bg-dark ">
-                <?php include "footer.php"; ?>
-            </div>
-
         </div>
-
-
-
+        <div class="fixed-bottom">
+            <?php include "footer.php"; ?>
+        </div>
+         
     <?php
     }
     ?>
-
-
 
     <script src="script/script.js"></script>
 

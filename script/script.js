@@ -227,7 +227,7 @@ function getQty(){
     var getQty=document.getElementById("getQty");
     var pqty=document.getElementById("pqty").value;
     getQty.value=pqty;
-}remove
+}
 
 function removeFromCart(cid, pid) {
 

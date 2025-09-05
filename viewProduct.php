@@ -12,33 +12,31 @@
 </head>
 
 <body>
+    <div class="fixed-top">
+        <?php include "header.php"; ?>
+    </div>
 
-    <?php include "header.php";
-    include "connection.php";
+    <div class="container mt-6">
+        <?php
+        include "connection.php"; ?>
 
-    if (isset($_GET["id"])) {
-        $id = $_GET["id"];
+        <div class="row mt-5 m-5 d-flex justify-content-center">
 
-        $product_rs = Database::search("SELECT * FROM `product` WHERE `id`='" . $id . "' ");
-        $product_data = $product_rs->fetch_assoc();
+            <?php
+            if (isset($_GET["id"])) {
+                $id = $_GET["id"];
 
-        $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-        $img_data = $img_rs->fetch_assoc();
+                $product_rs = Database::search("SELECT * FROM `product` WHERE `id`='" . $id . "' ");
+                $product_data = $product_rs->fetch_assoc();
 
-        if (isset($_SESSION["u"])) {
-            $cart_rs = Database::search("SELECT * FROM `cart` WHERE `product_id`='" . $id . "' AND `users_email`='" . $_SESSION["u"]["email"] . "'  ");
-            $cart_data = $cart_rs->fetch_assoc();
-        }
+                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
+                $img_data = $img_rs->fetch_assoc();
 
-
-
-
-    ?>
-
-        <div class="container">
-
-            <div class="row mt-5 m-5 d-flex justify-content-center h-75">
-
+                if (isset($_SESSION["u"])) {
+                    $cart_rs = Database::search("SELECT * FROM `cart` WHERE `product_id`='" . $id . "' AND `users_email`='" . $_SESSION["u"]["email"] . "'  ");
+                    $cart_data = $cart_rs->fetch_assoc();
+                }
+            ?>
                 <div class="card col-4 col-md-3">
                     <div class="card-body">
                         <div class="py-5 ">
@@ -114,8 +112,6 @@
                                     Buy Now
                                 </button>
 
-                                
-
                                 <!-- Modal -->
                                 <div class="modal fade align-content-center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -131,7 +127,7 @@
                                                         <div class="">
                                                             <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                                                         </div>
-                                                        
+
                                                     </div>
 
                                                 </div>
@@ -153,35 +149,18 @@
                     ?>
                 </div>
 
-            </div>
+            <?php } ?>
+
 
         </div>
-
-
         <div class="fixed-bottom">
             <?php include "footer.php"; ?>
         </div>
 
+    </div>
 
-    <?php
-    } else {
-    ?>
-        <h2 class="d-block text-center mt-5">Something went wrong return to home and try again...!</h2><br>
-        <div class="d-flex justify-content-center align-content-centerm-3">
-            <a href="index.php" class="text-light bg-dark p-2 rounded-2 btn fw-bold mb-4">Home</a>
-        </div>
-
-    <?php
-    }
-
-    ?>
-
-
-
-
-
-<script src="script.js"></script>
-<script src="bootstrap.bundle.js"></script>
+    <script src="script.js"></script>
+    <script src="bootstrap.bundle.js"></script>
 
 </body>
 
