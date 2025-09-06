@@ -64,24 +64,24 @@
                         <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
                             <?php
 
-                            $product_rs = Database::search("SELECT * FROM `product` ORDER BY `added_time` DESC LIMIT 4 OFFSET $offset  ");
+                            $product_rs = Database::search("SELECT * FROM `product_has_model` ORDER BY `added_time` DESC LIMIT 4 OFFSET $offset  ");
                             $product_num = $product_rs->num_rows;
 
                             for ($x = 0; $x < $product_num; $x++) {
                                 $product_data = $product_rs->fetch_assoc();
-                                $id = $product_data["id"];
+                                $id = $product_data["model_id"];
 
                                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                                 $img_data = $img_rs->fetch_assoc();
                             ?>
                                 <div class="col">
-                                    <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card text-decoration-none h-100">
+                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card text-decoration-none h-100">
                                         <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                                         <div class="card-body">
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">
                                                     <li class="list-group-item">
-                                                        <h5 class="card-title product-title"><?php echo ($product_data["title"]); ?></h5>
+                                                        <h5 class="card-title product-title"><?php echo ($product_data["model"]); ?></h5>
                                                     </li>
                                                     <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
                                                 </ul>
@@ -141,26 +141,26 @@
                         <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
                             <?php
 
-                            $product_rs = Database::search("SELECT * FROM `product` ORDER BY `sold_count` DESC LIMIT 4 OFFSET $offset ");
+                            $product_rs = Database::search("SELECT * FROM `product_has_model` ORDER BY `sold_count` DESC LIMIT 4 OFFSET $offset ");
                             $product_num = $product_rs->num_rows;
 
                             for ($x = 0; $x < $product_num; $x++) {
                                 $product_data = $product_rs->fetch_assoc();
-                                $id = $product_data["id"];
+                                $id = $product_data["model_id"];
 
                                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                                 $img_data = $img_rs->fetch_assoc();
                             ?>
-                                <div class="col">
-                                    <a href="viewProduct.php?id=<?php echo ($product_data["id"]); ?>" class="card h-100 text-decoration-none">
+                                <div class="col border-0">
+                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card h-100 text-decoration-none">
                                         <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                                         <div class="card-body">
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">
                                                     <li class="list-group-item">
-                                                        <h5 class="card-title"><?php echo ($product_data["title"]); ?></h5>
+                                                        <h5 class="card-title"><?php echo ($product_data["model"]); ?></h5>
                                                     </li>
-                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
+                                                    <!-- <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li> -->
                                                 </ul>
 
                                             </div>

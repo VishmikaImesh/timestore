@@ -15,8 +15,8 @@
         <?php include "header.php"; ?>
     </div>
 
-    <div class="container mt-6">
-        <div class="row d-flex justify-content-center">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center justify-content-between">
             <?php include "connection.php";
             ?>
 
@@ -25,15 +25,11 @@
                 $email = $_SESSION["u"]["email"];
             }
 
-
-            $search_rs = Database::search("SELECT * FROM `product` ");
+            $search_rs = Database::search("SELECT * FROM `product_has_model` ");
             $search_num = $search_rs->num_rows;
-
-
-            if ($search_num > 0) {
             ?>
-
-                <div class="col-4 col-md-2 ">
+            <div class="row row-cols-1 row-cols-md-2 g-5">
+                <div class="col-12 col-md-2 mb-5">
                     <div class="card" style="height:65vh;">
                         <div class="card-body bg-body-tertiary ">
                             <h5 class="card-title mb-2">Search Options</h5>
@@ -114,11 +110,10 @@
                     </div>
 
                 </div>
-                <div class="col-8 col-md-10">
-                    <div class="row row-cols-1 row-cols-md-4 g-4 flex-row  " id="searchResults">
+                <div class="col-12 col-md-10 " id="searchResults">
+                    <div class="row row-cols-1 row-cols-md-6 g-4">
                         <?php
-
-                        for ($x = 0; $x < 2; $x++) {
+                        for ($x = 0; $x < $search_num; $x++) {
                             $search_data = $search_rs->fetch_assoc();
 
                             $img_rs = Database::search("SELECT * FROM `product_img` ");
@@ -131,7 +126,7 @@
                                         <div class="justify-content-center d-flex">
                                             <ul class="list-group list-group-flush d-block">
                                                 <li class="list-group-item">
-                                                    <h5 class="card-title product-title"><?php echo ($search_data["title"]); ?></h5>
+                                                    <h5 class="card-title product-title"><?php echo ($search_data["model"]); ?></h5>
                                                 </li>
                                                 <li class="list-group-item fw-bold ">Rs.<?php echo ($search_data["price"]); ?>.00</li>
                                             </ul>
@@ -146,24 +141,9 @@
                         ?>
                     </div>
                 </div>
+            </div>
 
-
-            <?php
-
-            } else {
-            ?>
-                <div class="vh-100">
-                    <div class=" container d-flex flex-column justify-content-center h-75">
-                        <h1>Your watchlist is empty</h1>
-                        <a href="index.php" class="btn btn-dark col-2 fw-bold">return to home</a>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
         </div>
-
-
     </div>
     <div class="mt-6">
         <?php include "footer.php"; ?>

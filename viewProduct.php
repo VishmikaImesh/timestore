@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style/bootstrap.css">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <title>Product</title>
 </head>
 
@@ -26,7 +25,7 @@
             if (isset($_GET["id"])) {
                 $id = $_GET["id"];
 
-                $product_rs = Database::search("SELECT * FROM `product` WHERE `id`='" . $id . "' ");
+                $product_rs = Database::search("SELECT * FROM `product_has_model` WHERE `model_id`='" . $id . "' ");
                 $product_data = $product_rs->fetch_assoc();
 
                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
@@ -45,10 +44,9 @@
                     </div>
 
                 </div>
-
                 <div class="card col-8 col-md-6 d-flex align-content-center justify-content-center ">
                     <div class="card-body">
-                        <h4 class="card-title fw-bold"><?php echo ($product_data["title"]); ?></h4>
+                        <h4 class="card-title fw-bold"><?php echo ($product_data["model"]); ?></h4>
                         <h2 class="card-title fw-bold"></h2>
                         <h6 class="text-secondary "> <?php echo ($product_data["price"]); ?></h6>
                         <h6 class="fs-7 text-secondary">Price Down Before Taxes</h6>
@@ -148,16 +146,11 @@
                     }
                     ?>
                 </div>
-
             <?php } ?>
 
-
         </div>
-        <div class="fixed-bottom">
-            <?php include "footer.php"; ?>
-        </div>
-
     </div>
+    <?php include "footer.php"; ?>
 
     <script src="script.js"></script>
     <script src="bootstrap.bundle.js"></script>
