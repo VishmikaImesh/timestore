@@ -21,14 +21,14 @@ session_start();
     <nav class="d-block">
         <div class="container">
 
-            <ul class="vh-100 sidenav py-3 " id="sidenav">
+            <ul class="vh-100 sidenav py-3 d-none" id="sidenav">
                 <div class="d-flex justify-content-between m-2">
                     <li class="py-3">
                         <a href="index.php" class="text-decoration-none">
                             <h3 class="text-light">TimeStore</h3>
                         </a>
                     </li>
-                    <li class="mt-3">
+                    <li class="mt-2">
                         <button class="hideSideNav btn " onclick="hideSideNav();"><img src="icons/forward.png" height="20" width="20" alt=""></button>
                     </li>
                 </div>
@@ -106,7 +106,7 @@ session_start();
                 if ($current_page != $search_page) {
                 ?>
                     <li class="input-group bg-light rounded-3">
-                        <input type="text" class="form-control" placeholder="Search" id="search" >
+                        <input type="text" class="form-control" placeholder="Search" id="search">
                         <button class="input-group-text bg-black rounded-5 border-0 m-1" id="basic-addon1"><img src="icons/search.png" height="19" width="19" alt="" onclick="searchText();"></button>
                     </li>
 
@@ -175,10 +175,20 @@ session_start();
             </ul>
 
         </div>
-        <div class="d-flex justify-content-between">
-            <h3 class=" ms-4 mt-2 text-light showSideNav">TimeStore</h3>
-            <button onclick="showSideNav();" class="showSideNav m-2"><img src="icons/cart.png" alt="" width="20" height="20"></button>
+        <div class="d-flex justify-content-between mx-2">
+            <li class="ms-3">
+                <a href="index.php" class="text-decoration-none">
+                    <h3 class="text-light">TimeStore</h3>
+                </a>
+            </li>
+            <li class="mt-3">
+                <button class="hideSideNav btn " onclick="hideSideNav();"><img src="icons/menu.svg" height="20" width="20" alt=""></button>
+            </li>
         </div>
+        <!-- <div class="ms-4 d-flex justify-content-between">
+            <h3 class="text-light showSideNav align-content-center">TimeStore</h3>
+            <button onclick="showSideNav();" class="showSideNav btn btn-dark m-2"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
+        </div> -->
     </header>
 
 

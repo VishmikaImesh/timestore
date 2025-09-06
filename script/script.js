@@ -1,5 +1,4 @@
 function showSideNav() {
-
     var sideNar = document.getElementById("sidenav");
     sideNar.classList.toggle("d-none");
 }
