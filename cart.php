@@ -19,7 +19,7 @@
 
     <?php
 
-    $cart_rs = Database::search("SELECT * FROM `cart` INNER JOIN `product` ON `cart`.`product_id`=`product`.`id` ");
+    $cart_rs = Database::search("SELECT * FROM `cart` INNER JOIN `product_has_model` ON `cart`.`product_id`=`product_has_model`.`model_id` ");
     $cart_num = $cart_rs->num_rows;
 
     if ($cart_num > 0) {
@@ -34,7 +34,7 @@
                     for ($x = 0; $x < $cart_num; $x++) {
 
                         $cart_data = $cart_rs->fetch_assoc();
-                        $id = $cart_data["id"];
+                        $id = $cart_data["model_id"];
 
                         $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                         $img_data = $img_rs->fetch_assoc();
@@ -49,9 +49,9 @@
                                     <div class="col-8">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="card-title product-title "><?php echo ($cart_data["title"]); ?></h5>
+                                                <h5 class="card-title product-title "><?php echo ($cart_data["model"]); ?></h5>
                                                 <div class="col-1 col-md-2 d-grid closebtn mx-3">
-                                                    <button class="btn btn-light rounded-4" onclick="removeFromCart(<?php echo ($cart_data['cart_id']); ?>,<?php echo ($cart_data['id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
+                                                    <button class="btn btn-light rounded-4" onclick="removeFromCart(<?php echo ($cart_data['cart_id']); ?>,<?php echo ($cart_data['model_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
                                             </div>
                                             <h2 class="card-title fw-bold">Rs.<?php echo ($cart_data["price"]); ?></h2>
@@ -104,8 +104,7 @@
 
     ?>
 
-     <?php include "footer.php"; ?>
-
+    <?php include "footer.php"; ?>
 
     <script src="script.js"></script>
     <script src="bootstrap.bundle.js"></script>

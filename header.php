@@ -175,20 +175,24 @@ session_start();
             </ul>
 
         </div>
-        <div class="d-flex justify-content-between mx-2">
+        <!-- <div class="d-flex justify-content-between mx-2">
             <li class="ms-3">
                 <a href="index.php" class="text-decoration-none">
                     <h3 class="text-light">TimeStore</h3>
                 </a>
             </li>
             <li class="mt-3">
-                <button class="hideSideNav btn " onclick="hideSideNav();"><img src="icons/menu.svg" height="20" width="20" alt=""></button>
+                <button class="hideSideNav btn " onclick="ShowSideNav();"><img src="icons/menu.svg" height="20" width="20" alt=""></button>
             </li>
-        </div>
-        <!-- <div class="ms-4 d-flex justify-content-between">
-            <h3 class="text-light showSideNav align-content-center">TimeStore</h3>
-            <button onclick="showSideNav();" class="showSideNav btn btn-dark m-2"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
         </div> -->
+        <div class="ms-4 d-flex justify-content-between">
+            <li class="ms-2 showSideNav">
+                <a href="index.php" class="text-decoration-none">
+                    <h3 class="text-light">TimeStore</h3>
+                </a>
+            </li>
+            <button onclick="showSideNav();" class="showSideNav btn btn-dark  mt-3"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
+        </div> 
     </header>
 
 

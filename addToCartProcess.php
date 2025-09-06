@@ -14,11 +14,11 @@ if (isset($_GET["id"])) {
     $cart_num=$cart_rs->num_rows;
     $cart_data = $cart_rs->fetch_assoc();
 
-    $pqty_rs = Database::search("SELECT * FROM `product` WHERE `id`='" . $pid . "' ");
+    $pqty_rs = Database::search("SELECT * FROM `product_has_model` WHERE `model_id`='" . $pid . "' ");
     $pqty_data = $pqty_rs->fetch_assoc();
     $new_pqty = intval($pqty_data["qty"]) - intval($qty);
 
-    Database::iud("UPDATE `product` SET `qty`='" . $new_pqty . "' WHERE `id`='" . $pid . "' ");
+    Database::iud("UPDATE `product_has_model` SET `qty`='" . $new_pqty . "' WHERE `model_id`='" . $pid . "' ");
     
 
     if ($cart_num == 0) {

@@ -36,7 +36,7 @@
                     $cart_data = $cart_rs->fetch_assoc();
                 }
             ?>
-                <div class="card col-4 col-md-3">
+                <div class="card col-4 col-md-3 ">
                     <div class="card-body">
                         <div class="py-5 ">
                             <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">

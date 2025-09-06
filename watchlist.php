@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style/bootstrap.css">
     <link rel="stylesheet" href="style/style.css">
     <title>Watchlist</title>
+    
+
 </head>
 
 <body>
@@ -22,13 +24,13 @@
 
     $email = $_SESSION["u"]["email"];
 
-    $watchlist_rs = Database::search("SELECT * FROM `watchlist` JOIN `product` ON `watchlist`.`product_id`=`product`.`id` WHERE `users_email`='" . $email . "' ");
+    $watchlist_rs = Database::search("SELECT * FROM `watchlist` JOIN `product_has_model` ON `watchlist`.`product_id`=`product_has_model`.`model_id` WHERE `users_email`='" . $email . "' ");
     $watchlist_num = $watchlist_rs->num_rows;
 
     if ($watchlist_num > 0) {
     ?>
-        <div class="container mt-6 mb-3 ">
-            <div class="row d-flex justify-content-center">
+        <div class="container min-vh-100 mt-6 mb-3">
+            <div class="row d-flex justify-content-center ">
                 <div class="row row-cols-1 row-cols-lg-2 g-4 flex-row  ">
 
                     <?php
@@ -50,7 +52,7 @@
                                     <div class="col-8">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="card-title product-title px-2"><?php echo $watchlist_data["title"] ?></h5>
+                                                <h5 class="card-title product-title px-2"><?php echo $watchlist_data["model"] ?></h5>
                                                 <div class="col-2 d-grid closebtn">
                                                     <button class="btn btn-light fw-bold rounded-5 " onclick="removeFromWatchlist(<?php echo ($watchlist_data['watchlist_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
@@ -86,25 +88,18 @@
                 </div>
             </div>
         </div>
+        <?php include "footer.php"; ?>
 
-        <div class="fixed-bootom">
-            <?php include "footer.php"; ?>
-        </div>
     <?php
-
     } else {
     ?>
-        
         <div class="container">
             <div class=" row d-flex flex-column justify-content-center vh-100">
                 <h1>Your watchlist is empty</h1>
                 <a href="index.php" class="btn btn-dark col-2 fw-bold col-4 col-md-2">return to home</a>
             </div>
         </div>
-        <div class="fixed-bottom">
-            <?php include "footer.php"; ?>
-        </div>
-         
+        <?php include "footer.php"; ?>
     <?php
     }
     ?>

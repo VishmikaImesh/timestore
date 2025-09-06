@@ -16,7 +16,7 @@
     </div>
 
     <div class="container mt-5">
-        <div class="row d-flex justify-content-center justify-content-between">
+        <div class="row d-flex justify-content-center ">
             <?php include "connection.php";
             ?>
 
@@ -28,8 +28,8 @@
             $search_rs = Database::search("SELECT * FROM `product_has_model` ");
             $search_num = $search_rs->num_rows;
             ?>
-            <div class="row row-cols-1 row-cols-md-2 g-5">
-                <div class="col-12 col-md-2 mb-5">
+            <div class="row row-cols-1 row-cols-md-2 g-5  align-content-center">
+                <div class="col-12 col-md-3 mb-5 ">
                     <div class="card" style="height:65vh;">
                         <div class="card-body bg-body-tertiary ">
                             <h5 class="card-title mb-2">Search Options</h5>
@@ -110,8 +110,8 @@
                     </div>
 
                 </div>
-                <div class="col-12 col-md-10 " id="searchResults">
-                    <div class="row row-cols-1 row-cols-md-6 g-4">
+                <div class="col-12 col-md-9 " id="searchResults">
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
                         <?php
                         for ($x = 0; $x < $search_num; $x++) {
                             $search_data = $search_rs->fetch_assoc();

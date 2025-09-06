@@ -21,7 +21,7 @@
         <div class="row  justify-content-center">
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <?php
-                $history_rs = Database::search("SELECT *,product.id as pid,user_history.id as hid FROM `user_history` JOIN `product` ON `user_history`.`product_id`=`product`.`id` WHERE `user_id`='" . $_SESSION["u"]["email"] . "' ");
+                $history_rs = Database::search("SELECT *,product_has_model.model_id as pid,user_history.id as hid FROM `user_history` JOIN `product_has_model` ON `user_history`.`product_id`=`product_has_model`.`model_id` WHERE `user_id`='" . $_SESSION["u"]["email"] . "' ");
                 $history_num = $history_rs->num_rows;
 
                 for ($i = 0; $i < $history_num; $i++) {
@@ -39,7 +39,7 @@
                                 <div class="col-8">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="card-title"><?php echo($history_data["title"]); ?></h5>
+                                            <h5 class="card-title"><?php echo($history_data["model"]); ?></h5>
 
                                         </div>
                                         <div class="d-flex justify-content-between">
@@ -61,7 +61,7 @@
                                         </div>
                                         <hr>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-3 mx-2">
                                         <div class="col-12 col-md-6 d-grid mb-1">
                                             <button class="btn text-light fw-bold rounded-4" style="background-color: #dc3545;">Add To Cart</button>
                                         </div>
@@ -83,6 +83,7 @@
             </div>
         </div>
     </div>
+    
 </body>
 
 </html>
