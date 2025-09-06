@@ -25,7 +25,7 @@
     if ($cart_num > 0) {
     ?>
 
-        <div class="container mt-6 mb-3">
+        <div class="container mt-6 mb-3 min-vh-100">
             <div class="row d-flex justify-content-center">
                 <div class="row row-cols-1 row-cols-lg-2 g-4 d-flex   ">
 
@@ -85,18 +85,21 @@
                 </div>
 
             </div>
-
-
         </div>
+
+        <?php include "footer.php"; ?>
 
     <?php
     } else {
     ?>
-        <div class="vh-100">
+        <div class="vh-100 align-content-center">
             <div class=" container d-flex flex-column justify-content-center h-75">
-                <h1>Your cart is empty</h1>
-                <a href="index.php" class="btn btn-dark col-2 fw-bold">Start Shopping</a>
+                <h1>Your Cart is empty</h1>
+                <a href="index.php" class="btn btn-dark col-6 col-md-2 fw-bold">Start Shopping</a>
             </div>
+        </div>
+        <div class="fixed-bottom">
+            <?php include "footer.php"; ?>
         </div>
 
     <?php
@@ -104,7 +107,7 @@
 
     ?>
 
-    <?php include "footer.php"; ?>
+    
 
     <script src="script.js"></script>
     <script src="bootstrap.bundle.js"></script>

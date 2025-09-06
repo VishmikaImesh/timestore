@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/bootstrap.css">
     <link rel="stylesheet" href="style/style.css">
     <title>Watchlist</title>
-    
+
 
 </head>
 
@@ -93,13 +93,15 @@
     <?php
     } else {
     ?>
-        <div class="container">
-            <div class=" row d-flex flex-column justify-content-center vh-100">
+        <div class="vh-100 align-content-center">
+            <div class=" container d-flex flex-column justify-content-center h-75">
                 <h1>Your watchlist is empty</h1>
-                <a href="index.php" class="btn btn-dark col-2 fw-bold col-4 col-md-2">return to home</a>
+                <a href="index.php" class="btn btn-dark col-6 col-md-2 fw-bold">Start Shopping</a>
             </div>
         </div>
-        <?php include "footer.php"; ?>
+        <div class="fixed-bottom">
+            <?php include "footer.php"; ?>
+        </div>
     <?php
     }
     ?>
