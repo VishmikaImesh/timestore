@@ -222,10 +222,10 @@ function checkQty(maxQty) {
 
 }
 
-function getQty(){
-    var getQty=document.getElementById("getQty");
-    var pqty=document.getElementById("pqty").value;
-    getQty.value=pqty;
+function getQty() {
+    var getQty = document.getElementById("getQty");
+    var pqty = document.getElementById("pqty").value;
+    getQty.value = pqty;
 }
 
 function removeFromCart(cid, pid) {
@@ -323,7 +323,7 @@ function searchText() {
 function search() {
 
     var searchText = document.getElementById("productSearch");
-    var searchResults=document.getElementById("searchResults");
+    var searchResults = document.getElementById("searchResults");
 
     var gender;
     var mt;
@@ -365,9 +365,9 @@ function search() {
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             var response = request.responseText;
-           
-            searchResults.innerHTML=response;
-            
+
+            searchResults.innerHTML = response;
+
         }
 
     }
@@ -375,19 +375,45 @@ function search() {
     request.send(form);
 }
 
-function removeFromHistory(id){
+function removeFromHistory(id) {
 
-    var form=new FormData();
-    form.append("id",id);
+    var form = new FormData();
+    form.append("id", id);
 
-    var request=new XMLHttpRequest();
-    request.onreadystatechange=function(){
-        if(request.readyState==4 && request.status==200){
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
             window.location.reload();
         }
     }
 
-    request.open("POST","removeFromHistory.php",true);
+    request.open("POST", "removeFromHistory.php", true);
     request.send(form);
+}
+
+function changeModel(id) {
+
+    var img=document.getElementById("vimg");
+    var price=document.getElementById("price");
+    var model=document.getElementById("model");
+
+    var form = new FormData();
+    form.append("id", id);
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            var model_data=JSON.parse(request.response);
+
+            img.src=model_data.img_path;
+            price.innerHTML=model_data.price;
+            model.innerHTML=model_data.model;
+            
+        }
+    }
+    
+    request.open("POST", "loadModelinfo.php", true);
+    request.send(form);
+
 }
 

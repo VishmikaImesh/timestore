@@ -1,20 +1,20 @@
-.bg{
+.bg {
     background-image: url("../img/bg.png");
     background-size: cover;
     background-repeat: none;
 }
 
-.custom-card{
-    background:rgb(rgb(0, 0, 0));
+.custom-card {
+    background: rgb(rgb(0, 0, 0));
     background: transparent;
     backdrop-filter: blur(35px);
     border-radius: 10px;
     border-color: rgb(197, 197, 197);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    background-image: url("../img/bg.jpeg"); 
+    background-image: url("../img/bg.jpeg");
 }
 
-.cc{
+.cc {
     background: transparent;
     border-top: none;
     border-left: none;
@@ -24,10 +24,10 @@
     padding: 3px;
     padding-left: 6px;
     outline: none;
-} 
+}
 
-label{
-    color:white;    
+label {
+    color: white;
 }
 
 .fs-7 {
@@ -86,21 +86,33 @@ nav ul {
     color: red;
 }
 
-.qtyInput{
-    width:30px;
+.qtyInput {
+    width: 30px;
     height: 30px;
     border: none;
 }
 
-.mt-6{
+.mt-6 {
     padding-top: 18vh;
 }
-.mt-7{
+
+.mt-7 {
     padding-top: 6vh;
 }
-.product-title{
+
+.product-title {
     min-height: 10vh;
 }
-.closebtn{
-    max-height: 2vh;;
+
+.closebtn {
+    max-height: 2vh;
+    ;
+}
+
+.model-scrollbar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* smooth scrolling */
+    padding-bottom: 8px;
+    /* space so scrollbar doesn't overlap */
 }

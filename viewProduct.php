@@ -15,7 +15,7 @@
         <?php include "header.php"; ?>
     </div>
 
-    <div class="container mt-6">
+    <div class="container mt-6 min-vh-100">
         <?php
         include "connection.php"; ?>
 
@@ -42,16 +42,41 @@
                             <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                         </div>
                     </div>
-
                 </div>
+
+
                 <div class="card col-8 col-md-6 d-flex align-content-center justify-content-center ">
                     <div class="card-body">
-                        <h4 class="card-title fw-bold"><?php echo ($product_data["model"]); ?></h4>
+                        <h4 class="card-title fw-bold" id="model"><?php echo ($product_data["model"]); ?></h4>
                         <h2 class="card-title fw-bold"></h2>
-                        <h6 class="text-secondary "> <?php echo ($product_data["price"]); ?></h6>
+                        <h6 class="text-secondary " id="price"> <?php echo ($product_data["price"]); ?></h6>
                         <h6 class="fs-7 text-secondary">Price Down Before Taxes</h6>
 
                         <hr>
+
+                        <div class="d-flex g-1 mb-3 model-scrollbar">
+
+                            <?php
+
+                            $model_img_rs = Database::search("SELECT * FROM `product_img` JOIN `product_has_model` ON `product_img`.`product_id`=`product_has_model`.`model_id`");
+                            $model_img_num = $model_img_rs->num_rows;
+
+                            for ($i = 0; $i < $model_img_num; $i++) {
+                                $model_img_data = $model_img_rs->fetch_assoc();
+                                $model_id=$model_img_data["model_id"];
+
+                            ?>
+                                <div class="">
+                                    <div class="card border-0">
+                                        <button class="btn p-0" onclick="changeModel(<?php echo $model_id ?>)">
+                                            <img src="<?php echo ($model_img_data["img_path"]) ?>" class="card-img-top" alt="...">
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
 
                         <div class="d-flex justify-content-between">
                             <div class="justify-content-center d-flex m-2 fs-5">

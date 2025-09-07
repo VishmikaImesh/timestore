@@ -18,10 +18,9 @@ session_start();
 
 <body>
 
-    <nav class="d-block">
-        <div class="container">
-
-            <ul class="vh-100 sidenav py-3 d-none" id="sidenav">
+    <nav class="">
+        <div class="">
+            <ul class="vh-100 sidenav py-2 d-none " id="sidenav">
                 <div class="d-flex justify-content-between m-2">
                     <li class="py-3">
                         <a href="index.php" class="text-decoration-none">
@@ -33,13 +32,12 @@ session_start();
                     </li>
                 </div>
 
-                <div class="input-group bg-light rounded-3 mb-3 pe-3">
+                <li class="input-group bg-light rounded-3 mb-3 ">
                     <input type="text" class="form-control" placeholder="Search">
                     <button class="input-group-text bg-black rounded-5 border-0 m-1" id="basic-addon1"><img src="icons/search.png" height="19" width="19" alt="" onclick="search();"></button>
-                </div>
+                </li>
 
                 <?php
-
 
 
                 if (!isset($_SESSION["u"])) {
@@ -185,14 +183,14 @@ session_start();
                 <button class="hideSideNav btn " onclick="ShowSideNav();"><img src="icons/menu.svg" height="20" width="20" alt=""></button>
             </li>
         </div> -->
-        <div class="ms-4 d-flex justify-content-between">
-            <li class="ms-2 showSideNav">
+        <div class="d-flex justify-content-between">
+            <li class="ms-4 showSideNav">
                 <a href="index.php" class="text-decoration-none">
                     <h3 class="text-light">TimeStore</h3>
                 </a>
             </li>
             <button onclick="showSideNav();" class="showSideNav btn btn-dark  mt-3"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
-        </div> 
+        </div>
     </header>
 
 

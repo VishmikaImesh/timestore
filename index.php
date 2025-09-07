@@ -64,12 +64,15 @@
                         <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
                             <?php
 
-                            $product_rs = Database::search("SELECT * FROM `product_has_model` ORDER BY `added_time` DESC LIMIT 4 OFFSET $offset  ");
+                            $product_rs = Database::search("SELECT * FROM  `product` ");
                             $product_num = $product_rs->num_rows;
 
                             for ($x = 0; $x < $product_num; $x++) {
                                 $product_data = $product_rs->fetch_assoc();
-                                $id = $product_data["model_id"];
+                                $id = $product_data["product_id"];
+
+                                $price_data=Database::search("SELECT `price` FROM `product_has_model` WHERE `product_id`='".$id."' ");
+                                $price=$price_data->fetch_assoc();
 
                                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
                                 $img_data = $img_rs->fetch_assoc();
@@ -81,9 +84,9 @@
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">
                                                     <li class="list-group-item">
-                                                        <h5 class="card-title product-title"><?php echo ($product_data["model"]); ?></h5>
+                                                        <h5 class="card-title product-title"><?php echo ($product_data["product_name"]); ?></h5>
                                                     </li>
-                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li>
+                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($price["price"]) ?>.00</li>
                                                 </ul>
 
                                             </div>
