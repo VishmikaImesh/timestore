@@ -43,7 +43,7 @@ session_start();
                 if (!isset($_SESSION["u"])) {
                 ?>
                     <li class=" mt-2 mb-2 d-grid  me-3">
-                        <a href="signin.php" class="btn btn-dark rounded-4 fw-bold ">Sign in</a>
+                        <a href="signin.php" class="btn bg-black text-light rounded-4 fw-bold ">Sign in</a>
                     </li>
                     <li class="d-flex justify-content-center">
                         <span><a class="text-decoration-none text-secondary" href="#">Register</a></span>
@@ -87,7 +87,7 @@ session_start();
     </nav>
 
 
-    <header class="bg-dark py-1 mb-5 d-block">
+    <header class="bg-black py-1 mb-5 d-block">
 
         <div class="container px-5 mnav">
             <ul class="d-flex mt-3 ">
@@ -97,28 +97,15 @@ session_start();
                     </a>
                 </li>
 
-                <?php
-                $current_page = $_SERVER['PHP_SELF'];
-                $search_page = "/timestore/search.php";
 
-                if ($current_page != $search_page) {
-                ?>
-                    <li class="input-group bg-light rounded-3">
-                        <input type="text" class="form-control" placeholder="Search" id="search">
-                        <button class="input-group-text bg-black rounded-5 border-0 m-1" id="basic-addon1"><img src="icons/search.png" height="19" width="19" alt="" onclick="searchText();"></button>
-                    </li>
 
-                <?php
-                } else {
-                ?>
-                    <li class="col-8">
 
-                    </li>
+                <li class="input-group bg-light rounded-0">
+                    <input type="text" class="form-control rounded-0" placeholder="Search" id="search">
+                    <button class="input-group-text bg-black rounded-0 border-0 " id="basic-addon1"><img src="icons/search.png" height="22" width="22" alt="" onclick="searchText();"></button>
+                </li>
 
-                <?php
-                }
 
-                ?>
 
                 <?php
                 if (isset($_SESSION["u"])) {
@@ -141,7 +128,7 @@ session_start();
                         if (!isset($_SESSION["u"])) {
                         ?>
                             <li class=" mt-2 mb-2 d-grid ">
-                                <a href="signin.php" class="btn btn-dark rounded-4 fw-bold ">Sign in</a>
+                                <a href="signin.php" class="btn bg-black rounded-4 fw-bold ">Sign in</a>
                             </li>
                             <hr class="">
                             <li class="d-flex justify-content-center">
@@ -189,7 +176,7 @@ session_start();
                     <h3 class="text-light">TimeStore</h3>
                 </a>
             </li>
-            <button onclick="showSideNav();" class="showSideNav btn btn-dark  mt-3"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
+            <button onclick="showSideNav();" class="showSideNav btn bg-black  mt-3"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
         </div>
     </header>
 
