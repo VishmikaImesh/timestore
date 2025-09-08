@@ -14,7 +14,7 @@
 
 
 
-<footer class="bg-dark text-white ">
+<footer class="bg-black text-white ">
 
     <div class="container-fluid">
         <div class="col-12">
