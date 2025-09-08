@@ -78,32 +78,22 @@
                                 $img_data = $img_rs->fetch_assoc();
                             ?>
                                 <div class="col">
-                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card text-decoration-none h-100">
-                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
+                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card border-0 text-decoration-none h-100">
+                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="border-0 " id="vimg">
                                         <div class="card-body">
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">
                                                     <li class="list-group-item">
-                                                        <h5 class="card-title product-title"><?php echo ($product_data["product_name"]); ?></h5>
+                                                        <h5 class="card-title "><?php echo ($product_data["product_name"]); ?></h5>
+                                                        
                                                     </li>
-                                                    <li class="list-group-item fw-bold ">Rs.<?php echo ($price["price"]) ?>.00</li>
                                                 </ul>
-
                                             </div>
-                                            <div class="justify-content-center d-flex m-2">
-                                            </div>
-
                                         </div>
-
                                     </a>
                                 </div>
-
-
-
                             <?php
                             }
-
-
                             ?>
                         </div>
 
@@ -155,8 +145,8 @@
                                 $img_data = $img_rs->fetch_assoc();
                             ?>
                                 <div class="col border-0">
-                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card h-100 text-decoration-none">
-                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
+                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card border-0 h-100 text-decoration-none">
+                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="" id="vimg">
                                         <div class="card-body">
                                             <div class="justify-content-center d-flex">
                                                 <ul class="list-group list-group-flush d-block">

@@ -19,13 +19,18 @@
         <?php
         include "connection.php"; ?>
 
-        <div class="row mt-5 m-5 d-flex justify-content-center">
+        <div class="row d-flex justify-content-center">
 
             <?php
             if (isset($_GET["id"])) {
                 $id = $_GET["id"];
 
-                $product_rs = Database::search("SELECT * FROM `product_has_model` WHERE `model_id`='" . $id . "' ");
+                $product_rs = Database::search("SELECT * FROM `product_has_model` 
+                JOIN `product` 
+                ON `product_has_model`.`product_id`=`product`.`product_id` 
+                JOIN `brand` 
+                ON  `product`.`brand_id`=`brand`.`brand_id`
+                WHERE `model_id`='" . $id . "' ");
                 $product_data = $product_rs->fetch_assoc();
 
                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
@@ -36,25 +41,33 @@
                     $cart_data = $cart_rs->fetch_assoc();
                 }
             ?>
-                <div class="card col-4 col-md-3 ">
-                    <div class="card-body">
-                        <div class="py-5 ">
+                <div class="card col-12 col-md-3  border-0">
+                    <div class="card-body ">
+                        <div class=" ">
                             <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
                         </div>
                     </div>
                 </div>
 
 
-                <div class="card col-8 col-md-6 d-flex align-content-center justify-content-center ">
+                <div class="card col-12 col-md-6  align-content-center justify-content-center border-0">
                     <div class="card-body">
-                        <h4 class="card-title fw-bold" id="model"><?php echo ($product_data["model"]); ?></h4>
-                        <h2 class="card-title fw-bold"></h2>
-                        <h6 class="text-secondary " id="price"> <?php echo ($product_data["price"]); ?></h6>
-                        <h6 class="fs-7 text-secondary">Price Down Before Taxes</h6>
+                        <h6 class="text-secondary"><?php echo $product_data["brand_name"] ?></h6>
+
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title fw-bold " id="model"><?php echo ($product_data["model"]); ?></h4>
+                            <button class="btn btn-light rounded-5"><i><img src="icons/favourites.png" width="20" onclick="addToWishlist(<?php echo ($id); ?>);"></i></button>
+                        </div>
+
+                        <h6 class="text-secondary " id="price">Rs.<?php echo ($product_data["price"]); ?></h6>
+
+                        <h6 class="fs-7 text-secondary">
+                            <li class="fa fa-star " id="s1"></li> | <?php echo $product_data["sold_count"] ?> Sold
+                        </h6>
 
                         <hr>
 
-                        <div class="d-flex g-1 mb-3 model-scrollbar">
+                        <div class="d-flex  g-1 mb-3 model-scrollbar">
 
                             <?php
 
@@ -63,46 +76,33 @@
 
                             for ($i = 0; $i < $model_img_num; $i++) {
                                 $model_img_data = $model_img_rs->fetch_assoc();
-                                $model_id=$model_img_data["model_id"];
+                                $model_id = $model_img_data["model_id"];
 
                             ?>
-                                <div class="">
+                                <div class="col">
                                     <div class="card border-0">
                                         <button class="btn p-0" onclick="changeModel(<?php echo $model_id ?>)">
                                             <img src="<?php echo ($model_img_data["img_path"]) ?>" class="card-img-top" alt="...">
                                         </button>
                                     </div>
                                 </div>
+                                
                             <?php
                             }
                             ?>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <div class="justify-content-center d-flex m-2 fs-5">
-
-                                <li class="fa fa-star " id="s1"></li>
-                                <li class="fa fa-star " id="s2"></li>
-                                <li class="fa fa-star " id="s3"></li>
-                                <li class="fa fa-star" id="s4"></li>
-                                <li class="fa fa-star" id="s5"></li>
-
-                            </div>
-                            <div class="justify-content-end d-flex">
-                                <button class="btn btn-light rounded-5"><i><img src="icons/favourites.png" width="20" onclick="addToWishlist(<?php echo ($id); ?>);"></i></button>
-                            </div>
-                        </div>
-
                         <?php if ($product_data["qty"] > 0) {
                         ?>
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <!-- <div class="btn-group " role="group" aria-label="Basic example">
 
-                                <button type="button" class="btn rounded-5 ms-1" onclick="qtyDown(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/minus.png" width="15"></i></button>
-                                <input type="text" class="qtyInput text-center" value=1 id="pqty" onkeyup="checkQty(<?php echo ($product_data['qty']) ?>);">
-                                <button type="button" class="btn rounded-5 me-1" onclick="qtyUp(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/plus.png" width="15"></i></button>
+                                <button type="button" class="btn rounded-0 bg-secondary-subtle ms-1" onclick="qtyDown(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/minus.png" width="15"></i></button>
+                                <input type="text" class="qtyInput text-center mt-1" value=1 id="pqty" onkeyup="checkQty(<?php echo ($product_data['qty']) ?>);">
+                                <button type="button" class="btn rounded-0  bg-secondary-subtle  me-1" onclick="qtyUp(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/plus.png" width="15"></i></button>
 
                                 <span class="text-danger" id="qtyWarning"></span>
-                            </div>
+                            </div> -->
+
                             <div>
                                 <?php
                                 if (isset($_SESSION["u"])) {
@@ -111,7 +111,6 @@
                                 <?php
                                 }
                                 ?>
-
                             </div>
 
                         <?php
@@ -120,61 +119,74 @@
                     </div>
 
                     <?php
-                    if (isset($_SESSION["u"])) {
-                        if ($product_data["qty"] == 0) {
+                    if ($product_data["qty"] == 0) {
                     ?>
-                            <div class="d-flex align-content-center justify-content-center">
-                                <h3 class="text-secondary mt-5">#Out of stock</h3>
-                            </div>
-                        <?php
-                        }
-                        ?>
-                        <div class="row mb-4">
-                            <div class="col-12 col-md-6 d-grid pb-1">
-                                <button onclick="getQty();" class="btn text-light  fw-bold rounded-4" data-bs-toggle="modal" data-bs-target="#exampleModal" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> style="background-color: #dc3545;">
-                                    Buy Now
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade align-content-center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><?php echo ($product_data["title"]); ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="card col-4 col-md-3">
-
-                                                    <div class="card-body">
-                                                        <div class="">
-                                                            <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="vimg">
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary">Buy Now</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-12 col-md-6 d-grid pb-1">
-                                <button class="btn btn-secondary fw-bold rounded-4" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> onclick="addToCart(<?php echo ($id); ?>);">Add To Cart</button>
-                            </div>
+                        <div class="d-flex align-content-center justify-content-center">
+                            <h3 class="text-secondary mt-5">#Out of stock</h3>
                         </div>
                     <?php
                     }
                     ?>
+                    <div class="row mb-4 px-3">
+                        <div class="col-12 col-md-6 d-grid pb-1">
+                            <button onclick="getQty();" class="btn text-light  fw-bold rounded-0" data-bs-toggle="modal" data-bs-target="#exampleModal" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> style="background-color: #dc3545;">
+                                Buy Now
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade align-content-center " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content rounded-3">
+                                        <div class="modal-body">
+                                            <div class="card border-0">
+                                                <div class="card-body row ">
+                                                    <div class="col-6">
+                                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="mimg">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h6 class="text-secondary"><?php echo $product_data["brand_name"] ?></h6>
+                                                        <h4 class="card-title fw-bold " id="model"><?php echo ($product_data["model"]); ?></h4>
+                                                        <h6 class="text-secondary " id="price">Rs.<?php echo ($product_data["price"]); ?></h6>
+                                                        <div class="d-flex row mb-2">
+                                                            <div class="col-12 ">
+                                                                <h6 class=" text-secondary mt-2" id="price">Quantity</h6>
+                                                            </div>
+                                                            
+                                                            <div class="col-12 ">
+                                                                <button  type="button" class="btn rounded-0" onclick="qtyDown(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/minus.png" width="20"></i></button>
+                                                                <input type="text" class="qtyInput text-center mt-1" value=1 id="pqty" onkeyup="checkQty(<?php echo ($product_data['qty']) ?>);">
+                                                                <button  type="button" class="btn rounded-0" onclick="qtyUp(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/plus.png" width="20"></i></button>
+                                                            </div>
+
+                                                        </div>
+                                                        <span class="text-danger" id="qtyWarning"></span>
+                                                        <div class="col-12 d-grid">
+                                                            <button type="button" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script src="script.js"></script>
+                                <script src="bootstrap.bundle.js"></script>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-6 d-grid pb-1">
+                            <button class="btn btn-secondary fw-bold rounded-0" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> onclick="addToCart(<?php echo ($id); ?>);">Add To Cart</button>
+                        </div>
+                    </div>
+                <?php
+            }
+                ?>
                 </div>
-            <?php } ?>
+
 
         </div>
     </div>
+
     <?php include "footer.php"; ?>
 
     <script src="script.js"></script>
