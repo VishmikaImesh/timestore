@@ -393,9 +393,10 @@ function removeFromHistory(id) {
 
 function changeModel(id) {
 
-    var img=document.getElementById("vimg");
-    var price=document.getElementById("price");
-    var model=document.getElementById("model");
+    var img = document.getElementById("vimg");
+    var mimg = document.getElementById("mimg");
+    var price = document.getElementById("price");
+    var model = document.getElementById("model");
 
     var form = new FormData();
     form.append("id", id);
@@ -403,17 +404,43 @@ function changeModel(id) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            var model_data=JSON.parse(request.response);
+            var model_data = JSON.parse(request.response);
 
-            img.src=model_data.img_path;
-            price.innerHTML=model_data.price;
-            model.innerHTML=model_data.model;
-            
+            img.src = model_data.img_path;
+            mimg.src = model_data.img_path;
+            price.innerHTML = "Rs." + model_data.price;
+            model.innerHTML = model_data.model;
+
         }
     }
-    
+
     request.open("POST", "loadModelinfo.php", true);
     request.send(form);
+
+}
+
+function changeDeliveryOption(option) {
+
+    var deliverytoption1 = document.getElementById("deliverytoption1");
+    var deliverytoption2 = document.getElementById("deliverytoption2");
+
+    var resetBtnClasses=" btn m-1 p-0  ";
+    var defualtBtnClasses="btn m-1 p-0 border-secondary-subtle";
+
+    if (deliverytoption1.id == option) {
+        deliverytoption1.className =resetBtnClasses;
+        deliverytoption1.className = deliverytoption1.className + " border-2 border-primary ";
+        deliverytoption2.className =defualtBtnClasses;
+    } else {
+        deliverytoption2.className =resetBtnClasses;
+        deliverytoption2.className = deliverytoption2.className + " border-2 border-danger ";
+        deliverytoption1.className = defualtBtnClasses;
+    }
+
+
+
+
+
 
 }
 
