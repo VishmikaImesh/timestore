@@ -10,7 +10,8 @@ $user_rs=Database::search("SELECT * FROM `users` WHERE `email`='".$email."' AND 
 if($user_rs->num_rows==1){
 
     session_start();
-    $_SESSION["u"]=$user_rs->fetch_assoc();    
+    $user_data=$user_rs->fetch_assoc(); 
+    $_SESSION["u"]["email"]= $user_data["email"]; 
 
     
     if($_POST["r"]==1){

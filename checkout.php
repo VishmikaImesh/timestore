@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/bootstrap.css">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>buyProduct</title>
+    <title>Checkout</title>
 </head>
 
 <body class="bg-secondary-subtle">
@@ -24,7 +24,6 @@
     if (isset($_GET["id"]) & isset($_GET["qty"])) {
         $id = $_GET["id"];
         $qty = $_GET["qty"];
-        
     }
 
 
@@ -87,7 +86,8 @@
                                     <div class="col-10">
                                         <h5 class="text-secondary">Standard</h5>
                                         <p class="card-text">Rs.250</p>
-                                       
+                                        <?php echo date('m-d') ?>
+
                                     </div>
 
                                 </div>
@@ -150,7 +150,7 @@
                         <hr>
                         <h6 class="card-text" id="total">Total : </h6>
                         <div class="col-12 d-grid mt-3">
-                            <button type="button" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
+                            <button onclick="paynow();" id="payhere-payment" type="button" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
                         </div>
 
 
@@ -167,6 +167,8 @@
 
     <script src="script.js"></script>
     <script src="bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
 
 </body>
 
