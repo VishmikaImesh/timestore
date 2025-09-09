@@ -18,6 +18,10 @@
     <?php include "connection.php"; ?>
 
     <?php
+    if(isset($_SESSION["email"])){
+        echo "nice";
+    }
+    
 
     $cart_rs = Database::search("SELECT * FROM `cart` INNER JOIN `product_has_model` ON `cart`.`product_id`=`product_has_model`.`model_id` ");
     $cart_num = $cart_rs->num_rows;
