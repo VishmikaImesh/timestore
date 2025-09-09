@@ -30,7 +30,7 @@
                     $profile_data = $profile_rs->fetch_assoc();
 
                     $address_rs = Database::search("SELECT * FROM `user_address`
-                    INNER JOIN `cities` ON `user_address`.`cities_id`=`cities`.`city_id` 
+                    INNER JOIN `cities` ON `user_address`.`city_id`=`cities`.`city_id` 
                     INNER JOIN `districts` ON `cities`.`district_id`=`districts`.`district_id`
                     INNER JOIN `provinces` ON `districts`.`province_id`=`provinces`.`province_id`
                     WHERE `users_email`='" . $email . "'  ");
