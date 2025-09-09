@@ -397,6 +397,8 @@ function changeModel(id) {
     var mimg = document.getElementById("mimg");
     var price = document.getElementById("price");
     var model = document.getElementById("model");
+    var buying_product_id = document.getElementById("buying_product_id");
+    buying_product_id.value = id;
 
     var form = new FormData();
     form.append("id", id);
@@ -419,28 +421,42 @@ function changeModel(id) {
 
 }
 
-function changeDeliveryOption(option) {
+function changeDeliveryOption(option, price, fee) {
 
+    var checkboxStandard = document.getElementById("checkDeliveryMethod1");
+    var checkboxExpress = document.getElementById("checkDeliveryMethod2");
     var deliverytoption1 = document.getElementById("deliverytoption1");
     var deliverytoption2 = document.getElementById("deliverytoption2");
+    var deliveryFee = document.getElementById("deliveryFee");
+    var total = document.getElementById("total");
 
-    var resetBtnClasses=" btn m-1 p-0  ";
-    var defualtBtnClasses="btn m-1 p-0 border-secondary-subtle";
+    var resetBtnClasses = " btn m-1 p-0  ";
+    var defualtBtnClasses = "btn m-1 p-0 border-secondary-subtle";
 
     if (deliverytoption1.id == option) {
-        deliverytoption1.className =resetBtnClasses;
+        checkboxExpress.checked = false;
+        checkboxStandard.checked = true;
+        deliverytoption1.className = resetBtnClasses;
         deliverytoption1.className = deliverytoption1.className + " border-2 border-primary ";
-        deliverytoption2.className =defualtBtnClasses;
+        deliverytoption2.className = defualtBtnClasses;
+        deliveryFee.innerHTML = "Delivery Fee: Rs." + fee;
+        total.innerHTML = "Total : Rs." + (price + fee);
     } else {
-        deliverytoption2.className =resetBtnClasses;
+        checkboxStandard.checked = false;
+        checkboxExpress.checked = true;
+        deliverytoption2.className = resetBtnClasses;
         deliverytoption2.className = deliverytoption2.className + " border-2 border-danger ";
         deliverytoption1.className = defualtBtnClasses;
+        deliveryFee.innerHTML = "Delivery Fee: Rs." + fee;
+        total.innerHTML = "Total : Rs." + (price + fee);
     }
+}
 
+function toCheckout() {
 
+    var buying_product_qty = document.getElementById("pqty");
+    var buying_product_id = document.getElementById("buying_product_id");
 
-
-
-
+    window.location = "checkout.php?id=" + buying_product_id.value + "&qty=" + buying_product_qty.value;
 }
 

@@ -31,6 +31,7 @@
                 JOIN `brand` 
                 ON  `product`.`brand_id`=`brand`.`brand_id`
                 WHERE `model_id`='" . $id . "' ");
+                
                 $product_data = $product_rs->fetch_assoc();
 
                 $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
@@ -141,6 +142,7 @@
                                             <div class="card border-0">
                                                 <div class="card-body row ">
                                                     <div class="col-6">
+                                                        <input class="d-none" id="buying_product_id" value="<?php echo $id ?>">
                                                         <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="mimg">
                                                     </div>
                                                     <div class="col-6">
@@ -161,7 +163,7 @@
                                                         </div>
                                                         <span class="text-danger" id="qtyWarning"></span>
                                                         <div class="col-12 d-grid">
-                                                            <button type="button" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
+                                                            <button onclick="toCheckout();" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
                                                         </div>
                                                     </div>
                                                 </div>
