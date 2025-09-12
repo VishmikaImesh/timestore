@@ -61,40 +61,38 @@
                 ?>
                     <div class="carousel-item <?php if ($i == 0) { ?> active <?php } ?>">
 
-                        <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
-                            <?php
+                        <div class="carousel-item <?php if ($i == 0) { ?> active <?php } ?>">
 
-                            $product_rs = Database::search("SELECT * FROM  `product` ");
-                            $product_num = $product_rs->num_rows;
+                            <div class="row row-cols-1 row-cols-md-4 g-4 m-3">
+                                <?php
 
-                            for ($x = 0; $x < $product_num; $x++) {
-                                $product_data = $product_rs->fetch_assoc();
-                                $id = $product_data["product_id"];
+                                $product_rs = Database::search("SELECT * FROM `product` JOIN `brand` ON `product`.`brand_id`=`brand`.`brand_id` LIMIT 4 OFFSET $offset ");
+                                $product_num = $product_rs->num_rows;
 
-                                $price_data=Database::search("SELECT `price` FROM `product_has_model` WHERE `product_id`='".$id."' ");
-                                $price=$price_data->fetch_assoc();
+                                for ($x = 0; $x < $product_num; $x++) {
+                                    $product_data = $product_rs->fetch_assoc();
+                                    $pid = $product_data["product_id"];
 
-                                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
-                                $img_data = $img_rs->fetch_assoc();
-                            ?>
-                                <div class="col">
-                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card border-0 text-decoration-none h-100">
-                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="border-0 " id="vimg">
-                                        <div class="card-body">
-                                            <div class="justify-content-center d-flex">
-                                                <ul class="list-group list-group-flush d-block">
-                                                    <li class="list-group-item">
-                                                        <h5 class="card-title "><?php echo ($product_data["product_name"]); ?></h5>
-                                                        
-                                                    </li>
-                                                </ul>
+                                    $model_rs = Database::search("SELECT * FROM `product_has_model` WHERE `product_id`='" . $pid . "' ");
+                                    $model_data = $model_rs->fetch_assoc();
+
+                                    $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $model_data["model_id"] . "' ");
+                                    $img_data = $img_rs->fetch_assoc();
+                                ?>
+                                    <div class="col">
+                                        <a href="viewProduct.php?id=<?php echo $pid ?>" class="card border-0 text-decoration-none">
+                                            <img src="<?php echo ($img_data["img_path"]) ?>" class="border-0  " id="vimg">
+                                            <div class="card-body">
+                                                <h6 class="card-title fw-bold text-secondary "><?php echo ($product_data["brand_name"]); ?></h6>
+                                                <h5 class="card-title "><?php echo ($product_data["product_name"]); ?></h5>
                                             </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            <?php
-                            }
-                            ?>
+                                        </a>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+
                         </div>
 
                     </div>
@@ -119,11 +117,16 @@
 
         <div id="carouselExampleFade1" class="carousel slide carousel-fade">
 
-            <div class="d-block d-flex justify-content-center mt-5">
-                <h5 class="text-dark d-block">New Items</h5>
-            </div>
+
 
             <div class="carousel-inner">
+
+                <div class="d-flex justify-content-center align-content-between mt-5">
+                    <h5 class="text-dark fw-bold">New Items</h5><br>
+                </div>
+                <div class="d-flex justify-content-center align-content-between">
+                    <p class="text-secondary fw-bold">Check out our latest collection of premium watches</p>
+                </div>
 
                 <?php
                 for ($i = 0; $i < 2; $i++) {
@@ -131,46 +134,36 @@
                 ?>
                     <div class="carousel-item <?php if ($i == 0) { ?> active <?php } ?>">
 
-                        <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+                        <div class="row row-cols-1 row-cols-md-4 g-4 m-3">
                             <?php
 
-                            $product_rs = Database::search("SELECT * FROM `product_has_model` ORDER BY `sold_count` DESC LIMIT 4 OFFSET $offset ");
+                            $product_rs = Database::search("SELECT * FROM `product` JOIN `brand` ON `product`.`brand_id`=`brand`.`brand_id` LIMIT 4 OFFSET $offset ");
                             $product_num = $product_rs->num_rows;
 
                             for ($x = 0; $x < $product_num; $x++) {
                                 $product_data = $product_rs->fetch_assoc();
-                                $id = $product_data["model_id"];
+                                $pid = $product_data["product_id"];
 
-                                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $id . "' ");
+                                $model_rs = Database::search("SELECT * FROM `product_has_model` WHERE `product_id`='" . $pid . "' ");
+                                $model_data = $model_rs->fetch_assoc();
+
+                                $img_rs = Database::search("SELECT * FROM `product_img` WHERE `product_id`='" . $model_data["model_id"] . "' ");
                                 $img_data = $img_rs->fetch_assoc();
                             ?>
-                                <div class="col border-0">
-                                    <a href="viewProduct.php?id=<?php echo $id ?>" class="card border-0 h-100 text-decoration-none">
-                                        <img src="<?php echo ($img_data["img_path"]) ?>" class="" id="vimg">
+
+                                <div class="col">
+                                    <a href="viewProduct.php?id=<?php echo $pid ?>" class="card border-0 text-decoration-none">
+                                        
+                                        <img  src="<?php echo ($img_data["img_path"]) ?>" class="border-0  " id="vimg">
                                         <div class="card-body">
-                                            <div class="justify-content-center d-flex">
-                                                <ul class="list-group list-group-flush d-block">
-                                                    <li class="list-group-item">
-                                                        <h5 class="card-title"><?php echo ($product_data["model"]); ?></h5>
-                                                    </li>
-                                                    <!-- <li class="list-group-item fw-bold ">Rs.<?php echo ($product_data["price"]); ?>.00</li> -->
-                                                </ul>
-
-                                            </div>
-
-                                            <div class="justify-content-center d-flex m-2">
-                                            </div>
-
+                                            <h6 class="card-title fw-bold text-secondary "><?php echo ($product_data["brand_name"]); ?></h6>
+                                            <h5 class="card-title "><?php echo ($model_data["model"]); ?></h5>
                                         </div>
-
                                     </a>
                                 </div>
 
-
                             <?php
                             }
-
-
                             ?>
                         </div>
 

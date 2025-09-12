@@ -144,6 +144,10 @@ function addToCart(id) {
 
     var qty = document.getElementById("pqty");
 
+    var form=new FormData();
+    form.append("id",id);
+    form.append("qty",qty.value);
+
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
@@ -158,8 +162,8 @@ function addToCart(id) {
         }
     }
 
-    request.open("GET", "addToCartProcess.php?id=" + id + "&qty=" + qty.value, true);
-    request.send();
+    request.open("POST", "addToCartProcess.php", true);
+    request.send(form);
 }
 
 
@@ -228,20 +232,22 @@ function getQty() {
     getQty.value = pqty;
 }
 
-function removeFromCart(cid, pid) {
+function removeFromCart(pid) {
 
     var request = new XMLHttpRequest();
+
+    var form=new FormData();
+    form.append("model_id",pid);
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             var response = request.responseText;
             window.location.reload();
-            alert(response);
         }
     }
 
-    request.open("GET", "removeFromCart.php?cartId=" + cid + "&pid=" + pid, true);
-    request.send();
+    request.open("POST", "removeFromCart.php", true);
+    request.send(form);
 }
 
 function removeFromWatchlist(id) {
@@ -437,17 +443,17 @@ function changeDeliveryOption(option, price, fee) {
         checkboxExpress.checked = false;
         checkboxStandard.checked = true;
         deliverytoption1.className = resetBtnClasses;
-        deliverytoption1.className = deliverytoption1.className + " border-2 border-primary ";
+        deliverytoption1.className = deliverytoption1.className + " bg-primary-subtle border-2  border-primary ";
         deliverytoption2.className = defualtBtnClasses;
-        deliveryFee.innerHTML = "Delivery Fee: Rs." + fee;
+        deliveryFee.innerHTML = "Rs." + fee;
         total.innerHTML = "Total : Rs." + (price + fee);
     } else {
         checkboxStandard.checked = false;
         checkboxExpress.checked = true;
         deliverytoption2.className = resetBtnClasses;
-        deliverytoption2.className = deliverytoption2.className + " border-2 border-danger ";
+        deliverytoption2.className = deliverytoption2.className + " bg-primary-subtle border-2 border-primary ";
         deliverytoption1.className = defualtBtnClasses;
-        deliveryFee.innerHTML = "Delivery Fee: Rs." + fee;
+        deliveryFee.innerHTML = "Rs." + fee;
         total.innerHTML = "Total : Rs." + (price + fee);
     }
 }
@@ -457,10 +463,33 @@ function toCheckout() {
     var buying_product_qty = document.getElementById("pqty");
     var buying_product_id = document.getElementById("buying_product_id");
 
-    window.location = "checkout.php?id=" + buying_product_id.value + "&qty=" + buying_product_qty.value;
+    var form = new FormData();
+    form.append("id", buying_product_id.value);
+    form.append("qty", buying_product_qty.value);
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            if (request.responseText == "success") {
+               
+                window.location = "checkout.php?id=" + buying_product_id.value + "&qty=" + buying_product_qty.value;
+            }else{
+                 alert(request.response);
+            }
+
+        }
+    }
+
+    request.open("POST", "addToCartProcess.php", true);
+    request.send(form);
+
 }
 
-function paynow() {
+function paynow(id) {
+
+    var form=new FormData();
+    form.append("id",id);
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -490,7 +519,7 @@ function paynow() {
                 "sandbox": true,
                 "merchant_id": "1226402",    // Replace your Merchant ID
                 "return_url": "http://localhost/timestore/index.php",
-                "cancel_url": "http://localhost/timestore/index.php", 
+                "cancel_url": "http://localhost/timestore/index.php",
                 "notify_url": "http://sample.com/notify",
                 "order_id": "566546",
                 "items": "Door bell wireles",
@@ -510,13 +539,10 @@ function paynow() {
                 "custom_1": "",
                 "custom_2": ""
             };
-
             // Show the payhere.js popup, when "PayHere Pay" is clicked
-
             payhere.startPayment(payment);
         }
     }
     request.open("POST", "hash.php", true);
-    request.send();
-
+    request.send(form);
 }

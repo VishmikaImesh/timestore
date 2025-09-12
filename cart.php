@@ -55,7 +55,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="card-title product-title "><?php echo ($cart_data["model"]); ?></h5>
                                                 <div class="col-1 col-md-2 d-grid closebtn mx-3">
-                                                    <button class="btn btn-light rounded-4" onclick="removeFromCart(<?php echo ($cart_data['cart_id']); ?>,<?php echo ($cart_data['model_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
+                                                    <button class="btn btn-light rounded-4" onclick="removeFromCart(<?php echo ($cart_data['model_id']); ?>);"><i><img src="icons/close.png" alt="" width="15" height="15"></i></button>
                                                 </div>
                                             </div>
                                             <h2 class="card-title fw-bold">Rs.<?php echo ($cart_data["price"]); ?></h2>

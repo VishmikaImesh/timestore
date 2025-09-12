@@ -1,9 +1,3 @@
-<?php
-
-session_start();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,15 +10,28 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body  <?php 
+    setcookie("visited_checkout","0", time() + 60 * 60);
+
+    if ($_SERVER["PHP_SELF"] == "/timestore/checkout.php") {
+        setcookie("model_id", $_GET["id"], time() + 60 * 60);
+        setcookie("visited_checkout","1", time() + 60 * 60);
+    } else if(isset($_COOKIE["visited_checkout"])){
+        if ($_COOKIE["visited_checkout"]==1) {
+    ?>
+            onload="removeFromCart(<?php echo $_COOKIE['model_id'] ?>);"
+    <?php
+            setcookie("visited_checkout","0", time() + 60 * 60);
+        }
+    } ?>>
 
     <nav class="">
         <div class="">
             <ul class="vh-100 sidenav py-2 d-none " id="sidenav">
                 <div class="d-flex justify-content-between m-2">
                     <li class="py-3">
-                        <a href="index.php" class="text-decoration-none">
-                            <h3 class="text-light">TimeStore</h3>
+                        <a href="index.php" class="text-decoration-none mt-4">
+                            <h3 class="text-light ">TimeStore</h3>
                         </a>
                     </li>
                     <li class="mt-2">
@@ -96,17 +103,10 @@ session_start();
                         <h3 class="text-light">TimeStore</h3>
                     </a>
                 </li>
-
-
-
-
-                <li class="input-group bg-light rounded-0">
-                    <input type="text" class="form-control rounded-0" placeholder="Search" id="search">
+                <li class="input-group rounded-3">
+                    <input type="text" class="form-control rounded-3 bg-dark-subtle fw-bold" placeholder="Search" id="search">
                     <button class="input-group-text bg-black rounded-0 border-0 " id="basic-addon1"><img src="icons/search.png" height="22" width="22" alt="" onclick="searchText();"></button>
                 </li>
-
-
-
                 <?php
                 if (isset($_SESSION["u"])) {
                 ?>
@@ -115,16 +115,12 @@ session_start();
                     </li>
                 <?php
                 } ?>
-
                 <li class="nav-item dropdown col-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="icons/profile.png" height="40" width="40" alt="">
                     </a>
                     <ul class="dropdown-menu px-2">
                         <?php
-
-
-
                         if (!isset($_SESSION["u"])) {
                         ?>
                             <li class=" mt-2 mb-2 d-grid ">
@@ -134,7 +130,6 @@ session_start();
                             <li class="d-flex justify-content-center">
                                 <span><a class="text-decoration-none text-secondary" href="#">Register</a></span>
                             </li>
-
                         <?php
                         } else {
                         ?> <li class=" mt-2 mb-2 d-grid  me-3">
@@ -148,30 +143,14 @@ session_start();
                             <li><a class="dropdown-item text-danger my-1 d-flex justify-content-center" onclick="logOut();">Log Out</a></li>
 
                         <?php
-
                         }
-
                         ?>
-
-
-
                     </ul>
                 </li>
             </ul>
-
         </div>
-        <!-- <div class="d-flex justify-content-between mx-2">
-            <li class="ms-3">
-                <a href="index.php" class="text-decoration-none">
-                    <h3 class="text-light">TimeStore</h3>
-                </a>
-            </li>
-            <li class="mt-3">
-                <button class="hideSideNav btn " onclick="ShowSideNav();"><img src="icons/menu.svg" height="20" width="20" alt=""></button>
-            </li>
-        </div> -->
         <div class="d-flex justify-content-between">
-            <li class="ms-4 showSideNav">
+            <li class="mt-3 ms-4 showSideNav">
                 <a href="index.php" class="text-decoration-none">
                     <h3 class="text-light">TimeStore</h3>
                 </a>
@@ -179,9 +158,6 @@ session_start();
             <button onclick="showSideNav();" class="showSideNav btn bg-black  mt-3"><img src="icons/menu.svg" alt="" width="30" height="30"></button>
         </div>
     </header>
-
-
-
 
     <script src="script/script.js"></script>
     <script src="script/bootstrap.bundle.js"></script>

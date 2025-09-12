@@ -4,9 +4,9 @@ include "connection.php";
 
 session_start();
 
-if (isset($_GET["id"])) {
-    $pid = $_GET["id"];
-    $qty = $_GET["qty"];
+if (isset($_POST["id"])) {
+    $pid = $_POST["id"];
+    $qty = $_POST["qty"];
     $email = $_SESSION["u"]["email"];
 
 
