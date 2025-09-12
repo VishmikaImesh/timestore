@@ -83,7 +83,7 @@ if (!empty($_GET["id"]) && !empty($_GET["qty"])) {
 
                         <h6 class="fw-bold">Delivery Method</h6>
 
-                        <div class="card col-8 col-md-6 border-0" >
+                        <div class="card col-10 col-md-6 border-0" >
                             <button class="btn  m-1 p-0 border-secondary-subtle" id="deliverytoption1" onclick="changeDeliveryOption('deliverytoption1',<?php echo $product_data['cart_qty'] * $product_data['price'] ?>,250);">
                                 <div class="card-body  row  text-start">
                                     <div class="col-1">
@@ -102,7 +102,7 @@ if (!empty($_GET["id"]) && !empty($_GET["qty"])) {
                             </button>
                         </div>
 
-                        <div class="card col-8 col-md-6 border-0 ">
+                        <div class="card col-10 col-md-6 border-0 ">
                             <button class="btn m-1 p-0 border-secondary-subtle" id="deliverytoption2" onclick="changeDeliveryOption('deliverytoption2',<?php echo $product_data['cart_qty'] * $product_data['price'] ?>,500);">
                                 <div class="card-body row  text-start">
                                     <div class="col-1">
