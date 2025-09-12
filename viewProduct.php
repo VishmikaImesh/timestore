@@ -153,7 +153,8 @@ session_start();
                         <div class="card-body row ">
                             <div class="col-12 col-md-6">
                                 <input class="d-none" id="buying_product_id" value="<?php echo $product_id ?>">
-                                <img src="<?php echo ($img_data["img_path"]) ?>" class="card-img-top" id="mimg">
+                                <img src="<?php echo ($product_data["img_path"]) ?>" class="card-img-top"  id="mimg">
+                                
                             </div>
                             <div class="col-12 col-md-6">
                                 <h6 class="text-secondary"><?php echo $product_data["brand_name"] ?></h6>
