@@ -174,7 +174,7 @@ session_start();
                                 </div>
                                 <span class="text-danger" id="qtyWarning"></span>
                                 <div class="col-12 d-grid">
-                                    <button onclick="toCheckout()" class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
+                                    <button  class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
                                 </div>
                             </div>
                         </div>
