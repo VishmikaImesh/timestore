@@ -188,8 +188,8 @@ session_start();
 
     <?php include "footer.php"; ?>
 
-    <script src="script/script.js"></script>
-    <script src="script/bootstrap.bundle.js"></script>
+    <script src="script.js"></script>
+    <script src="bootstrap.bundle.js"></script>
 
 </body>
 
