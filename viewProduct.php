@@ -123,7 +123,7 @@ session_start();
                         ?>
                         <div class="row mb-4">
                             <div class="col-12 col-md-6 d-grid pb-1">
-                                <button onclick="getQty();" class="btn text-light  fw-bold " data-bs-toggle="modal" data-bs-target="#exampleModal" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> style="background-color: #dc3545;">
+                                <button  class="btn text-light  fw-bold " data-bs-toggle="modal" data-bs-target="#exampleModal" <?php if ($product_data["qty"] == 0) { ?> disabled <?php } ?> style="background-color: #dc3545;">
                                     Buy Now
                                 </button>
                             </div>
@@ -167,14 +167,14 @@ session_start();
 
                                     <div class="col-12 ">
                                         <button type="button" class="btn rounded-0" onclick="qtyDown(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/minus.png" width="20"></i></button>
-                                        <input type="text" class="qtyInput text-center mt-1" value=1 id="pqty" onkeyup="checkQty(<?php echo ($product_data['qty']) ?>);">
+                                        <input type="text" class="qtyInput text-center mt-1" value=1 id="pqty" >
                                         <button type="button" class="btn rounded-0" onclick="qtyUp(<?php echo ($product_data['qty']) ?>);"><i><img src="icons/plus.png" width="20"></i></button>
                                     </div>
 
                                 </div>
                                 <span class="text-danger" id="qtyWarning"></span>
                                 <div class="col-12 d-grid">
-                                    <button  class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
+                                    <button onclick="toCheckout();"  class="btn text-light  fw-bold rounded-0" style="background-color: #dc3545;">Buy Now</button>
                                 </div>
                             </div>
                         </div>
