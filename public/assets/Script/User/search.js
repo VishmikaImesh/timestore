@@ -29,13 +29,14 @@ function loadProducts() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
+           
             var jsonObject = JSON.parse(request.response);
 
             var productsTable = document.getElementById("modelsTable");
             productsTable.innerHTML = "";
             var fragment = document.createDocumentFragment();
 
-            jsonObject.models.forEach(model => {
+            jsonObject.data.models.forEach(model => {
                 var div = document.createElement("div");
 
                 div.classList.add("col-12", "col-sm-6", "col-lg-3");
@@ -58,7 +59,7 @@ function loadProducts() {
             productsTable.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/product/load", true);
+    request.open("POST", "/api/product/load", true);
     request.send(form);
 }
 
@@ -84,6 +85,6 @@ function loadBrands() {
             brands.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/brand/load", true);
+    request.open("POST", "/api/brand/load", true);
     request.send();
 }

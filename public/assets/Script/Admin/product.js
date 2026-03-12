@@ -1,8 +1,9 @@
 var productsList = null;
+var brandList = null;
 var brandId = null;
 var sortId = null;
 
-document.getElementById("product-tab").addEventListener("click", async () => {
+document.getElementById("product-tab").addEventListener("click", () => {
     loadProducts(showProducts);
     loadBrands();
 });
@@ -16,14 +17,18 @@ filerByBrand.addEventListener("change", () => {
 var sort = document.getElementById("sortByPrice");
 sort.addEventListener("change", () => {
     sort.selectedIndex > 0 ? sortId = sort.value : sortId = null;
-    showProducts();
-});
-
-var brandToggle = document.getElementById("brandToggle");
-brandToggle.addEventListener("click", () => {
+    loadProducts(showProducts);
 });
 
 function loadProducts(next) {
+
+    var form = new FormData();
+    if (brandId != null) {
+        form.append("brand", brandId);
+    }
+    if (sortId != null) {
+        form.append("sort", sortId);
+    }
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -32,7 +37,7 @@ function loadProducts(next) {
             if (next) next();
         }
     }
-    request.open("POST", "/timestore/api/product/load", true);
+    request.open("POST", "/api/product/load", true);
     request.send(form);
 };
 
@@ -40,7 +45,8 @@ function showProducts() {
     var modelList = document.getElementById("modelTable");
     modelList.innerHTML = "";
     const fragment = document.createDocumentFragment();
-    productsList.models.forEach(i => {
+
+    productsList.data.models.forEach(i => {
         if (i.brand_id == brandId || brandId == null) {
             const tr = document.createElement("tr");
             tr.innerHTML = `
@@ -90,62 +96,11 @@ function showProducts() {
     modelList.appendChild(fragment);
 }
 
-
-var brandInput = document.getElementById("brandInput");
-var brandSelect = document.getElementById("brandSelect");
-
-brandToggle.addEventListener("click", () => {
-
-    if (brandInput.classList.contains("d-none")) {
-        alert("show input");
-        brandInput.classList.remove("d-none");
-        brandSelect.classList.add("d-none");
-        brandToggle.innerHTML = "Select Brand";
-
-    } else if (brandSelect.classList.contains("d-none")) {
-        alert("show select");
-        brandInput.classList.add("d-none");
-        brandSelect.classList.remove("d-none");
-        brandToggle.innerHTML = "<i class=\"bi bi-plus-circle me-1\"></i>Add new brand";
-    };
-});
-
-brandSelect.addEventListener("change", () => {
-    brandSelect.selectedIndex > 0 ? brandId = brandSelect.value : brandId = null;
-    loadProducts();
-});
-
-function loadModelSelect() {
-    if (productsList == null) {
-        loadProducts();
-    }
-}
-
-var modelToggle = document.getElementById("modelToggle");
-var modelInput = document.getElementById("modelInput");
-var modelSelect = document.getElementById("modelSelect");
-modelToggle.addEventListener("click", () => {
-
-    if (modelInput.classList.contains("d-none")) {
-        alert("show input");
-        modelInput.classList.remove("d-none");
-        modelSelect.classList.add("d-none");
-        modelToggle.innerHTML = "Select Model";
-
-    } else if (modelSelect.classList.contains("d-none")) {
-        alert("show select");
-        modelInput.classList.add("d-none");
-        modelSelect.classList.remove("d-none");
-        modelToggle.innerHTML = "<i class=\"bi bi-plus-circle me-1\"></i>Add new model";
-    };
-})
-
-
 function loadBrands() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            var jsonObject = JSON.parse(request.response);
+            brandList = JSON.parse(request.response);
 
             var brands = document.getElementById("filerByBrand");
             var brandSelect = document.getElementById("brandSelect");
@@ -156,19 +111,170 @@ function loadBrands() {
             // defaultOption.textContent="Filter by Brand";
             // fragment.appendChild(defaultOption);
 
-            jsonObject.brands.forEach(brand => {
+            brandList.brands.forEach(brand => {
                 var select = document.createElement("option");
                 select.textContent = brand.name;
                 select.value = brand.id;
                 fragment.appendChild(select);
             });
-            brands.appendChild(fragment.cloneNode(true));
-            brandSelect.appendChild(fragment.cloneNode(true));
+            brands.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/brand/load", true);
+    request.open("POST", "/api/brand/load", true);
     request.send();
 }
+
+
+//-------------------------------------------Add Product Modal functions---------------------------------------------------
+
+var modelBrandId = null;
+
+var brandInput = document.getElementById("brandInput");
+var brandSelect = document.getElementById("brandSelect");
+var modelInput = document.getElementById("modelInput");
+var modelSelect = document.getElementById("modelSelect");
+
+// Declare modal and toggle elements
+const addProductModal = document.getElementById("addProductModal");
+const brandToggle = document.getElementById("brandToggle");
+const modelToggle = document.getElementById("modelToggle");
+
+addProductModal.addEventListener('show.bs.modal', () => {
+    loadModelBrands(true);
+});
+
+function loadModelBrands(firstTime = false) {
+
+    if (firstTime) {
+        var defaultSelect = document.createElement("option");
+        defaultSelect.textContent = "Select Brand";
+
+        var fragment = document.createDocumentFragment();
+        fragment.appendChild(defaultSelect);
+    }
+
+    brandList.brands.forEach(brand => {
+        var opotion = document.createElement("option");
+        opotion.textContent = brand.name;
+        opotion.value = brand.id;
+        fragment.append(opotion);
+    });
+
+    brandSelect.innerHTML = ``;
+    brandSelect.appendChild(fragment);
+};
+
+brandToggle.addEventListener("click", () => {
+
+    if (brandInput.classList.contains("d-none")) {
+        brandInput.classList.remove("d-none");
+        brandSelect.classList.add("d-none");
+        brandToggle.innerHTML = "Select Brand";
+
+    } else if (brandSelect.classList.contains("d-none")) {
+        brandInput.classList.add("d-none");
+        brandSelect.classList.remove("d-none");
+        brandToggle.innerHTML = "<i class=\"bi bi-plus-circle me-1\"></i>Add new brand";
+    };
+});
+
+brandSelect.addEventListener("change", () => {
+    brandSelect.selectedIndex > 0 ? modelBrandId = brandSelect.value : modelBrandId = null;
+    modelSelect.innerHTML = ``;
+    productsList.data.models.forEach(model => {
+        if (model.brand_id == modelBrandId || modelBrandId == null) {
+            var select = document.createElement("option");
+            select.textContent = model.product_name;
+            select.value = model.product_id;
+            select.dataset.brand = model.brand_id;
+            modelSelect.appendChild(select);
+        }
+    });
+});
+
+
+modelToggle.addEventListener("click", changeModelInputMethod);
+
+function changeModelInputMethod() {
+
+    if (modelInput.classList.contains("d-none")) {
+        modelInput.classList.remove("d-none");
+        modelSelect.classList.add("d-none");
+        modelToggle.innerHTML = "Select Product";
+
+    } else if (modelSelect.classList.contains("d-none")) {
+        modelInput.value="";
+        var fragment = document.createDocumentFragment();
+
+        if (modelBrandId == null) {
+            var defaultSelect = document.createElement("option");
+            defaultSelect.textContent = "Select Product";
+            defaultSelect.value = 0;
+            fragment.appendChild(defaultSelect);
+
+        }
+
+        modelSelect.innerHTML = ``;
+        productsList.data.models.forEach(model => {
+            if (model.brand_id == modelBrandId || modelBrandId == null) {
+                var select = document.createElement("option");
+                select.textContent = model.product_name;
+                select.value = model.product_id;
+                select.dataset.brand = model.brand_id;
+                fragment.appendChild(select);
+            }
+        });
+        modelSelect.appendChild(fragment);
+
+        modelInput.classList.add("d-none");
+        modelSelect.classList.remove("d-none");
+        modelToggle.innerHTML = "<i class=\"bi bi-plus-circle me-1\"></i>Add new Product";
+    };
+};
+
+modelSelect.addEventListener("change", () => {
+    if (modelSelect.value != null) {
+        brandSelect.value = modelSelect.options[modelSelect.selectedIndex].dataset.brand;
+    }
+});
+
+
+document.getElementById("addProduct").addEventListener("click", () => {
+    var form = new FormData();
+
+    if (!brandSelect.classList.contains("d-none")) {
+        form.append("brand_id", brandSelect.value);
+    } else {
+        form.append("brand_name", brandInput.value);
+    }
+
+    if (!modelSelect.classList.contains("d-none")) {
+        form.append("product_id", modelSelect.value);
+    } else {
+        form.append("product_name", modelInput.value);
+    }
+
+    form.append("img", document.getElementById("productImg").files[0]);
+    form.append("price", document.getElementById("productPrice").value);
+    form.append("qty", document.getElementById("productQty").value);
+    form.append("model_name", document.getElementById("modelName").value);
+    // form.append("desc", document.getElementById("productDesc").value);
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            alert(request.response);
+            loadProducts();
+            loadModelBrands();
+        }
+    }
+    request.open("POST", "/api/product/add", true);
+    request.send(form);
+});
+
+
+//-------------------------------------------Product Details Modal functions---------------------------------------------------
+
 
 const productDetailsModal = document.getElementById('productDetailsModal');
 
@@ -179,9 +285,8 @@ productDetailsModal.addEventListener('show.bs.modal', (event) => {
 });
 
 function loadModels(product_id) {
-    alert("loadMoels:" + product_id)
 
-    document.getElementById("modalProductTitle").innerHTML;
+    document.getElementById("modalProductTitle").innerHTML = "";
 
     var variantsTableBody = document.getElementById("variantsTableBody");
     variantsTableBody.innerHTML = "";
@@ -190,6 +295,7 @@ function loadModels(product_id) {
     var modalQty = 0;
 
     updateProductBtn.dataset.product_id = product_id;
+    renderProductChart(product_id);
 
     var form = new FormData();
     form.append("product_id", product_id);
@@ -244,12 +350,13 @@ function loadModels(product_id) {
             variantsTableBody.appendChild(fragment);
             document.getElementById("modalSold").textContent = modalSold;
             document.getElementById("modalStock").textContent = modalQty;
-            renderProductChart(product_id);
+            
         }
     }
-    request.open("POST", "/timestore/api/model/load", true);
+    request.open("POST", "/api/model/load", true);
     request.send(form);
 };
+
 
 const updateProductModal = document.getElementById('updateProductModal');
 
@@ -274,7 +381,7 @@ updateProductModal.addEventListener('show.bs.modal', function (event) {
 
         }
     }
-    request.open("POST", "/timestore/api/model/load", true);
+    request.open("POST", "/api/model/load", true);
     request.send(form);
 
 });
@@ -305,12 +412,13 @@ updateProductBtn.addEventListener("click", (event) => {
             new bootstrap.Modal(productDetailsModal).show();
         }
     }
-    request.open("POST", "/timestore/api/model/update", true);
+    request.open("POST", "/api/model/update", true);
     request.send(form);
 });
 
 
 function renderProductChart(id) {
+    alert(id);
     var productChart = null;
     const ctx = document.getElementById('productSalesChart').getContext('2d');
 
@@ -319,11 +427,12 @@ function renderProductChart(id) {
     }
 
     var form = new FormData();
-    form.append("id", id);
+    form.append("product_id", id);
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
+ 
             var jsonObject = JSON.parse(request.responseText);
             document.getElementById("modalTotalSales").textContent = "Rs." + jsonObject.total;
 
@@ -334,10 +443,10 @@ function renderProductChart(id) {
             productChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: jsonObject.date,
+                    labels: jsonObject.dates,
                     datasets: [{
                         label: 'Revenue Rs',
-                        data: jsonObject.revenue, // Replace with dynamic data
+                        data: jsonObject.revenues, // Replace with dynamic data
                         borderColor: '#dc3545',
                         backgroundColor: gradient,
                         borderWidth: 2,
@@ -374,6 +483,6 @@ function renderProductChart(id) {
 
         }
     }
-    request.open("POST", "/timestore/api/product/renderProductChart", true);
+    request.open("POST", "/api/product/revenue", true);
     request.send(form);
 };

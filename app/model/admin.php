@@ -6,8 +6,9 @@ class admin
 {
     public function getDashboardStats()
     {
-        // Total Revenue
-        $revenue_query = "SELECT SUM(COALESCE(SUM(`order_qty`*`price`), 0) + COALESCE(`delivery_fee`, 0)) as total_revenue 
+        try {
+            // Total Revenue
+            $revenue_query = "SELECT SUM(COALESCE(SUM(`order_qty`*`price`), 0) + COALESCE(`delivery_fee`, 0)) as total_revenue 
                          FROM `order_data` 
                          LEFT JOIN `invoice` ON `order_data`.`order_id` = `invoice`.`order_id`";
         $revenue_result = Database::search($revenue_query);
@@ -72,5 +73,11 @@ class admin
             ],
             "message" => "Dashboard statistics loaded"
         ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                "state" => false,
+                "message" => "Error loading dashboard statistics: " . $e->getMessage()
+            ]);
+        }
     }
 }

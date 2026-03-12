@@ -1,18 +1,25 @@
 <?php
 
 require_once(BASE . "/config/connection.php");
+require_once(BASE . "/config/payhere.php");
 
 class orders
 {
     public function newOrder()
     {
-        if (isset($_POST["id"]) && isset($_POST["qty"]) && isset($_POST["delivery_method_id"])) {
+        try {
+            if (isset($_POST["id"]) && isset($_POST["qty"]) && isset($_POST["delivery_method_id"])) {
             
+            // Get email from session
+            if (!isset($_SESSION["u"]["email"])) {
+                echo json_encode(["error" => "User not logged in"]);
+                return;
+            }
 
-            $model_id = $_POST["id"];
-            $qty = $_POST["qty"];
-            $delivery_method_id = $_POST["delivery_method_id"];
-            $email = "imesh@gmail.com";
+            $model_id = intval($_POST["id"]);
+            $qty = intval($_POST["qty"]);
+            $delivery_method_id = intval($_POST["delivery_method_id"]);
+            $email = Database::escape($_SESSION["u"]["email"]);
             
 
             $users_rs = Database::search("SELECT * FROM `users` WHERE `email`= '" . $email . "' ");
@@ -32,9 +39,9 @@ class orders
                 $deliver_fee = $delivery_data["price"];
                 $amount = $price * $qty + $deliver_fee;
 
-                $merchant_id = "1226402";
-                $currency = "LKR";
-                $merchant_secret = "NDI3NjU0NDIwMzIxMDM5NzMxMTM0MTQ4MzY3NjY5MzQ1MzkxNzIwNw==";
+                $merchant_id = PAYHERE_MERCHANT_ID;
+                $currency = PAYHERE_CURRENCY;
+                $merchant_secret = PAYHERE_MERCHANT_SECRET;
                 $order_id = str_pad(mt_rand(0, 999999999), 10, '0', STR_PAD_LEFT);
                 $hash = strtoupper(
                     md5(
@@ -74,20 +81,31 @@ class orders
 
                 echo json_encode($data);
             }
-        } else {
-            echo "error";
+            } else {
+                echo "error";
+            }
+        } catch (Exception $e) {
+            echo json_encode(["error" => "Error creating order: " . $e->getMessage()]);
         }
     }
 
     public function loadOrdersDetails($data)
     {
-        Database::setUpconnection();
+        try {
+            Database::setUpconnection();
 
         $order_id = $data["order_id"];
 
         $order_q = ("SELECT `email`,`order_id`,`ordered_date`,SUM(`order_qty`*`price`) AS `sub_total`,`delivery_fee`,SUM(`order_qty`*`price`)+`delivery_fee` AS `grand_total` FROM `order_data` WHERE `order_id`=?  GROUP BY `order_id` ");
         $order_rs = $this->getData($order_q, 'i', $order_id);
         $order_data = $order_rs->fetch_assoc();
+        
+        // Check if order exists
+        if ($order_data === null) {
+            $this->jsonResponce(false, null, "Order not found");
+            return;
+        }
+        
         $email = $order_data["email"];
 
         $order = [
@@ -119,7 +137,8 @@ class orders
         $address_rs = $this->getData($address_q, 's', $email);
         $address_data = $address_rs->fetch_assoc();
 
-        if ($address_rs->num_rows > 0) {
+        $user_details = null;
+        if ($address_data !== null) {
             $user_details = [
                 "email" => $address_data["email"],
                 "first_name" => $address_data["fname"],
@@ -131,18 +150,22 @@ class orders
                 "district" => $address_data["district_en"],
                 "province" => $address_data["province_en"],
             ];
+        }
 
             $this->jsonResponce(true, [
                 "user" => $user_details,
                 "order" => $order,
                 "order_items" => $order_items
             ]);
+        } catch (Exception $e) {
+            $this->jsonResponce(false, null, "Error loading order details: " . $e->getMessage());
         }
     }
 
     public function loadOrders()
     {
-        $order_rs = Database::search("SELECT `email`,`fname`,`lname`,`order_id`,`ordered_date`,SUM(order_qty*price) AS total,`status` FROM `order_data` GROUP BY order_id");
+        try {
+            $order_rs = Database::search("SELECT `email`,`fname`,`lname`,`order_id`,`ordered_date`,SUM(order_qty*price) AS total,`status` FROM `order_data` GROUP BY order_id");
 
         $orders = [];
 
@@ -158,26 +181,130 @@ class orders
             ];
         }
 
-        echo json_encode([
-            "orders" => $orders
-        ]);
+            echo json_encode([
+                "orders" => $orders
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(["orders" => [], "error" => "Error loading orders: " . $e->getMessage()]);
+        }
     }
 
 
     public function getData($q, $type, $param)
     {
-        $stmt = Database::$connection->prepare($q);
-        $stmt->bind_param($type, $param);
-        $stmt->execute();
-        return $stmt->get_result();
+        try {
+            $stmt = Database::$connection->prepare($q);
+            $stmt->bind_param($type, $param);
+            $stmt->execute();
+            return $stmt->get_result();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function updateOrderStatusAfterPayment()
+    {
+        try {
+            if (isset($_POST["order_id"]) && isset($_SESSION["u"]["email"])) {
+                $order_id = intval($_POST["order_id"]);
+                $email = Database::escape($_SESSION["u"]["email"]);
+
+            // Update order status to 2 (Paid/Processing) after successful payment
+            Database::iud("UPDATE `order` SET `order_status`=2 WHERE `order_id`=$order_id AND `email`='" . $email . "' ");
+            
+                echo json_encode(["state" => true, "message" => "Order status updated to paid"]);
+            } else {
+                echo json_encode(["state" => false, "message" => "Missing order_id or user session"]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["state" => false, "message" => "Error updating order status: " . $e->getMessage()]);
+        }
+    }
+
+    public function loadUserOrders()
+    {
+        try {
+            if (!isset($_SESSION["u"]["email"])) {
+                echo json_encode(["state" => false, "data" => [], "message" => "User not logged in"]);
+                return;
+            }
+
+        $email = Database::escape($_SESSION["u"]["email"]);
+        
+        // Load user's orders with status information
+        $query = "SELECT 
+            o.`order_id`,
+            o.`ordered_date`,
+            o.`order_status`,
+            os.`status` as status_name,
+            SUM(ohm.`qty` * md.`price`) as total,
+            dm.`price` as delivery_fee
+        FROM `order` o
+        LEFT JOIN `order_status` os ON o.`order_status` = os.`order_status_id`
+        LEFT JOIN `order_has_model` ohm ON o.`order_id` = ohm.`order_id`
+        LEFT JOIN `model_data` md ON ohm.`model_id` = md.`model_id`
+        LEFT JOIN `delivery_method` dm ON o.`delivery_method` = dm.`id`
+        WHERE o.`email` = '" . $email . "'
+        GROUP BY o.`order_id`, o.`order_status`, os.`status`
+        ORDER BY o.`ordered_date` DESC";
+
+        $result = Database::search($query);
+        $orders = [];
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $orders[] = [
+                    "order_id" => $row["order_id"],
+                    "ordered_date" => $row["ordered_date"],
+                    "order_status" => intval($row["order_status"]),
+                    "status_name" => $row["status_name"],
+                    "total" => floatval($row["total"]),
+                    "delivery_fee" => floatval($row["delivery_fee"] ?: 0)
+                ];
+            }
+        }
+
+            echo json_encode(["state" => true, "data" => $orders, "message" => "User orders loaded"]);
+        } catch (Exception $e) {
+            echo json_encode(["state" => false, "data" => [], "message" => "Error loading user orders: " . $e->getMessage()]);
+        }
+    }
+
+    public function cancelOrder($data)
+    {
+        try {
+            if (!isset($_SESSION["u"]["email"])) {
+                echo json_encode(["state" => false, "message" => "User not logged in"]);
+                return;
+            }
+
+        $order_id = intval($data["orderId"] ?? 0);
+        if ($order_id <= 0) {
+            echo json_encode(["state" => false, "message" => "Missing orderId"]);
+            return;
+        }
+
+        $email = Database::escape($_SESSION["u"]["email"]);
+
+            Database::iud("DELETE FROM `order` WHERE `email`='" . $email . "' AND `order_id`=" . $order_id . " ");
+            Database::iud("DELETE FROM `invoice` WHERE `email`='" . $email . "' AND `order_id`=" . $order_id . " ");
+
+            echo json_encode(["state" => true, "message" => "Order cancelled"]);
+        } catch (Exception $e) {
+            echo json_encode(["state" => false, "message" => "Error cancelling order: " . $e->getMessage()]);
+        }
     }
 
     public function jsonResponce($state, $data = null, $message = null)
     {
-        echo json_encode([
-            "state" => $state,
-            "data" => $data,
-            "message" => $message
-        ]);
+        try {
+            echo json_encode([
+                "state" => $state,
+                "data" => $data,
+                "message" => $message
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(["state" => false, "data" => null, "message" => "Response error"]);
+        }
     }
 }

@@ -100,7 +100,7 @@ function signUp() {
         }
     }
 
-    request.open("POST", "signupProcess.php", true);
+    request.open("POST", "/api/user/signUp", true);
     request.send(form);
 }
 
@@ -108,8 +108,6 @@ function signIn() {
 
     var email = document.getElementById("email").value;
     var password = document.getElementById("pw").value;
-
-    alert(email + " " + password);
 
     var rememberMe;
 
@@ -128,20 +126,24 @@ function signIn() {
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            alert(request.response);
-            response = request.responseText;
-
-            if (response == "success") {
-                window.location = "index.php"
-            } else {
-                alert(response);
+            var response;
+            try {
+                response = JSON.parse(request.responseText);
+            } catch (error) {
+                alert("Sign in failed. Please try again.");
+                return;
             }
 
+            if (response.state) {
+                window.location = "/timestore/Home";
+            } else {
+                alert(response.message || "Invalid email or password.");
+            }
         }
 
     }
 
-    request.open("POST", "/timestore/api/user/userLogIn", true);
+    request.open("POST", "/api/user/logIn", true);
     request.send(form);
 }
 
@@ -159,21 +161,32 @@ function checkoutSignIn() {
     }
 
     var form = new FormData();
-    form.append("e", email);
-    form.append("p", password);
-    form.append("r", rememberMe);
+    form.append("email", email);
+    form.append("password", password);
+    form.append("rememberMe", rememberMe);
 
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            response = request.responseText;
+            var response;
+            try {
+                response = JSON.parse(request.responseText);
+            } catch (error) {
+                alert("Sign in failed. Please try again.");
+                return;
+            }
 
+            if (response.state) {
+                window.location.reload();
+            } else {
+                alert(response.message || "Invalid email or password.");
+            }
         }
 
     }
 
-    request.open("POST", "signinProcess.php", true);
+    request.open("POST", "/api/user/logIn", true);
     request.send(form);
 }
 
@@ -200,15 +213,17 @@ function addToCart(id) {
         }
     }
 
-    request.open("POST", "addToCartProcess.php", true);
+    request.open("POST", "/api/cart/add", true);
     request.send(form);
 }
 
 
 function addToWishlist(id) {
 
-    alert(id)
     var request = new XMLHttpRequest();
+
+    var form = new FormData();
+    form.append("id", id);
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
@@ -217,8 +232,8 @@ function addToWishlist(id) {
         }
     }
 
-    request.open("GET", "addToWishlistProcess.php?id=" + id, true);
-    request.send();
+    request.open("POST", "/api/wishlist/toggle", true);
+    request.send(form);
 }
 
 
@@ -284,13 +299,16 @@ function removeFromCart(pid) {
         }
     }
 
-    request.open("POST", "removeFromCart.php", true);
+    request.open("POST", "/api/cart/remove", true);
     request.send(form);
 }
 
 function removeFromWatchlist(id) {
 
     var request = new XMLHttpRequest();
+
+    var form = new FormData();
+    form.append("id", id);
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
@@ -300,8 +318,8 @@ function removeFromWatchlist(id) {
         }
     }
 
-    request.open("GET", "removeFromwatchlist.php?id=" + id, true);
-    request.send();
+    request.open("POST", "/api/wishlist/remove", true);
+    request.send(form);
 
 }
 
@@ -311,23 +329,14 @@ function updateProfile() {
 
     var lname = document.getElementById("lname");
     var fname = document.getElementById("fname");
-    var email = document.getElementById("email");
     var mobile = document.getElementById("mobile");
-    var ad1 = document.getElementById("ad1");
-    var ad2 = document.getElementById("ad2");
-    var city = document.getElementById("city");
     // var pw=document.getElementById("pw");
 
     var form = new FormData();
 
-    form.append("ln", lname.value);
-    form.append("fn", fname.value);
-    form.append("e", email.value);
-    // form.append("pw",pw.value);
-    form.append("ad1", ad1.value);
-    form.append("ad2", ad2.value);
-    form.append("mb", mobile.value);
-    form.append("city", city.value);
+    form.append("first_name", fname.value);
+    form.append("last_name", lname.value);
+    form.append("mobile", mobile.value);
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
@@ -337,7 +346,7 @@ function updateProfile() {
         }
     }
 
-    request.open("POST", "updateProfile.php", true);
+    request.open("POST", "/api/user/updateProfile", true);
     request.send(form);
 
 }
@@ -382,40 +391,77 @@ function search() {
     }
 
     if (document.getElementById("steel").checked) {
-        mt = 4;
-
+        mt = "steel";
     }
     else if (document.getElementById("leather").checked) {
-        mt = 3;
-
+        mt = "leather";
     }
 
     if (document.getElementById("digital").checked) {
-        type = 5;
-
+        type = "digital";
     }
     else if (document.getElementById("analog").checked) {
-        type = 6;
-
+        type = "analog";
     }
 
     var form = new FormData();
     form.append("g", gender);
-    form.append("mt", mt);
-    form.append("type", type);
-    form.append("search", searchText.value);
+    if (mt !== "") {
+        form.append("mt", mt);
+    }
+    if (type !== "") {
+        form.append("type", type);
+    }
+    if (searchText.value && searchText.value.trim() !== "") {
+        form.append("search", searchText.value.trim());
+    }
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
-        if (request.readyState == 4 && request.status == 200) {
-            var response = request.responseText;
+        if (request.readyState == 4) {
+            var response;
+            try {
+                response = JSON.parse(request.responseText);
+            } catch (error) {
+                searchResults.innerHTML = "<div class='alert alert-danger'>Search failed. Please try again.</div>";
+                return;
+            }
 
-            searchResults.innerHTML = response;
+            if (!response.state) {
+                var message = response.message || "No results found.";
+                searchResults.innerHTML = "<div class='alert alert-warning'>" + message + "</div>";
+                return;
+            }
+
+            if (!response.data || response.data.length === 0) {
+                searchResults.innerHTML = "<div class='alert alert-info'>No products found matching your criteria.</div>";
+                return;
+            }
+
+            var html = "";
+            response.data.forEach(function (item) {
+                html += "<div class='col'>";
+                html += "<a href='/timestore/viewProduct/" + item.product_id + "' class='card h-100 text-decoration-none'>";
+                html += "<img src='" + item.img_path + "' class='card-img-top' alt='" + item.title + "'>";
+                html += "<div class='card-body'>";
+                html += "<div class='justify-content-center d-flex'>";
+                html += "<ul class='list-group list-group-flush d-block'>";
+                html += "<li class='list-group-item'><h5 class='card-title'>" + item.title + "</h5></li>";
+                html += "<li class='list-group-item fw-bold'>Rs." + item.price + ".00</li>";
+                html += "</ul>";
+                html += "</div>";
+                html += "<div class='justify-content-center d-flex m-2'></div>";
+                html += "</div>";
+                html += "</a>";
+                html += "</div>";
+            });
+
+            searchResults.innerHTML = html;
 
         }
 
     }
-    request.open("POST", "searchprocess.php", true);
+    request.open("POST", "/api/search", true);
     request.send(form);
 }
 
@@ -431,7 +477,7 @@ function removeFromHistory(id) {
         }
     }
 
-    request.open("POST", "removeFromHistory.php", true);
+    request.open("POST", "/api/history/remove", true);
     request.send(form);
 }
 
@@ -445,21 +491,23 @@ function changeModel(id) {
     buying_product_id.value = id;
 
     var form = new FormData();
-    form.append("id", id);
+    form.append("model_id", id);
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            var model_data = JSON.parse(request.response);
-
-            img.src = model_data.img_path;
-            mimg.src = model_data.img_path;
-            price.innerHTML = "Rs." + model_data.price;
-            model.innerHTML = model_data.model;
+            var model_data = JSON.parse(request.responseText);
+            if (model_data.models && model_data.models.length > 0) {
+                var selected = model_data.models[0];
+                img.src = selected.img_path;
+                mimg.src = selected.img_path;
+                price.innerHTML = "Rs." + selected.price;
+                model.innerHTML = selected.model_name;
+            }
         }
     }
 
-    request.open("POST", "'/timestore/api/model/load'", true);
+    request.open("POST", "/api/model/load", true);
     request.send(form);
 }
 
@@ -507,7 +555,7 @@ function cancelOrder(orderId){
 
         }
     }
-    request.open("POST","cancelOrder.php",true);
+    request.open("POST","/api/order/cancel",true);
     request.send(form);
 }
 
@@ -517,7 +565,7 @@ function loadOrderDetails(orderId) {
     var ordereDetailsId = document.getElementById("ordereDetailsId");
 
     var form = new FormData();
-    form.append('orderId', orderId);
+    form.append('order_id', orderId);
 
     var request = new XMLHttpRequest();
 
@@ -525,25 +573,26 @@ function loadOrderDetails(orderId) {
         if (request.readyState == 4 && request.status == 200) {
             var jsonObject = JSON.parse(request.responseText);
 
-            if (jsonObject.status) {
-                var orders = jsonObject.orders;
-                var user = jsonObject.user;
-                ordereDetailsId.innerHTML = user.order_id;
+            if (jsonObject.state && jsonObject.data) {
+                var orders = jsonObject.data.order_items || [];
+                var order = jsonObject.data.order || {};
+                ordereDetailsId.innerHTML = order.order_id || "";
 
                 orderList.innerHTML = ``;
-                for (const order of orders) {
+                for (const item of orders) {
+                    var imgSrc = item.img_src || item.img_path || "";
                     orderList.innerHTML = orderList.innerHTML + `
                                                     </li><li class="list-group-item">
                                                         <div class="row align-items-center">
                                                             <div class="col-3 mt-3">
-                                                                <img src="`+ order['img_path'] + `" id="modelImg" class="img-fluid rounded-start" alt="...">
+                                                                <img src="`+ imgSrc + `" id="modelImg" class="img-fluid rounded-start" alt="...">
                                                             </div>
                                                             <div class="col">
-                                                                <h6 class="fw-bold mb-1">`+ order['product_name'] + `</h6>
-                                                                <p id="qty" class="text-muted small mb-0">Quantity: `+ order['qty'] + ` | Model ID: ` + order['model'] + ` </p>
+                                                                <h6 class="fw-bold mb-1">`+ item.product_name + `</h6>
+                                                                <p id="qty" class="text-muted small mb-0">Quantity: `+ item.qty + ` | Model ID: ` + item.model + ` </p>
                                                             </div>
                                                             <div class="col-auto text-end">
-                                                                <p id="price" class="fw-bold mb-0">Rs.`+ order['price'] + `.00</p>
+                                                                <p id="price" class="fw-bold mb-0">Rs.`+ item.price + `.00</p>
                                                             </div>
                                                         </div>
                                                     </li>`;
@@ -553,7 +602,7 @@ function loadOrderDetails(orderId) {
         }
     }
 
-    request.open("POST", "loadOrderDetailsProcess.php", true);
+    request.open("POST", "/api/order/details", true);
     request.send(form);
 }
 

@@ -178,4 +178,4 @@
     </div>
 </div>
 
-<script src="/timestore/public/assets/Script/Admin/customers.js"></script>
+<script src="/assets/Script/Admin/customers.js"></script>

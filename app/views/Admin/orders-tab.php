@@ -97,7 +97,7 @@
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
-                                            <li><a class="dropdown-item small py-2" data-bs-toggle="modal" data-bs-target="#orderModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
+                                            <li><a class="dropdown-item small py-2" data-order_id="" data-bs-toggle="modal" data-bs-target="#orderModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
                                             <li><a class="dropdown-item small py-2" href="#"><i class="bi bi-truck me-2"></i>Mark as Shipped</a></li>
                                             <li>
                                                 <hr class="dropdown-divider">
@@ -233,4 +233,4 @@
     </div>
 </div>
 
-<script src="/timestore/public/assets/Script/Admin/orders.js"></script>
+<script src="/assets/Script/Admin/orders.js"></script>

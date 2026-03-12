@@ -6,7 +6,16 @@ var address;
 window.addEventListener("load", function () {
     let pathname = window.location.pathname;
     let pattern = /^\/timestore\/checkout\/([0-9]+)\/([0-9]+)$/;
-    let matches = Array.from(pathname.match(pattern));
+    let match = pathname.match(pattern);
+    
+    // Check if URL matches pattern before proceeding
+    if (!match) {
+        console.error("Invalid checkout URL format. Expected: /timestore/checkout/{id}/{qty}");
+        window.location.href = "/timestore/index.php";
+        return;
+    }
+    
+    let matches = Array.from(match);
     id = matches[1];
     qty = matches[2];
 
@@ -21,6 +30,12 @@ var deliveryDetails = document.getElementById("deliveryDetails");
 deliveryDetails.addEventListener("click", function (event) {
 
     var method = event.target.closest(".btn");
+    
+    // Guard against null if clicking on non-button element
+    if (!method) {
+        return;
+    }
+    
     method.classList.add("bg-primary-subtle", "border-2", "border-primary");
 
     method.querySelector("input").checked = true;
@@ -45,6 +60,63 @@ payhere_payment.addEventListener("click", function () {
     paynow();
 });
 
+var addressUpdateForm = document.getElementById("addressUpdateForm");
+if (addressUpdateForm) {
+    addressUpdateForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var lineOne = document.getElementById("addressLine1").value.trim();
+        var lineTwo = document.getElementById("addressLine2").value.trim();
+        var district = document.getElementById("district").value.trim();
+        var province = document.getElementById("province").value.trim();
+        var city = document.getElementById("city").value.trim();
+        var postalCode = document.getElementById("postalCode").value.trim();
+
+        if (!lineOne || !district || !province || !city || !postalCode) {
+            var warning = document.getElementById("address_warning");
+            if (warning) {
+                warning.innerHTML = " * Please complete all required address fields";
+            }
+            return;
+        }
+
+        var form = new FormData();
+        form.append("line_one", lineOne);
+        form.append("line_two", lineTwo);
+        form.append("district", district);
+        form.append("province", province);
+        form.append("city", city);
+        form.append("postal_code", postalCode);
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                var response;
+                try {
+                    response = JSON.parse(request.responseText);
+                } catch (error) {
+                    alert("Address update failed.");
+                    return;
+                }
+
+                if (!response || !response.state) {
+                    alert((response && response.message) ? response.message : "Address update failed.");
+                    return;
+                }
+
+                var warning = document.getElementById("address_warning");
+                if (warning) {
+                    warning.innerHTML = "";
+                }
+
+                loadUserDetails();
+            }
+        };
+        request.open("POST", "/api/user/updateAddress", true);
+        request.send(form);
+    });
+}
+
 
 var delivery_method_id;
 
@@ -55,12 +127,56 @@ function loadUserDetails() {
             var jsonObject = JSON.parse(request.response);
             var user = jsonObject.user;
 
-            document.getElementById("name").innerHTML = user.first_name + " " + user.last_name;
+            document.getElementById("deliveryName").innerHTML = user.first_name + " " + user.last_name;
             document.getElementById("email").innerHTML = user.email;
             address = jsonObject.address;
+
+            var addressEl = document.getElementById("address");
+            if (addressEl) {
+                if (address) {
+                    var parts = [];
+                    if (address.line_one) {
+                        parts.push(address.line_one);
+                    }
+                    if (address.line_two) {
+                        parts.push(address.line_two);
+                    }
+                    if (address.city) {
+                        parts.push(address.city);
+                    }
+                    if (address.district) {
+                        parts.push(address.district);
+                    }
+                    if (address.province) {
+                        parts.push(address.province);
+                    }
+                    if (address.postal_code) {
+                        parts.push(address.postal_code);
+                    }
+                    addressEl.textContent = parts.join(", ");
+                } else {
+                    addressEl.textContent = "No delivery address on file.";
+                }
+            }
+
+            var lineOne = document.getElementById("addressLine1");
+            var lineTwo = document.getElementById("addressLine2");
+            var district = document.getElementById("district");
+            var province = document.getElementById("province");
+            var city = document.getElementById("city");
+            var postalCode = document.getElementById("postalCode");
+
+            if (address && lineOne && lineTwo && district && province && city && postalCode) {
+                lineOne.value = address.line_one || "";
+                lineTwo.value = address.line_two || "";
+                district.value = address.district || "";
+                province.value = address.province || "";
+                city.value = address.city || "";
+                postalCode.value = address.postal_code || "";
+            }
         }
     }
-    request.open("POST", "/timestore/api/user/userProfile", true);
+    request.open("POST", "/api/user/userProfile", true);
     request.send();
 }
 
@@ -75,7 +191,7 @@ function loadModels() {
 
             jsonObject.models.forEach(model => {
                 document.getElementById("modelImg").src = model.img_path;
-                document.getElementById("name").innerHTML = model.model_name;
+                document.getElementById("productName").innerHTML = model.model_name;
                 document.getElementById("brand").innerHTML = model.brand_name;
                 document.getElementById("price").innerHTML = "Rs." + model.price + " For each iteme(s) ";
                 document.getElementById("qty").innerHTML = qty + " items";
@@ -85,7 +201,7 @@ function loadModels() {
 
         }
     }
-    request.open("POST", "/timestore/api/model/load", true);
+    request.open("POST", "/api/model/load", true);
     request.send(form);
 }
 
@@ -126,13 +242,14 @@ function loadDeliveryDetails() {
             deliveryDetails.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/delivery/load", true);
+    request.open("POST", "/api/delivery/load", true);
     request.send();
 }
 
 function paynow() {
 
-    if (address == null || address.length == 0) {
+    // Check if address is valid (should be an object with keys, not null or empty)
+    if (!address || Object.keys(address).length === 0) {
         document.getElementById("address_warning").innerHTML = " * Please add a delivery address";
         return;
     }
@@ -156,7 +273,40 @@ function paynow() {
 
             // Payment completed. It can be a successful failure.
             payhere.onCompleted = function onCompleted() {
+                // Mark order as paid by updating order status
+                var statusUpdate = new FormData();
+                statusUpdate.append("order_id", jsonObject.order_id);
 
+                var statusRequest = new XMLHttpRequest();
+                statusRequest.onreadystatechange = function () {
+                    if (statusRequest.readyState == 4 && statusRequest.status == 200) {
+                        var statusResponse = JSON.parse(statusRequest.responseText);
+                        if (statusResponse.state) {
+                            // Show success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Payment Successful!',
+                                text: 'Your order has been placed and payment confirmed.',
+                                confirmButtonText: 'Continue Shopping'
+                            }).then((result) => {
+                                // Redirect to home or order tracking page
+                                window.location.href = "/timestore/profile";
+                            });
+                        } else {
+                            // Payment received but status update failed - still a success
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Payment Received!',
+                                text: 'Your payment has been received. Order ID: ' + jsonObject.order_id,
+                                confirmButtonText: 'View Orders'
+                            }).then((result) => {
+                                window.location.href = "/timestore/profile";
+                            });
+                        }
+                    }
+                };
+                statusRequest.open("POST", "/api/order/updateStatusAfterPayment", true);
+                statusRequest.send(statusUpdate);
             };
 
             // Payment window closed
@@ -166,8 +316,17 @@ function paynow() {
 
             // Error occurred
             payhere.onError = function onError(error) {
-                // Note: show an error page
-                alert("Error:" + error);
+                // Log error and show user-friendly message
+                console.error("PayHere Payment Error:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment Failed',
+                    text: 'An error occurred during payment. Please try again or contact support.',
+                    confirmButtonText: 'Back to Checkout'
+                }).then((result) => {
+                    // Option to retry by staying on page or cancel
+                    window.location.href = "/timestore/checkout/" + id + "/" + qty;
+                });
             };
 
             // Put the payment variables here
@@ -199,9 +358,27 @@ function paynow() {
             payhere.startPayment(payment);
         }
     }
-    request.open("POST", "/timestore/api/order/new", true);
+    request.open("POST", "/api/order/new", true);
     request.send(form);
 
+}
+
+function cancelOrder(orderId) {
+    if (!orderId) {
+        return;
+    }
+
+    var form = new FormData();
+    form.append("orderId", orderId);
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            // No UI update needed for cancel callback
+        }
+    };
+    request.open("POST", "/api/order/cancel", true);
+    request.send(form);
 }
 
 

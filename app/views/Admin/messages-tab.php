@@ -148,4 +148,4 @@
     </div>
 </div>
 
-<script src="/timestore/public/assets/Script/Admin/messages.js"></script>
+<script src="/assets/Script/Admin/messages.js"></script>

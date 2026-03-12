@@ -20,4 +20,19 @@ class OrderController{
         $orders = new orders();
         $orders->loadOrders();
     }
+
+    public  function userOrders(){
+        $orders = new orders();
+        $orders->loadUserOrders();
+    }
+
+    public  function updateOrderStatusAfterPayment(){
+        $orders = new orders();
+        $orders->updateOrderStatusAfterPayment();
+    }
+
+    public function cancelOrder(){
+        $orders = new orders();
+        $orders->cancelOrder($_POST);
+    }
 }

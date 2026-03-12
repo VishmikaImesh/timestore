@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/bootstrap.css">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/assets/style/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
     <title>Profile</title>
 </head>
 
@@ -21,9 +21,6 @@
     include "connection.php";
     $email = $_SESSION["u"]["email"];
 
-    $profile_rs = Database::search("SELECT * FROM `user_address_data` WHERE `email`='" .  $email . "' ");
-    $profile_data = $profile_rs->fetch_assoc();
-
     ?>
 
     <div class="container align-content-center  pt-3 pb-5 min-vh-100">
@@ -32,7 +29,7 @@
             <div class="col-lg-3 col-md-4 p-4 border-end">
                 <div class="text-center mb-4">
                     <div class="d-inline-block justify-content-center d-block  border border-3 border-dark rounded-circle shadow p-1 mb-3" style="width: 120px; height: 120px;">
-                        <img src="<?php echo $profile_data["img_path"] ?>"
+                        <img src="/timestore/app/media/icons/profile.png" data-default-src="/timestore/app/media/icons/profile.png"
                             class="img-fluid  rounded-circle w-100 h-100 object-fit-cover"
                             id="profileImage"
                             alt="Profile Picture">
@@ -41,8 +38,8 @@
                         Change Photo <i class="bi bi-camera"></i>
                     </button>
                     <input type="file" id="profileImageUpload" class="d-none" accept="image/*" onchange="previewProfileImage(event)">
-                    <h5 class="fw-bold text-dark mt-2 mb-1"><?php echo $profile_data["fname"] . " " . $profile_data["lname"] ?></h5>
-                    <p class="text-muted small"><?php echo $profile_data["email"]  ?></p>
+                    <h5 class="fw-bold text-dark mt-2 mb-1" id="profileName"></h5>
+                    <p class="text-muted small" id="profileEmail"></p>
                 </div>
 
                 <hr>
@@ -106,9 +103,9 @@
                                     </div>
                                     <figure>
                                         <blockquote class="blockquote">
-                                            <h6 class="card-text col-12 col-lg-5 fw-bold "><?php echo $profile_data["fname"] . ' ' . $profile_data["lname"] ?></h6>
-                                            <h6 class="text-secondary col-12 col-lg-6"><?php echo $profile_data["mobile"] ?></h6>
-                                            <h6 class="text-secondary col-12 col-lg-6"><?php echo $profile_data["email"] ?></h6>
+                                            <h6 class="card-text col-12 col-lg-5 fw-bold " id="overviewName"></h6>
+                                            <h6 class="text-secondary col-12 col-lg-6" id="overviewMobile"></h6>
+                                            <h6 class="text-secondary col-12 col-lg-6" id="overviewEmail"></h6>
                                         </blockquote>
                                     </figure>
                                 </div>
@@ -129,7 +126,7 @@
                                     </div>
                                     <figure>
                                         <blockquote class="blockquote">
-                                            <h6 class="text-secondary col-12 col-lg-6"><?php echo $profile_data["address_line1"] . ',</br>' . $profile_data["address_line2"] . ',</br>' . $profile_data["city_en"] . ',</br>' . $profile_data["district_en"] . ',</br>' . $profile_data["province_en"] . ' Province'  ?></h6>
+                                            <h6 class="text-secondary col-12 col-lg-6" id="overviewAddress"></h6>
                                         </blockquote>
                                     </figure>
                                 </div>
@@ -147,7 +144,7 @@
                                     <label for="fname" class="form-label text-secondary">First Name</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                        <input type="text" class="form-control" id="fname" value="<?php echo $profile_data["fname"] ?>" placeholder="First Name" required>
+                                        <input type="text" class="form-control" id="fname" value="" placeholder="First Name" required>
                                     </div>
                                 </div>
 
@@ -155,7 +152,7 @@
                                     <label for="lname" class="form-label text-secondary">Last Name</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
-                                        <input type="text" class="form-control" id="lname" value="<?php echo $profile_data["lname"] ?>" placeholder="Last Name" required>
+                                        <input type="text" class="form-control" id="lname" value="" placeholder="Last Name" required>
                                     </div>
                                 </div>
 
@@ -163,7 +160,7 @@
                                     <label for="email" class="form-label text-secondary">Email Address</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                        <input type="email" class="form-control" id="email" value="<?php echo $profile_data["email"] ?>" placeholder="Email Address" disabled>
+                                        <input type="email" class="form-control" id="email" value="" placeholder="Email Address" disabled>
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Confirm</button>
                                     </div>
                                     <small class="text-muted">Email cannot be changed directly.</small>
@@ -173,7 +170,7 @@
                                     <label for="mobile" class="form-label text-secondary">Mobile Number</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                                        <input type="tel" class="form-control" id="mobile" value="<?php echo $profile_data["mobile"] ?>" placeholder="Mobile Number">
+                                        <input type="tel" class="form-control" id="mobile" value="" placeholder="Mobile Number">
                                     </div>
                                 </div>
 
@@ -181,7 +178,7 @@
                                     <label for="password" class="form-label text-secondary">Password</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                        <input type="password" class="form-control" id="password" value="<?php echo $profile_data["password"] ?>" placeholder="Password">
+                                        <input type="password" class="form-control" id="password" placeholder="Password" disabled>
                                     </div>
                                     <small class="text-muted">Contact support to change password.</small>
                                 </div>
@@ -202,7 +199,7 @@
                                     <label for="line1" class="form-label text-secondary">Address Line 1</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-house"></i></span>
-                                        <input type="text" class="form-control" id="line1" value="<?php echo $profile_data["address_line1"] ?>" placeholder="Address Line 1" required>
+                                        <input type="text" class="form-control" id="line1" value="" placeholder="Address Line 1" required>
                                     </div>
                                 </div>
 
@@ -210,7 +207,7 @@
                                     <label for="line2" class="form-label text-secondary">Address Line 2 (Optional)</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-signpost-2"></i></span>
-                                        <input type="text" class="form-control" id="line2" value="<?php echo $profile_data["address_line2"] ?>" placeholder="Address Line 2 (Optional)">
+                                        <input type="text" class="form-control" id="line2" value="" placeholder="Address Line 2 (Optional)">
                                     </div>
                                 </div>
 
@@ -218,15 +215,15 @@
                                     <label for="city" class="form-label text-secondary">City</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-building"></i></span>
-                                        <input type="text" class="form-control" id="city" value="<?php echo $profile_data["city_en"] ?>" placeholder="City" required>
+                                        <input type="text" class="form-control" id="city" value="" placeholder="City" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="province" class="form-label text-secondary">District</label>
+                                    <label for="district" class="form-label text-secondary">District</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-pin-map"></i></i></span>
-                                        <input type="text" class="form-control" id="province" value="<?php echo $profile_data["district_en"] ?>" placeholder="Province" required>
+                                        <input type="text" class="form-control" id="district" value="" placeholder="District" required>
                                     </div>
                                 </div>
 
@@ -234,7 +231,7 @@
                                     <label for="province" class="form-label text-secondary">Province</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-map"></i></span>
-                                        <input type="text" class="form-control" id="province" value="<?php echo $profile_data["province_en"] ?>" placeholder="Province" required>
+                                        <input type="text" class="form-control" id="province" value="" placeholder="Province" required>
                                     </div>
                                 </div>
 
@@ -242,7 +239,7 @@
                                     <label for="postal_code" class="form-label text-secondary">Postal Code</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-mailbox"></i></span>
-                                        <input type="text" class="form-control" id="postal_code" value="<?php echo $profile_data["postcode"] ?>" placeholder="Postal Code" required>
+                                        <input type="text" class="form-control" id="postal_code" value="" placeholder="Postal Code" required>
                                     </div>
                                 </div>
 
@@ -266,51 +263,12 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                    $order_rs = Database::search("SELECT * FROM `order`  JOIN `order_status` ON `order`.`order_status`=`order_status`.`order_status_id`WHERE `email`='" .  $email . "' ");
-                                    $order_num = $order_rs->num_rows;
-
-                                    for ($i = 0; $i < $order_num; $i++) {
-                                        $order_data = $order_rs->fetch_assoc();
-
-                                        if ($order_data["order_status_id"] == 5) {
-                                            $class = "bg-success";
-                                        } elseif ($order_data["order_status_id"] == 6) {
-                                            $class = "bg-danger";
-                                        } else {
-                                            $class = "bg-primary";
-                                        }
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $order_data["order_id"] ?></td>
-                                            <td><?php echo $order_data["ordered_date"] ?></td>
-                                            <td>12,500.00</td>
-                                            <td><span class="badge <?php echo $class ?> "><?php echo $order_data["status"] ?> </span></td>
-                                            <td><button onclick="loadOrderDetails(<?php echo $order_data['order_id'] ?>);" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">View Details</button></td>
-                                        </tr>
-
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <!-- <tr>
-                                        <td>#100123</td>
-                                        <td>2023-11-15</td>
-                                        <td>12,500.00</td>
-                                        <td><span class="badge bg-success">Delivered</span></td>
-                                        <td><button class="btn btn-sm btn-outline-dark">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#100122</td>
-                                        <td>2023-10-28</td>
-                                        <td>8,999.00</td>
-                                        <td><span class="badge bg-primary">Shipped</span></td>
-                                        <td><button class="btn btn-sm btn-outline-dark">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#100121</td>
-                                        <td>2023-09-01</td>
+                                <tbody id="ordersTable">
+                                    <!-- Orders loaded via API -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                                         <td>2,100.00</td>
                                         <td><span class="badge bg-secondary">Cancelled</span></td>
                                         <td><button class="btn btn-sm btn-outline-dark">View Details</button></td>
@@ -324,41 +282,9 @@
                     </div>
 
                     <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
-
-                        <?php
-                        $watchlist_rs = Database::search("SELECT * FROM `watchlist` WHERE `users_email`='" . $email . "' ");
-                        $watchlist_num = $watchlist_rs->num_rows;
-                        ?>
-                        <h3 class="fw-bold mb-4">Your Wishlist (<?php echo $watchlist_num ?> items)</h3>
-                        <div class="row g-4">
-                            <?php
-
-                            for ($x = 0; $x < $watchlist_num; $x++) {
-                                $watchlist_data = $watchlist_rs->fetch_assoc();
-                                $id = $watchlist_data["product_id"];
-                                
-                                $img=Database::search("SELECT * FROM `model_data` WHERE `product_id`='".$id."'")->fetch_assoc();
-
-                            ?>
-                                <div class="col-6 col-md-4 col-lg-3">
-                                    <div class="card h-100 shadow-sm border-0">
-                                        <div class="p-3 text-center" style="background-color: #f8f9fa;">
-                                            <img src="<?php echo $img['img_path'] ?>" class="card-img-top img-fluid" alt="Wishlist Item 1" style="max-height: 150px; object-fit: contain;">
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <h5 class="card-title fw-bold fs-6 mb-1">G-Shock MRG-B2000B-1A4</h5>
-                                            <p class="text-danger fw-bold mb-2">Rs. 1,250.00</p>
-                                            <div class="d-flex justify-content-between">
-                                                <a href="#" class="btn btn-sm btn-dark">View</a>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="addToWishlist(<?php echo $id ?>)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            
+                        <h3 class="fw-bold mb-4">Your Wishlist (<span id="wishlistCount">0</span> items)</h3>
+                        <div id="wishlistContainer" class="row g-4">
+                            <!-- Wishlist items loaded via API -->
                         </div>
                     </div>
                 </div>
@@ -471,12 +397,12 @@
                                         <div class="card shadow-sm mb-4">
                                             <div class="card-header fw-bold bg-white"><i class="bi bi-geo-alt-fill me-2"></i> Shipping Details</div>
                                             <div class="card-body">
-                                                <h6 class="fw-bold mb-1"><?php echo $profile_data["fname"] ?></h6>
+                                                <h6 class="fw-bold mb-1" id="shippingName"></h6>
                                                 <blockquote class="blockquote">
-                                                    <h6 class="text-secondary col-12 col-lg-6"></h6>
+                                                    <h6 class="text-secondary col-12 col-lg-6" id="shippingAddress"></h6>
                                                 </blockquote>
-                                                <p class="mb-0 text-muted"><?php echo $profile_data["address_line1"] . ',' . $profile_data["address_line2"] . ',' . $profile_data["city_en"] . ',' . $profile_data["district_en"] . ',' . $profile_data["province_en"] . ' Province'  ?></p></br>
-                                                <p class="mb-0 text-muted">Mobile: <?php echo $profile_data["mobile"] ?></p>
+                                                <p class="mb-0 text-muted" id="shippingAddressLine"></p></br>
+                                                <p class="mb-0 text-muted" id="shippingMobile"></p>
 
                                                 <hr>
                                                 <p class="fw-bold mb-1">Tracking ID:</p>
@@ -529,6 +455,7 @@
     </div>
 
     <?php include "footer.php" ?>
+    <script src="/assets/Script/User/profile.js"></script>
     <script src="script/script.js"></script>
 
 </body>

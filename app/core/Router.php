@@ -7,49 +7,68 @@ class Router
     private array $routes = [
         "method" => [
             "GET" => [
-                '/timestore/viewProduct/{id}' =>  ["controller" => 'UserPageController', "function" => "viewProduct", "param" => true, "allows" => ["admin", "user"]],
-                '/timestore/Img/{id}' =>  ["controller" => 'ImgController', "function" => "loadImg", "param" => true, "allows" => ["admin", "user"]],
+                '/viewProduct/{id}' =>  ["controller" => 'UserPageController', "function" => "viewProduct", "param" => true],
+                '/Img/{id}' =>  ["controller" => 'ImgController', "function" => "loadImg", "param" => true],
+                '/poster/{id}' =>  ["controller" => 'ImgController', "function" => "loadPoster", "param" => true],
 
-                '/timestore/Home' =>  ["controller" => 'UserPageController', "function" => "index", "allows" => ["admin", "user"]],
-                '/timestore/profile' =>  ["controller" => 'UserPageController', "function" => "profile", "allows" => ["admin", "user"]],
-                '/timestore/checkout/{id}/{id}' =>  ["controller" => 'UserPageController', "function" => "checkout", "param" => true, "allows" => ["admin", "user"]],
-                '/timestore/search' =>  ["controller" => 'UserPageController', "function" => "search", "allows" => ["admin", "user"]],
-                '/timestore/logIn' =>  ["controller" => 'UserPageController', "function" => "logIn"],
+                '/Home' =>  ["controller" => 'UserPageController', "function" => "index"],
+                '/profile' =>  ["controller" => 'UserPageController', "function" => "profile", "allows" => ["admin", "user"]],
+                '/checkout/{id}/{id}' =>  ["controller" => 'UserPageController', "function" => "checkout", "param" => true, "allows" => ["admin", "user"]],
+                '/search' =>  ["controller" => 'UserPageController', "function" => "search"],
+                '/logIn' =>  ["controller" => 'UserPageController', "function" => "logIn"],
+                '/admin/logIn' =>  ["controller" => 'AdminPageController', "function" => "logIn"],
 
-                '/timestore/Img/{id}' =>  ["controller" => 'ImgController', "function" => "loadImg", "param" => true, "allows" => ["admin", "user"]],
-
-                '/timestore/dashboard' =>  ["controller" => 'AdminPageController', "function" => "dashboard", "allows" => ["admin"]],
+                '/admin/dashboard' =>  ["controller" => 'AdminPageController', "function" => "dashboard", "allows" => ["admin"]],
 
             ],
             "POST" => [
 
-                '/timestore/api/product/load' => ["controller" => 'ProductController', "function" => "loadProducts", "allows" => ["admin", "user"]],
-                '/timestore/api/product/add' => ["controller" => 'ProductController', "function" => "addProduct", "allows" => ["admin"]],
-                '/timestore/api/product/delete' => ["controller" => 'ProductController', "function" => "deleteProduct", "allows" => ["admin"]],
+                '/api/product/load' => ["controller" => 'ProductController', "function" => "loadProducts"],
+                '/api/product/add' => ["controller" => 'ProductController', "function" => "addProduct", "allows" => ["admin"]],
+                '/api/product/delete' => ["controller" => 'ProductController', "function" => "deleteProduct", "allows" => ["admin"]],
+                '/api/product/revenue' => ["controller" => 'ProductController', "function" => "revenueData","allows" => ["admin"]],
 
-                '/timestore/api/brand/load' => ["controller" => 'BrandController', "function" => "loadBrands", "allows" => ["admin", "user"]],
-                '/timestore/api/brand/add' => ["controller" => 'BrandController', "function" => "addBrand", "allows" => ["admin"]],
+                '/api/brand/load' => ["controller" => 'BrandController', "function" => "loadBrands", "allows" => ["admin", "user"]],
+                '/api/brand/add' => ["controller" => 'BrandController', "function" => "addBrand", "allows" => ["admin"]],
 
-                '/timestore/api/model/load' => ["controller" => 'ProductController', "function" => "loadModels", "allows" => ["admin", "user"]],
-                '/timestore/api/model/update' => ["controller" => 'ProductController', "function" => "updateProduct", "allows" => ["admin"]],
+                '/api/model/load' => ["controller" => 'ProductController', "function" => "loadModels"],
+                '/api/model/update' => ["controller" => 'ProductController', "function" => "updateProduct", "allows" => ["admin"]],
 
-                '/timestore/api/order/load' => ["controller" => 'OrderController', "function" => "orders"],
-                '/timestore/api/order/details' => ["controller" => 'OrderController', "function" => "orderDetails", "allows" => ["admin"]],
-                '/timestore/api/order/new' => ["controller" => 'OrderController', "function" => "newOrder", "allows" => ["admin", "user"]],
+                '/api/order/load' => ["controller" => 'OrderController', "function" => "orders"],
+                '/api/order/details' => ["controller" => 'OrderController', "function" => "orderDetails", "allows" => ["admin", "user"]],
+                '/api/order/new' => ["controller" => 'OrderController', "function" => "newOrder", "allows" => ["admin", "user"]],
+                '/api/order/userOrders' => ["controller" => 'OrderController', "function" => "userOrders", "allows" => ["admin", "user"]],
+                '/api/order/updateStatusAfterPayment' => ["controller" => 'OrderController', "function" => "updateOrderStatusAfterPayment", "allows" => ["admin", "user"]],
+                '/api/order/cancel' => ["controller" => 'OrderController', "function" => "cancelOrder", "allows" => ["admin", "user"]],
 
-                '/timestore/api/message/senders' => ["controller" => 'MessageController', "function" => "loadMsgSenders", "allows" => ["admin"]],
-                '/timestore/api/message/load' => ["controller" => 'MessageController', "function" => "loadMessages", "allows" => ["admin"]],
-                '/timestore/api/message/userMessages' => ["controller" => 'MessageController', "function" => "loaduserMessages", "allows" => ["admin", "user"]],
-                '/timestore/api/message/changeState' => ["controller" => 'MessageController', "function" => "changeMessageState", "allows" => ["admin", "user"]],
+                '/api/message/senders' => ["controller" => 'MessageController', "function" => "loadMsgSenders", "allows" => ["admin"]],
+                '/api/message/load' => ["controller" => 'MessageController', "function" => "loadMessages", "allows" => ["admin"]],
+                '/api/message/userMessages' => ["controller" => 'MessageController', "function" => "loaduserMessages", "allows" => ["admin", "user"]],
+                '/api/message/changeState' => ["controller" => 'MessageController', "function" => "changeMessageState", "allows" => ["admin", "user"]],
 
-                '/timestore/api/user/load' => ["controller" => 'UserController', "function" => "loadCustomers", "allows" => ["admin"]],
-                '/timestore/api/user/details' => ["controller" => 'UserController', "function" => "loadUserDetails", "allows" => ["admin", "user"]],
-                '/timestore/api/user/logIn' => ["controller" => 'UserController', "function" => "logIn"],
-                '/timestore/api/user/userProfile' => ["controller" => 'UserController', "function" => "userProfile", "allows" => ["admin", "user"]],
+                '/api/user/load' => ["controller" => 'UserController', "function" => "loadCustomers", "allows" => ["admin"]],
+                '/api/user/details' => ["controller" => 'UserController', "function" => "loadUserDetails", "allows" => ["admin", "user"]],
+                '/api/user/logIn' => ["controller" => 'UserController', "function" => "logIn"],
+                '/api/user/userLogIn' => ["controller" => 'UserController', "function" => "logIn"],
+                '/api/user/signUp' => ["controller" => 'UserController', "function" => "signUp"],
+                '/api/user/userProfile' => ["controller" => 'UserController', "function" => "userProfile", "allows" => ["admin", "user"]],
+                '/api/user/updateProfile' => ["controller" => 'UserController', "function" => "updateUserProfile", "allows" => ["admin", "user"]],
+                '/api/user/updateAddress' => ["controller" => 'UserController', "function" => "updateUserAddress", "allows" => ["admin", "user"]],
 
-                '/timestore/api/delivery/load' => ["controller" => 'DeliveryMethodController', "function" => "loadDeliveryDetails", "allows" => ["admin", "user"]],
-                '/timestore/api/delivery/update' => ["controller" => 'DeliveryMethodController', "function" => "updateDeliveryDetails", "allows" => ["admin"]],
-                '/timestore/api/delivery/delete' => ["controller" => 'DeliveryMethodController', "function" => "deleteDeliveryDetails", "allows" => ["admin"]],
+                '/api/cart/add' => ["controller" => 'CartController', "function" => "addToCart", "allows" => ["admin", "user"]],
+                '/api/cart/remove' => ["controller" => 'CartController', "function" => "removeFromCart", "allows" => ["admin", "user"]],
+
+                '/api/wishlist/load' => ["controller" => 'WishlistController', "function" => "loadUserWishlist", "allows" => ["admin", "user"]],
+                '/api/wishlist/toggle' => ["controller" => 'WishlistController', "function" => "toggleWishlist", "allows" => ["admin", "user"]],
+                '/api/wishlist/remove' => ["controller" => 'WishlistController', "function" => "removeWishlistItem", "allows" => ["admin", "user"]],
+
+                '/api/history/remove' => ["controller" => 'HistoryController', "function" => "removeHistoryItem", "allows" => ["admin", "user"]],
+
+                '/api/search' => ["controller" => 'SearchController', "function" => "search"],
+
+                '/api/delivery/load' => ["controller" => 'DeliveryMethodController', "function" => "loadDeliveryDetails", "allows" => ["admin", "user"]],
+                '/api/delivery/update' => ["controller" => 'DeliveryMethodController', "function" => "updateDeliveryDetails", "allows" => ["admin"]],
+                '/api/delivery/delete' => ["controller" => 'DeliveryMethodController', "function" => "deleteDeliveryDetails", "allows" => ["admin"]],
                 
             ]
         ],

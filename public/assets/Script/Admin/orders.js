@@ -51,12 +51,16 @@ function loadOrders() {
 
         }
     }
-    request.open("POST", "/timestore/api/order/load", true);
+    request.open("POST", "/api/order/load", true);
     request.send();
 }
 
 document.getElementById("orderModal").addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
+
+    if (!button || !button.dataset.order_id) {
+        return;
+    }
 
     var form = new FormData();
     form.append("order_id", button.dataset.order_id);
@@ -130,6 +134,6 @@ document.getElementById("orderModal").addEventListener('show.bs.modal', function
 
         }
     }
-    request.open("POST", "/timestore/api/order/details", true);
+    request.open("POST", "/api/order/details", true);
     request.send(form);
 })

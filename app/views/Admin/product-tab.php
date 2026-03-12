@@ -33,8 +33,10 @@
                 <div class="col-md-3">
                     <select id="sortByPrice" class="form-select text-secondary fw-bold">
                         <option disabled>Sort by Price</option>
-                        <option selected value="1">Low to High</option>
-                        <option value="2">High to Low</option>
+                        <option value="3" >Revenue</option>
+                        <option value="4" selected>Newest</option>
+                        <option value="1">Price:Low to High</option>
+                        <option value="2">Price:High to Low</option>
                     </select>
                 </div>
             </div>
@@ -290,7 +292,7 @@
                             <div class="border border-2 border-dashed border-secondary rounded-4 p-4 position-relative bg-light" style="cursor: pointer;">
                                 <i class="bi bi-cloud-upload fs-1 text-secondary"></i>
                                 <p class="small text-muted fw-bold mb-0">Click to upload product image</p>
-                                <input type="file" class="position-absolute top-0 start-0 w-100 h-100 opacity-0" name="img" accept="image/*">
+                                <input id="productImg" type="file" class="position-absolute top-0 start-0 w-100 h-100 opacity-0" name="img" accept="image/*">
                             </div>
                         </div>
 
@@ -313,42 +315,42 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-secondary small">Product</label>
-                            <select class="form-select rounded-2" id="modelSelect" name="model_id">
-                                <option value="0" selected>Select Model</option>
+                            <select class="form-select rounded-2 d-none" id="modelSelect" name="model_id">
+                               
                             </select>
-                            <input type="text" class="form-control rounded-2  d-none" id="modelInput" placeholder="e.g. MRG-B2000">
+                            <input type="text" class="form-control rounded-2 " id="modelInput" placeholder="e.g. MRG-B2000">
                             <div class="text-end mt-1">
-                                <a href="#" class="text-decoration-none small fw-bold text-danger" id="modelToggle" >
-                                    <i class="bi bi-plus-circle me-1"></i>Add new Product
+                                <a href="#" class="text-decoration-none small fw-bold text-danger " id="modelToggle" >
+                                    Select Product
                                 </a>
                             </div>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label fw-bold text-secondary small">Model Title</label>
-                            <input type="text" class="form-control rounded-2" placeholder="e.g. G-Shock MR-G Titanium Series" name="title">
+                            <input id="modelName" type="text" class="form-control rounded-2" placeholder="e.g. G-Shock MR-G Titanium Series" name="title">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-secondary small">Price (Rs.)</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light">Rs.</span>
-                                <input type="number" class="form-control" placeholder="0.00" name="price">
+                                <input id="productPrice" type="number" class="form-control" placeholder="0.00" name="price">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-secondary small">Initial Quantity</label>
-                            <input type="number" class="form-control rounded-2" value="1" min="1" name="qty">
+                            <input id="productQty" type="number" class="form-control rounded-2" value="1" min="1" name="qty">
                         </div>
 
                         <div class="col-12">
                             <label class="form-label fw-bold text-secondary small">Description</label>
-                            <textarea class="form-control rounded-2" rows="3" placeholder="Product details..." name="desc"></textarea>
+                            <textarea id="productDesc" class="form-control rounded-2" rows="3" placeholder="Product details..." name="desc"></textarea>
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button type="submit" class="btn btn-danger w-100 py-2 fw-bold rounded-2">Publish Product</button>
+                            <button id="addProduct" class="btn btn-danger w-100 py-2 fw-bold rounded-2">Publish Product</button>
                         </div>
                     </div>
             </div>
@@ -428,4 +430,4 @@
     </div>
 </div>
 
-<script src="/timestore/public/assets/Script/Admin/product.js"></script>
+<script src="/assets/Script/Admin/product.js"></script>

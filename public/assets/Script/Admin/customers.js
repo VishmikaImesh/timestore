@@ -1,6 +1,74 @@
 document.getElementById("customers-tab").addEventListener("click", loadUsers);
 document.getElementById("userStatusFilter").addEventListener("change", loadUsers);
 
+// Add modal show handler to populate customer details
+document.getElementById("userModal").addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const email = button.dataset.email;
+    
+    if (!email) return;
+    
+    const form = new FormData();
+    form.append("email", email);
+    
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                const jsonObject = JSON.parse(request.response);
+                
+                if (jsonObject && jsonObject.user) {
+                    const user = jsonObject.user;
+                    const address = jsonObject.address || {};
+                    const orders = jsonObject.orders || [];
+                    
+                    // Populate personal information
+                    document.getElementById("userName").textContent = (user.first_name || '') + ' ' + (user.last_name || '');
+                    document.getElementById("userEmail").textContent = user.email || '';
+                    document.getElementById("orderCount").textContent = user.order_count || '0';
+                    document.getElementById("totalSpend").textContent = 'Rs. ' + (user.total_spent ? 
+                        new Intl.NumberFormat('en-LK').format(user.total_spent) : '0');
+                    document.getElementById("mobile").textContent = user.mobile || '-';
+                    
+                    // Populate address
+                    document.getElementById("line_one").textContent = address.line_one || '';
+                    document.getElementById("line_two").textContent = address.line_two ? ', ' + address.line_two : '';
+                    document.getElementById("city").textContent = address.city || '';
+                    document.getElementById("district").textContent = address.district || '';
+                    document.getElementById("province").textContent = address.province || '';
+                    document.getElementById("postalCode").textContent = address.postal_code || '';
+                    
+                    // Populate recent orders
+                    const recenOtrders = document.getElementById("recenOtrders");
+                    recenOtrders.innerHTML = '';
+                    
+                    if (orders && orders.length > 0) {
+                        orders.slice(0, 5).forEach(order => {
+                            const orderDiv = document.createElement("div");
+                            orderDiv.className = "list-group-item px-0 d-flex justify-content-between align-items-center border-bottom";
+                            orderDiv.innerHTML = `
+                                <div>
+                                    <p class="mb-0 fw-bold small">#${order.order_id}</p>
+                                    <small class="text-muted" style="font-size: 11px;">${order.ordered_date}</small>
+                                </div>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill">${order.status}</span>
+                                <span class="fw-bold small">Rs. ${new Intl.NumberFormat('en-LK').format(order.total)}</span>
+                            `;
+                            recenOtrders.appendChild(orderDiv);
+                        });
+                    } else {
+                        recenOtrders.innerHTML = '<p class="text-muted small">No orders yet</p>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing user details:', error);
+            }
+        }
+    };
+    request.open("POST", "/api/user/details", true);
+    request.send(form);
+});
+
 function loadUsers() {
 
     var status = document.getElementById("userStatusFilter").value;
@@ -80,7 +148,7 @@ function loadUsers() {
             customerTableBody.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/user/load", true);
+    request.open("POST", "/api/user/load", true);
     request.send(form);
 
 }

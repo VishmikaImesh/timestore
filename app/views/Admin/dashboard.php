@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeStore - Admin Overview</title>
-    <link rel="stylesheet" href="/timestore/public/assets/style/bootstrap.css">
-    <link rel="stylesheet" href="/timestore/public/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/style/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
@@ -66,8 +66,6 @@
             </div>
         </div>
 
-        <script src="/timestore/public/assets/Script/bootstrap.bundle.js"></script>
-        <!-- <script src="/timestore/public/assets/Script/adminScript.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>

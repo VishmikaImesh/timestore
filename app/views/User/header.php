@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/bootstrap.css">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/assets/style/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
 </head>
 
 <body
@@ -15,7 +15,7 @@
         <ul class="vh-100 sidenav py-2 d-none " id="sidenav">
             <div class="d-flex justify-content-between m-2">
                 <li class="py-3">
-                    <a href="index.php" class="text-decoration-none mt-4">
+                    <a href="/timestore/Home" class="text-decoration-none mt-4">
                         <h3 class="text-light ">TimeStore</h3>
                     </a>
                 </li>
@@ -34,7 +34,7 @@
             if (!isset($_SESSION["u"])) {
             ?>
                 <li class=" mt-2 mb-2 d-grid  me-3">
-                    <a href="signin.php" class="btn bg-black text-light rounded-4 fw-bold ">Sign in</a>
+                    <a href="/timestore/logIn" class="btn bg-black text-light rounded-4 fw-bold ">Sign in</a>
                 </li>
                 <li class="d-flex justify-content-center">
                     <span><a class="text-decoration-none text-secondary" href="#">Register</a></span>
@@ -79,7 +79,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-black py-4">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="index.php">TimeStore</a>
+            <a class="navbar-brand fw-bold fs-4" href="/timestore/Home">TimeStore</a>
 
             <button class="navbar-toggler" onclick="hideSideNav();" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -118,7 +118,7 @@
                                 if (!isset($_SESSION["u"])) {
                                 ?>
                                     <li class=" mt-2 mb-2 d-grid ">
-                                        <a href="signin.php" class="btn bg-black rounded-4 fw-bold ">Sign in</a>
+                                        <a href="/timestore/logIn" class="btn bg-black rounded-4 fw-bold ">Sign in</a>
                                     </li>
                                     <hr class="">
                                     <li class="d-flex justify-content-center">
@@ -131,7 +131,7 @@
                                     </li>
                                     <li><a class="dropdown-item d-flex justify-content-center" href="cart.php">Cart</a></li>
                                     <li><a class="dropdown-item d-flex justify-content-center" href="history.php">History</a></li>
-                                    <li><a class="dropdown-item d-flex justify-content-center" href="profile.php">Profile</a></li>
+                                    <li><a class="dropdown-item d-flex justify-content-center" href="/timestore/profile">Profile</a></li>
                                     <li><a class="dropdown-item d-flex justify-content-center" href="watchlist.php">Watchlist</a></li>
                                     <hr class="">
                                     <li><a class="dropdown-item text-danger my-1 d-flex justify-content-center" onclick="logOut();">Log Out</a></li>
@@ -147,8 +147,7 @@
         </div>
     </nav>
 
-    <script src="/timestore/public/assets/Script/bootstrap.bundle.js"></script>
-    <script src="/timestore/public/assets/Script/adminScript.js"></script>
+    <script src="/assets/Script/bootstrap.bundle.js"></script>
 
     <?php
     session_write_close()

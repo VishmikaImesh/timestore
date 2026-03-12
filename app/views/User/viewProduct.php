@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeStore - Product View</title>
-    <link rel="stylesheet" href="/timestore/public/assets/style/bootstrap.css">
-    <link rel="stylesheet" href="/timestore/public/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/style/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
@@ -21,7 +21,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Home</a></li>
                     <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Watches</a></li>
-                    <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">G-Shock MRG-B2000</li>
+                    <li class="breadcrumb-item active text-dark fw-bold" aria-current="page" id="product_label">G-Shock MRG-B2000</li>
                 </ol>
             </nav>
 
@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex mb-4">
-                            <button class="btn btn-danger btn-lg px-5 rounded-1 fw-bold flex-grow-1" id="buyNow" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy Now</button>
+                            <button class="btn btn-danger btn-lg px-5 rounded-1 fw-bold flex-grow-1" id="buyNow" data-auth="<?php echo empty($_SESSION['u']) ? '0' : '1'; ?>" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy Now</button>
                             <button class="btn btn-dark btn-lg px-4 rounded-1 flex-grow-1">
                                 <i class="bi bi-bag me-2"></i> Add To Cart
                             </button>
@@ -158,6 +158,7 @@
                 <div class="modal-body">
                     <div class="card border-0 ">
                         <?php
+           
                         if (empty($_SESSION['u'])) {
                         ?>
 
@@ -168,7 +169,7 @@
                                     <p class="text-muted">Sign in to your account</p>
                                 </div>
 
-                                <form action="#" method="POST">
+                                <form action="#" method="POST" id="checkoutSignInForm">
 
                                     <div class="mb-3">
                                         <label for="email" class="text-secondary form-label fw-semibold">Email Address</label>
@@ -190,7 +191,7 @@
                                         <a href="#" class="text-decoration-none text-primary small">Forgot password?</a>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary w-100 btn-lg fw-bold shadow-sm" onclick="checkoutSignIn();">Sign In</button>
+                                    <button type="button" class="btn btn-primary w-100 btn-lg fw-bold shadow-sm" onclick="checkoutSignIn();">Sign In</button>
 
                                 </form>
                                 <hr>
@@ -256,8 +257,8 @@
     </div>
     </div>
 
-    <script src="/timestore/public/assets/Script/bootstrap.bundle.js"></script>
-    <script src="/timestore/public/assets/Script/User/viewProduct.js"></script>
+    <script src="/assets/Script/bootstrap.bundle.js"></script>
+    <script src="/assets/Script/User/viewProduct.js"></script>
 
 </body>
 

@@ -43,13 +43,15 @@ function loadMsgSenders() {
             messageTableBody.appendChild(fragment);
         }
     }
-    request.open("POST", "/timestore/api/message/senders", true);
+    request.open("POST", "/api/message/senders", true);
     request.send();
 }
 
 document.getElementById("msgSenderTableBody").addEventListener("click", (event) => {
     var button = event.target.closest(".message_item");
-    loadMessageItems(button.dataset.email);
+    if (button) {
+        loadMessageItems(button.dataset.email);
+    }
 });
 
 function loadMessageItems(email) {
@@ -105,12 +107,16 @@ function loadMessageItems(email) {
 
         }
     }
-    request.open("POST", "/timestore/api/message/userMessages", true);
+    request.open("POST", "/api/message/userMessages", true);
     request.send(form);
 }
 
 document.getElementById("userMsgTableBody").addEventListener("click", (event) => {
     var card = event.target.closest(".msg-card");
+
+    if (!card) {
+        return;
+    }
 
     document.getElementById("msgModalSubject").textContent = card.dataset.subject;
     document.getElementById("msgModalSender").textContent = card.dataset.name;
@@ -134,7 +140,7 @@ document.getElementById("userMsgTableBody").addEventListener("click", (event) =>
 
             }
         }
-        request.open("POST", "/timestore/api/message/changeState", true);
+        request.open("POST", "/api/message/changeState", true);
         request.send(form);
     }
 

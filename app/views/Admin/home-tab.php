@@ -1,7 +1,7 @@
 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
     <div class="d-flex justify-content-between align-items-end mb-5 border-bottom pb-3">
         <div>
-            <h6 class="text-danger fw-bold text-uppercase mb-1">Welcome back, Admin</h6>
+            <h6 class="text-danger fw-bold text-uppercase mb-1">Welcome back, Imesh</h6>
             <h2 class="fw-bold text-dark display-6">Overview Dashboard</h2>
         </div>
     </div>
@@ -14,11 +14,11 @@
                         <div class="bg-light p-3 rounded-4 text-danger">
                             <i class="bi bi-wallet-fill fs-4"></i>
                         </div>
-                        <span class="badge bg-success bg-opacity-10 text-success h-50 align-self-center">
-                            <i class="bi bi-arrow-up-short"></i> 12%
+                        <span id="revenueGrowthBadge" class="badge bg-success bg-opacity-10 text-success h-50 align-self-center">
+                            <i class="bi bi-arrow-up-short"></i> <span id="revenueGrowthPercent">12</span>%
                         </span>
                     </div>
-                    <h3 class="fw-bold mb-1">Rs.</h3>
+                    <h3 id="totalRevenueValue" class="fw-bold mb-1">Rs. 0.00</h3>
                     <div class="text-muted small fw-bold">Total Revenue</div>
                 </div>
             </div>
@@ -32,8 +32,7 @@
                             <i class="bi bi-bag-fill fs-4"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-1"></h3>
-
+                    <h3 id="totalOrdersValue" class="fw-bold mb-1">0</h3>
                     <div class="text-muted small fw-bold">Total Orders</div>
                 </div>
             </div>
@@ -47,7 +46,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="fw-bold mb-2"><i class="bi bi-cpu me-2"></i>Inventory Alert</h5>
-                            <p class="text-secondary mb-0 small">Based on current sales velocity, stock for<br> <span class="text-white fw-bold">G-Shock MRG-B2000</span> will deplete in 4 hours.</p>
+                            <p class="text-secondary mb-0 small">low stock for <br> <span class="text-white fw-bold">G-Shock MRG-B2000</span> </p>
                         </div>
                         <button class="btn btn-light text-dark fw-bold px-4 py-2 rounded-1">Auto-Restock</button>
                     </div>
@@ -64,8 +63,8 @@
                     <p class="text-muted small mb-0">Sales performance over time</p>
                 </div>
                 <select id="revenuePeriod" class="form-select form-select-sm w-auto border-secondary fw-bold text-secondary">
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
+                    <option value=7 selected>This Week</option>
+                    <option value=30 >This Month</option>
                 </select>
             </div>
             <div style="height: 350px;">
@@ -75,4 +74,5 @@
     </div>
 </div>
 
-<script src="/timestore/public/assets/Script/bootstrap.bundle.js"></script>
+<script src="/assets/Script/bootstrap.bundle.js"></script>
+<script src="/assets/Script/Admin/dashboard.js"></script>

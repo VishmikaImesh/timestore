@@ -17,7 +17,7 @@ function loadRevenue() {
             if (revenueChart) {
                 revenueChart.destroy();
             }
-            alert(request.responseText);
+  
 
             var jsonObject = JSON.parse(request.responseText)
 
@@ -99,7 +99,52 @@ function loadRevenue() {
         }
     }
 
-    request.open("POST", "/api/admin/revenueData", true);
+    request.open("POST", "/api/product/revenue", true);
     request.send(form)
 
 }
+
+function loadDashboardStats() {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            var jsonObject = JSON.parse(request.responseText);
+            
+            if (jsonObject.state && jsonObject.data) {
+                // Update revenue
+                var totalRevenueEl = document.getElementById("totalRevenueValue");
+                if (totalRevenueEl) {
+                    totalRevenueEl.textContent = "Rs. " + parseFloat(jsonObject.data.total_revenue).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                }
+                
+                // Update revenue growth percentage
+                var revenueGrowthEl = document.getElementById("revenueGrowthPercent");
+                if (revenueGrowthEl) {
+                    revenueGrowthEl.textContent = jsonObject.data.revenue_growth;
+                }
+                
+                // Update badge color based on growth
+                var growthBadge = document.getElementById("revenueGrowthBadge");
+                if (growthBadge) {
+                    if (jsonObject.data.revenue_growth >= 0) {
+                        growthBadge.className = "badge bg-success bg-opacity-10 text-success h-50 align-self-center";
+                    } else {
+                        growthBadge.className = "badge bg-danger bg-opacity-10 text-danger h-50 align-self-center";
+                    }
+                }
+                
+                // Update total orders
+                var totalOrdersEl = document.getElementById("totalOrdersValue");
+                if (totalOrdersEl) {
+                    totalOrdersEl.textContent = jsonObject.data.total_orders;
+                }
+            }
+        }
+    };
+    
+    request.open("POST", "/api/admin/dashboardStats", true);
+    request.send();
+}
+
+// Load dashboard stats when page loads
+document.addEventListener("DOMContentLoaded", loadDashboardStats);

@@ -2,26 +2,37 @@
 
 require_once("../app/model/product.php");
 
-
-
 class productController
 {
+    private $product;
+
+    private function __construct() {
+        $this->product = new product();
+    }
+
+    public function addProduct()
+    {
+        $this->product->add($_POST,$_FILES);
+    }
 
     public  function updateProduct()
     {
-        $product = new product();
-        $product->update($_POST);
+        $this->product->update($_POST,$_FILES);
     }
 
     public  function loadProducts()
     {
-        $product = new product();
-        $product->load($_POST);
+        $this->product->load($_POST);
     }
 
     public  function loadModels()
     {
-        $product = new product();
-        $product->models($_POST);
+        $this->product->models($_POST);
+    }
+
+    public function revenueData()
+    {
+        $revenueData=$this->product->revenueData($_POST);
+        echo json_encode($revenueData);
     }
 }

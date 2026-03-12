@@ -1,7 +1,7 @@
 function signIn() {
 
     var email = document.getElementById("email").value;
-    var password = document.getElementById("pw").value;
+    var password = document.getElementById("password").value;
 
     alert(email + " " + password);
 
@@ -22,7 +22,6 @@ function signIn() {
 
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            alert(request.response);
             response = request.responseText;
 
             if (response == "success") {
@@ -35,6 +34,6 @@ function signIn() {
 
     }
 
-    request.open("POST", "/timestore/api/user/logIn", true);
+    request.open("POST", "/api/user/logIn", true);
     request.send(form);
 }

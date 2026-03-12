@@ -316,7 +316,7 @@ CREATE TABLE `product_img` (
 
 LOCK TABLES `product_img` WRITE;
 /*!40000 ALTER TABLE `product_img` DISABLE KEYS */;
-INSERT INTO `product_img` VALUES ('product\\CasiOak-Black-Metal-Rainbow.webp',1),('product\\G-Shock-CasiOak-Black-Metal-Sky.webp',2),('product\\G-Shock-CasiOak-Full-Metal-Rainbow.webp',3),('product\\G-Shock-CasiOak-Full-Metal-Tiffany.webp',4),('product\\CasiOak-Black.webp',5);
+INSERT INTO `product_img` VALUES ('product/CasiOak-Black-Metal-Rainbow.webp',1),('product/G-Shock-CasiOak-Black-Metal-Sky.webp',2),('product/G-Shock-CasiOak-Full-Metal-Rainbow.webp',3),('product/G-Shock-CasiOak-Full-Metal-Tiffany.webp',4),('product/CasiOak-Black.webp',5);
 /*!40000 ALTER TABLE `product_img` ENABLE KEYS */;
 UNLOCK TABLES;
 

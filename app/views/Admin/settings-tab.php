@@ -182,53 +182,50 @@
                  <div class="modal-body p-4">
                      <p class="text-muted small mb-3">Create a new account for staff members. They will be able to access this panel.</p>
 
-                     <form action="addNewAdminProcess.php" method="POST">
 
-                         <div class="row g-3 mb-3">
-                             <div class="col-6">
-                                 <label class="form-label fw-bold text-secondary small">First Name</label>
-                                 <input type="text" class="form-control rounded-2" name="fname" placeholder="John" required>
-                             </div>
-                             <div class="col-6">
-                                 <label class="form-label fw-bold text-secondary small">Last Name</label>
-                                 <input type="text" class="form-control rounded-2" name="lname" placeholder="Doe" required>
-                             </div>
+                     <div class="row g-3 mb-3">
+                         <div class="col-6">
+                             <label class="form-label fw-bold text-secondary small">First Name</label>
+                             <input type="text" class="form-control rounded-2" name="fname" placeholder="John" required>
                          </div>
-
-                         <div class="mb-3">
-                             <label class="form-label fw-bold text-secondary small">Email Address</label>
-                             <input type="email" class="form-control rounded-2" name="email" placeholder="staff@timestore.com" required>
+                         <div class="col-6">
+                             <label class="form-label fw-bold text-secondary small">Last Name</label>
+                             <input type="text" class="form-control rounded-2" name="lname" placeholder="Doe" required>
                          </div>
+                     </div>
 
-                         <div class="mb-3">
-                             <label class="form-label fw-bold text-secondary small">Temporary Password</label>
-                             <div class="input-group">
-                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-key"></i></span>
-                                 <input type="password" class="form-control border-start-0" name="password" placeholder="••••••••" required>
-                             </div>
+                     <div class="mb-3">
+                         <label class="form-label fw-bold text-secondary small">Email Address</label>
+                         <input type="email" class="form-control rounded-2" name="email" placeholder="staff@timestore.com" required>
+                     </div>
+
+                     <div class="mb-3">
+                         <label class="form-label fw-bold text-secondary small">Temporary Password</label>
+                         <div class="input-group">
+                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-key"></i></span>
+                             <input type="password" class="form-control border-start-0" name="password" placeholder="••••••••" required>
                          </div>
+                     </div>
 
-                         <div class="mb-4">
-                             <label class="form-label fw-bold text-secondary small">Access Level</label>
-                             <select class="form-select rounded-2 fw-bold text-secondary" name="role">
-                                 <option value="1">Super Admin (Full Access)</option>
-                                 <option value="2">Editor (Products & Orders)</option>
-                                 <option value="3">Viewer (Read Only)</option>
-                             </select>
+                     <div class="mb-4">
+                         <label class="form-label fw-bold text-secondary small">Access Level</label>
+                         <select class="form-select rounded-2 fw-bold text-secondary" name="role">
+                             <option value="1">Super Admin (Full Access)</option>
+                             <option value="2">Editor (Products & Orders)</option>
+                             <option value="3">Viewer (Read Only)</option>
+                         </select>
+                     </div>
+
+                     <div class="alert alert-light border d-flex align-items-center p-2 rounded-3 small" role="alert">
+                         <i class="bi bi-info-circle-fill text-primary flex-shrink-0 me-2"></i>
+                         <div>
+                             New admins will need to verify their email upon first login.
                          </div>
+                     </div>
 
-                         <div class="alert alert-light border d-flex align-items-center p-2 rounded-3 small" role="alert">
-                             <i class="bi bi-info-circle-fill text-primary flex-shrink-0 me-2"></i>
-                             <div>
-                                 New admins will need to verify their email upon first login.
-                             </div>
-                         </div>
-
-                         <div class="d-grid mt-3">
-                             <button type="submit" class="btn btn-danger py-2 fw-bold rounded-2 shadow-sm">Create Account</button>
-                         </div>
-
-                     </form>
+                     <div class="d-grid mt-3">
+                         <button class="btn btn-danger py-2 fw-bold rounded-2 shadow-sm">Create Account</button>
+                     </div>
                  </div>
 
              </div>
@@ -247,7 +244,7 @@
                  <div class="modal-body p-4">
                      <p class="text-muted small mb-4">Select a delivery method to update its pricing and estimated delivery time.</p>
 
-                     <form action="updateDeliveryProcess.php" method="POST">
+                     <form id="updateDeliveryForm" method="POST">
 
                          <div class="mb-3">
                              <label class="form-label fw-bold text-secondary small">Delivery Zone / Method</label>
@@ -292,4 +289,4 @@
      </div>
  </div>
 
- <script src="/timestore/public/assets/Script/Admin/settings.js"></script>
+ <script src="/assets/Script/Admin/settings.js"></script>

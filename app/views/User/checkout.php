@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/timestore/public/assets/style/bootstrap.css">
-    <link rel="stylesheet" href="/timestore/public/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/style/bootstrap.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>Checkout</title>
 </head>
@@ -29,7 +29,7 @@
                         </div>
                         <figure>
                             <blockquote class="blockquote">
-                                <h6 class="card-text col-12 col-lg-5 fw-bold " id="name"></h6>
+                                <h6 class="card-text col-12 col-lg-5 fw-bold " id="deliveryName"></h6>
                                 <h6 class="text-secondary col-12 col-lg-6" id="email"></h6>
                                 <p class="fs-6 text-secondary" id="address"></p>
                             </blockquote>
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="col-8 d-flex align-items-center">
                                     <div class="card-body">
-                                        <h5 class="card-title text-secondary" id="name"></h5>
+                                        <h5 class="card-title text-secondary" id="productName"></h5>
                                         <h5 class="card-title" id="brand"></h5>
                                         <h6 class="card-text text-secondary" id="price"></h6>
                                         <h6 class="card-text text-secondary" id="qty"></h6>
@@ -221,8 +221,7 @@
     </div>
 
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
-    <script src="/timestore/public/assets/Script/bootstrap.bundle.js"></script>
-    <script src="/timestore/public/assets/Script/User/checkout.js"></script>
+    <script src="/assets/Script/User/checkout.js"></script>
 
 </body>
 

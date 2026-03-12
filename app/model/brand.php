@@ -7,7 +7,8 @@ class brand
 
     public function load()
     {
-        $barnd_rs= Database::search("SELECT * FROM `brand`");
+        try {
+            $barnd_rs= Database::search("SELECT * FROM `brand`");
         $brands = [];
         while ($brand = $barnd_rs->fetch_assoc()) { 
             $brands[] = [
@@ -18,10 +19,14 @@ class brand
         echo json_encode([
             "brands" => $brands
         ]);
+        } catch (Exception $e) {
+            echo json_encode(["error" => "Error loading brands: " . $e->getMessage()]);
+        }
     }
 
     public function add(){
-        Database::setUpconnection();
+        try {
+            Database::setUpconnection();
 
         if(!isset($_POST["brand_name"])){
             echo json_encode(["state" => false, "message" => "Missing brand name"]);
@@ -38,5 +43,8 @@ class brand
             "state" => true,
             "message" => "Brand added successfully"
         ]);
+        } catch (Exception $e) {
+            echo json_encode(["state" => false, "message" => "Error adding brand: " . $e->getMessage()]);
+        }
     }
 }
