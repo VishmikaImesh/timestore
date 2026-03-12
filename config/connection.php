@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/env.php');
+require_once(__DIR__ . '/.env');
 
 class Database{
 
@@ -10,11 +10,11 @@ class Database{
     private static function getConfig() {
         if (self::$config === null) {
             self::$config = [
-                'host' => getenv('DB_HOST') ?: '127.0.0.1',
-                'user' => getenv('DB_USER') ?: 'root',
-                'pass' => getenv('DB_PASS') ?: '',
-                'name' => getenv('DB_NAME') ?: 'timestore',
-                'port' => getenv('DB_PORT') ?: 3306
+                'host' => getenv('DB_HOST') ,
+                'user' => getenv('DB_USER') ,
+                'pass' => getenv('DB_PASS') ,
+                'name' => getenv('DB_NAME') ,
+                'port' => getenv('DB_PORT') 
             ];
         }
         return self::$config;
