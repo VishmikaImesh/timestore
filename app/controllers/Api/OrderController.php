@@ -1,38 +1,38 @@
 <?php
 
-require_once("../app/model/orders.php");
+require_once(BASE."/app/model/orders.php");
 
 
 
 class OrderController{
+    private orders $orders;
+
+    public function __construct()
+    {
+        $this->orders = new orders();
+    }
 
     public  function newOrder(){
-        $orders = new orders();
-        $orders->newOrder();
+        $this->orders->newOrder();
     }
 
     public  function orderDetails(){
-        $orders = new orders();
-        $orders->loadOrdersDetails($_POST);
+        $this->orders->loadOrdersDetails($_POST);
     }
 
     public  function orders(){
-        $orders = new orders();
-        $orders->loadOrders();
+        $this->orders->loadOrders();
     }
 
     public  function userOrders(){
-        $orders = new orders();
-        $orders->loadUserOrders();
+        $this->orders->loadUserOrders();
     }
 
     public  function updateOrderStatusAfterPayment(){
-        $orders = new orders();
-        $orders->updateOrderStatusAfterPayment();
+        $this->orders->updateOrderStatusAfterPayment();
     }
 
     public function cancelOrder(){
-        $orders = new orders();
-        $orders->cancelOrder($_POST);
+        $this->orders->cancelOrder($_POST);
     }
 }

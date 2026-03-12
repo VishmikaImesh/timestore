@@ -1,12 +1,12 @@
 <?php
 
-require_once("../app/model/product.php");
+require_once(BASE."/app/model/product.php");
 
 class productController
 {
-    private $product;
+    private product $product;
 
-    private function __construct() {
+    public  function __construct() {
         $this->product = new product();
     }
 

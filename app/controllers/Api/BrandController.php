@@ -4,16 +4,20 @@ require_once(BASE."/app/model/brand.php");
 
 class BrandController
 {
+    private brand $brand;
+
+    public function __construct()
+    {
+        $this->brand = new brand();
+    }
 
     public function loadBrands()
     {
-        $brand = new brand();
-        $brand->load();
+        $this->brand->load();
     }
 
     public function addBrand()
     {
-        $brand = new brand();
-        $brand->add();
+        $this->brand->add();
     }
 }

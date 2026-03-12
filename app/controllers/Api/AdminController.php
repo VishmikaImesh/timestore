@@ -1,12 +1,18 @@
 <?php
 
-require_once("../app/model/admin.php");
+require_once(BASE."/app/model/admin.php");
 
 class AdminController
 {
+    private admin $admin;
+
+    public function __construct()
+    {
+        $this->admin = new admin();
+    }
+
     public function getDashboardStats()
     {
-        $admin = new admin();
-        $admin->getDashboardStats();
+        $this->admin->getDashboardStats();
     }
 }

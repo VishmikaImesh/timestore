@@ -1,26 +1,28 @@
 <?php
-require_once("../app/model/messages.php");
+require_once(BASE."/app/model/messages.php");
 
 class messageController{
+    private messages $message;
+
+    public function __construct()
+    {
+        $this->message = new messages();
+    }
 
     public  function loadMsgSenders(){
-        $message = new messages();
-        $message->loadMsgSenders();
+        $this->message->loadMsgSenders();
     }
 
     public  function loadMessages(){
-        $message = new messages();
-        $message->loadMessages();
+        $this->message->loadMessages();
     }
 
     public  function loadUserMessages(){
-        $message = new messages();
-        $message->loadUserMessages($_POST);
+        $this->message->loadUserMessages($_POST);
     }
 
     public  function changeMessageState(){
-        $message = new messages();
-        $message->changeMessageState($_POST);
+        $this->message->changeMessageState($_POST);
     }
 
 }

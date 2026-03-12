@@ -1,44 +1,43 @@
 <?php
-require_once ("../app/model/customers.php");
+require_once (BASE."/app/model/customers.php");
 
 
 class userController{
+    private customers $customers;
+
+    public function __construct()
+    {
+        $this->customers = new customers();
+    }
 
     
 
     public function loadCustomers(){
-        $customers = new customers();
-        $customers->loadUsers($_POST);
+        $this->customers->loadUsers($_POST);
     }
 
     public function loadUserDetails(){
-        $customers = new customers();
-        $customers->loadUserDetails($_POST);
+        $this->customers->loadUserDetails($_POST);
     }
 
     public function logIn(){
-        $customers = new customers();
-        $customers->logIn($_POST);
+        $this->customers->logIn($_POST);
     }
 
     public function signUp(){
-        $customers = new customers();
-        $customers->signUp($_POST);
+        $this->customers->signUp($_POST);
     }
 
     public function userProfile(){
-        $customers = new customers();
-        $customers->userProfile();
+        $this->customers->userProfile();
     }
 
     public function updateUserProfile(){
-        $customers = new customers();
-        $customers->updateUserProfile($_POST);
+        $this->customers->updateUserProfile($_POST);
     }
 
     public function updateUserAddress(){
-        $customers = new customers();
-        $customers->updateUserAddress($_POST);
+        $this->customers->updateUserAddress($_POST);
     }
 
     public function signOut(){

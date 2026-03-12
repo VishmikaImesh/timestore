@@ -1,9 +1,16 @@
 <?php
 
-require_once("../app/model/search.php");
+require_once(BASE."/app/model/search.php");
 
 class SearchController
 {
+    private search $search;
+
+    public function __construct()
+    {
+        $this->search = new search();
+    }
+
     public function search()
     {
         // Set JSON content type header
@@ -24,8 +31,7 @@ class SearchController
         }
 
         try {
-            $search = new search();
-            $search->search($_POST);
+            $this->search->search($_POST);
         } catch (Exception $e) {
             http_response_code(500);
             error_log("Search API Error: " . $e->getMessage());

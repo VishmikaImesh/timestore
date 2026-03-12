@@ -1,18 +1,23 @@
 <?php
 
-require_once("../app/model/cart.php");
+require_once(BASE."/app/model/cart.php");
 
 class CartController
 {
+    private cart $cart;
+
+    public function __construct()
+    {
+        $this->cart = new cart();
+    }
+
     public function addToCart()
     {
-        $cart = new cart();
-        $cart->addToCart($_POST);
+        $this->cart->addToCart($_POST);
     }
 
     public function removeFromCart()
     {
-        $cart = new cart();
-        $cart->removeFromCart($_POST);
+        $this->cart->removeFromCart($_POST);
     }
 }

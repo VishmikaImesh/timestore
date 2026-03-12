@@ -1,24 +1,27 @@
 <?php
 
-require_once("../app/model/wishlist.php");
+require_once(BASE."/app/model/wishlist.php");
 
 class WishlistController
 {
+    private wishlist $wishlist;
+
+    public function __construct()
+    {
+        $this->wishlist = new wishlist();
+    }
     public function loadUserWishlist()
     {
-        $wishlist = new wishlist();
-        $wishlist->loadUserWishlist();
+        $this->wishlist->loadUserWishlist();
     }
 
     public function toggleWishlist()
     {
-        $wishlist = new wishlist();
-        $wishlist->toggleWishlist($_POST);
+        $this->wishlist->toggleWishlist($_POST);
     }
 
     public function removeWishlistItem()
     {
-        $wishlist = new wishlist();
-        $wishlist->removeWishlistItem($_POST);
+        $this->wishlist->removeWishlistItem($_POST);
     }
 }

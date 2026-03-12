@@ -1,12 +1,18 @@
 <?php
 
-require_once("../app/model/history.php");
+require_once(BASE."/app/model/history.php");
 
 class HistoryController
 {
+    private history $history;
+
+    public function __construct()
+    {
+        $this->history = new history();
+    }
+
     public function removeHistoryItem()
     {
-        $history = new history();
-        $history->removeHistoryItem($_POST);
+        $this->history->removeHistoryItem($_POST);
     }
 }
