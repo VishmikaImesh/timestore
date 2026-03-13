@@ -115,6 +115,7 @@ class Router
 
             $controller = new $detals["controller"]();
             $controller->$function();
+            
         } else {
             require_once $this->routes["GET_PATH"] . "UserPageController.php";
             $controller = new UserPageController();
