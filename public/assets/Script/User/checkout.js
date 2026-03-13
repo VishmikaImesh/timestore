@@ -5,13 +5,13 @@ var address;
 
 window.addEventListener("load", function () {
     let pathname = window.location.pathname;
-    let pattern = /^\/timestore\/checkout\/([0-9]+)\/([0-9]+)$/;
+    let pattern = /^\/checkout\/([0-9]+)\/([0-9]+)$/;
     let match = pathname.match(pattern);
     
     // Check if URL matches pattern before proceeding
     if (!match) {
-        console.error("Invalid checkout URL format. Expected: /timestore/checkout/{id}/{qty}");
-        window.location.href = "/timestore/index.php";
+        console.error("Invalid checkout URL format. Expected: /checkout/{id}/{qty}");
+        window.location.href = "/index.php";
         return;
     }
     
@@ -290,7 +290,7 @@ function paynow() {
                                 confirmButtonText: 'Continue Shopping'
                             }).then((result) => {
                                 // Redirect to home or order tracking page
-                                window.location.href = "/timestore/profile";
+                                window.location.href = "/profile";
                             });
                         } else {
                             // Payment received but status update failed - still a success
@@ -300,7 +300,7 @@ function paynow() {
                                 text: 'Your payment has been received. Order ID: ' + jsonObject.order_id,
                                 confirmButtonText: 'View Orders'
                             }).then((result) => {
-                                window.location.href = "/timestore/profile";
+                                window.location.href = "/profile";
                             });
                         }
                     }
@@ -325,7 +325,7 @@ function paynow() {
                     confirmButtonText: 'Back to Checkout'
                 }).then((result) => {
                     // Option to retry by staying on page or cancel
-                    window.location.href = "/timestore/checkout/" + id + "/" + qty;
+                    window.location.href = "/checkout/" + id + "/" + qty;
                 });
             };
 
@@ -333,9 +333,9 @@ function paynow() {
             var payment = {
                 "sandbox": true,
                 "merchant_id": jsonObject.merchant_id,    // Replace your Merchant ID
-                "return_url": "http://localhost/timestore/index.php",
-                "cancel_url": "http://localhost/timestore/index.php",
-                "notify_url": "http://localhost/timestore/index.php",
+                "return_url": "http://localhost/index.php",
+                "cancel_url": "http://localhost/index.php",
+                "notify_url": "http://localhost/index.php",
                 "order_id": jsonObject.order_id,
                 "items": jsonObject.items,
                 "amount": jsonObject.amount,

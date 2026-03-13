@@ -29,7 +29,7 @@
             <div class="col-lg-3 col-md-4 p-4 border-end">
                 <div class="text-center mb-4">
                     <div class="d-inline-block justify-content-center d-block  border border-3 border-dark rounded-circle shadow p-1 mb-3" style="width: 120px; height: 120px;">
-                        <img src="/timestore/app/media/icons/profile.png" data-default-src="/timestore/app/media/icons/profile.png"
+                        <img src="/app/media/icons/profile.png" data-default-src="/app/media/icons/profile.png"
                             class="img-fluid  rounded-circle w-100 h-100 object-fit-cover"
                             id="profileImage"
                             alt="Profile Picture">

@@ -26,7 +26,7 @@ function loadPopularItems() {
 
                 div.classList.add("col-12", "col-sm-6", "col-lg-3");
                 div.innerHTML = `
-                <a href="/timestore/viewProduct/${model.product_id}" class="text-decoration-none text-dark">
+                <a href="/viewProduct/${model.product_id}" class="text-decoration-none text-dark">
     <div class="card h-100 border-0 shadow-sm transition-hover">
         <div class="m-2 bg-light rounded-3 p-4 text-center d-flex align-items-center justify-content-center" style="height: 240px;">
             <img src="${model.img_path}" 
@@ -83,7 +83,7 @@ function loadNewItems() {
 
                 div.classList.add("col-12", "col-sm-6", "col-lg-3");
                 div.innerHTML = `
-                <a href="/timestore/viewProduct/${model.product_id}" class="text-decoration-none text-dark">
+                <a href="/viewProduct/${model.product_id}" class="text-decoration-none text-dark">
     <div class="card h-100 border-0 shadow-sm transition-hover">
         <div class="m-2 bg-light rounded-3 p-4 text-center d-flex align-items-center justify-content-center" style="height: 240px;">
             <img src="${model.img_path}" 

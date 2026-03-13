@@ -170,7 +170,7 @@ class product
                 "order_qty" => $product_data["order_qty"],
                 "revenue" => $product_data["revenue"],
                 "added_time" => $product_data["added_time"],
-                "img_path" => "/timestore/Img/" . $product_data["model_id"],
+                "img_path" => "/Img/" . $product_data["model_id"],
             ];
         }
 
@@ -296,7 +296,7 @@ class product
                 "brand_id" => $model_data["brand_id"],
                 "price" => $model_data["price"],
                 "qty" => $model_data["qty"],
-                "img_path" => "/timestore/Img/" . $model_data["model_id"],
+                "img_path" => "/Img/" . $model_data["model_id"],
                 "order_qty" => $model_data["order_qty"]
             ];
         }

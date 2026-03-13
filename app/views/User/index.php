@@ -32,19 +32,19 @@
                 <div class="col-md-6 py-5 px-md-5 z-1">
                     <h1 class="display-5 fw-bold mb-4">Elegance Defined.<br>The New Collection</h1>
                     <p class="lead text-white-50 mb-4">Discover precision engineering meets timeless design</p>
-                    <a href="/timestore/search" class="btn btn-light fw-bold px-4 py-2 rounded-2">Shop Now</a>
+                    <a href="/search" class="btn btn-light fw-bold px-4 py-2 rounded-2">Shop Now</a>
                 </div>
                 <div class="col-md-6 text-center">
                     <div id="PoseterCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                         <div class="carousel-inner rounded-3">
                             <div class="carousel-item active">
-                                <img src="/timestore/poster/1" class="d-block w-100" alt="Watch 1">
+                                <img src="/poster/1" class="d-block w-100" alt="Watch 1">
                             </div>
                             <div class="carousel-item">
-                                <img src="/timestore/poster/2" class="d-block w-100" alt="Watch 2">
+                                <img src="/poster/2" class="d-block w-100" alt="Watch 2">
                             </div>
                             <div class="carousel-item">
-                                <img src="/timestore/poster/3" class="d-block w-100" alt="Watch 3">
+                                <img src="/poster/3" class="d-block w-100" alt="Watch 3">
                             </div>
                         </div>
                     </div>

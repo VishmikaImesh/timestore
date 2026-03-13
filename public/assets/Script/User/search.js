@@ -41,7 +41,7 @@ function loadProducts() {
 
                 div.classList.add("col-12", "col-sm-6", "col-lg-3");
                 div.innerHTML = `
-                <a href="/timestore/viewProduct/${model.product_id}"  class="text-decoration-none">
+                <a href="/viewProduct/${model.product_id}"  class="text-decoration-none">
                     <div class="card border-0 h-100">
                         <div class="bg-light rounded-3 p-4 text-center mb-3">
                             <img src="${model.img_path}" class="img-fluid" style="height: 180px; object-fit: contain;" alt="Watch">

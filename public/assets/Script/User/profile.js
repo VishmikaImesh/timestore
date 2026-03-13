@@ -75,7 +75,7 @@
             var address = data.address || {};
             var fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
 
-            setImage("profileImage", "/timestore/userImg");
+            setImage("profileImage", "/userImg");
             setText("profileName", fullName);
             setText("profileEmail", user.email || "");
 
@@ -277,7 +277,7 @@
             col.innerHTML = `
                 <div class="card h-100 shadow-sm border-0">
                     <div class="p-3 text-center" style="background-color: #f8f9fa;">
-                        <img src="${item.img_path || '/timestore/app/media/icons/profile.png'}" 
+                        <img src="${item.img_path || '/app/media/icons/profile.png'}" 
                              class="card-img-top img-fluid" 
                              alt="${item.model_name}" 
                              style="max-height: 150px; object-fit: contain;">
@@ -287,7 +287,7 @@
                         <p class="text-muted small mb-1">${item.brand_name || ""}</p>
                         <p class="text-danger fw-bold mb-2">Rs. ${parseFloat(item.price).toFixed(2)}</p>
                         <div class="d-flex justify-content-between">
-                            <a href="/timestore/viewProduct/${item.product_id}" class="btn btn-sm btn-dark">View</a>
+                            <a href="/viewProduct/${item.product_id}" class="btn btn-sm btn-dark">View</a>
                             <button class="btn btn-sm btn-outline-danger" onclick="removeFromWishlist(${item.watchlist_id})">
                                 <i class="bi bi-trash"></i>
                             </button>

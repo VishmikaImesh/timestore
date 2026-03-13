@@ -8,7 +8,7 @@ window.addEventListener("load", event => {
     isLoggedIn = buyNowButton && buyNowButton.dataset.auth === "1";
 
     var pathname = window.location.pathname;
-    var pattern = /^\/timestore\/viewProduct\/([0-9]+)$/;
+    var pattern = /^\/viewProduct\/([0-9]+)$/;
     var matches = pathname.match(pattern);
     loadModels(matches[1]);
 
@@ -95,7 +95,7 @@ function toCheckout() {
     var buying_product_qty = document.getElementById("pqty");
     var buying_product_id = document.getElementById("buying_product_id");
 
-    window.location = "/timestore/checkout/" + buying_product_id.value+"/"+buying_product_qty.value;
+    window.location = "/checkout/" + buying_product_id.value+"/"+buying_product_qty.value;
 
 }
 
